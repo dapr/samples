@@ -1,0 +1,45 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: tweet
+spec:
+  type: bindings.twitter
+  # PLACE TWITTER CREDS HERE
+  metadata:
+  - name: consumerKey
+    value: "" # twitter api consumer key, required
+  - name: consumerSecret
+    value: "" # twitter api consumer secret, required
+  - name: accessToken
+    value: "" # twitter api access token, required
+  - name: accessSecret
+    value: "" # twitter api access secret, required
+  - name: query
+    value: "microsoft" # your search query, required 
+---
+
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: publishTweet
+spec:
+  type: pubsub.redis
+  metadata:
+  - name: redisHost
+    value: localhost:6379
+  - name: redisPassword
+    value: ""
+---
+
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: producerStateStore
+spec:
+  type: state.redis
+  metadata:
+  - name: redisHost
+    value: localhost:6379
+  - name: redisPassword
+    value: ""
+

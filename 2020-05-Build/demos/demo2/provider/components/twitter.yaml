@@ -1,0 +1,17 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: tweets
+spec:
+  type: bindings.twitter
+  metadata:    
+  - name: consumerKey
+    value: ""
+  - name: consumerSecret
+    value: ""
+  - name: accessToken
+    value: ""
+  - name: accessSecret
+    value: ""
+  - name: query
+    value: "dapr" # need more tweets during dev ;) 

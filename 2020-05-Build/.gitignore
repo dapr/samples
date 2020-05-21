@@ -1,0 +1,15 @@
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+.DS_Store
+demos/demo1/producer/obj/Debug/netcoreapp3.1/project.razor.json
+demos/demo1/producer/obj/Debug/netcoreapp3.1/Producer.AssemblyInfoInputs.cache
+demos/demo1/producer/obj/Debug/netcoreapp3.1/Producer.AssemblyInfo.cs
+demos/demo1/producer/obj/Producer.csproj.nuget.dgspec.json
+demos/demo1/producer/obj/project.assets.json
+demos/demo1/producer/obj/project.nuget.cache
+demos/demo1/producer/obj/Debug/netcoreapp3.1/Producer.csprojAssemblyReference.cache

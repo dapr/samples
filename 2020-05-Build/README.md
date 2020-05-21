@@ -1,12 +1,14 @@
 # Microsoft Build 2020 - Dapr
 
-This demo illustrates the simplicity of Dapr on Day 1 and it's flexibility of Dapr to adopt to complex of complex use-cases Day 2 by walking through 3 demos:
+>Note: this demo uses Dapr v0.7.1 and may break if different Dapr versions are used
+
+View the [demo recordings](https://www.youtube.com/playlist?list=PLcip_LgkYwzu2ABITS_3cSV_6AeLsX-d0)
+
+This demo illustrates the simplicity of [Dapr](https://github.com/dapr/dapr) on Day 1 and it's flexibility of Dapr to adopt to complex of complex use-cases Day 2 by walking through 3 demos:
 
 * **Demo 1** - local development showing the speed with which developers can start and the use of Dapr components (Twitter and state)
 * **Demo 2** - expands on Demo 1 and adds service invocation using both, direct invocation and consumption of events across applications using PubSub
 * **Demo 3** - takes Demo 2 and illustrates how platform agnostic Dapr really is by containerizing these applications without any changes and deploying them onto Kubernetes. This demo also showcases the pluggability of components (state backed by Azure Table Storage, pubsub by Azure Service Bus)
-
-[Recordings](https://www.youtube.com/playlist?list=PLcip_LgkYwzu2ABITS_3cSV_6AeLsX-d0)
 
 ![](images/overview.png)
 
@@ -21,13 +23,45 @@ C# ASP.NET app (`provider`) using dapr Twitter input component to subscribe to T
 
 ### Requirements
 
-* Dapr CLI
-* Docker (for redis)
+* Docker
+* Node.js or dotnet core > 3.1 (instructions below are for Node.js though demo can be run using dotnet)
+* [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
 
-### Script 
+Twitter credentials will have to be added to `components/twitter.yaml`:
 
-* Install Dapr CLI
-* [Launch app locally](https://github.com/azure-octo/build2020-dapr-demo/tree/master/demos/demo1/provider) using Dapr 
+  ```yaml
+      spec:
+        type: bindings.twitter
+        # PLACE TWITTER CREDS HERE
+        metadata:
+        - name: consumerKey
+          value: "" # twitter api consumer key, required
+        - name: consumerSecret
+          value: "" # twitter api consumer secret, required
+        - name: accessToken
+          value: "" # twitter api access token, required
+        - name: accessSecret
+          value: "" # twitter api access secret, required
+        - name: query
+          value: "dapr" # your search query, required 
+  ```
+
+### Run demo 1 
+
+Starting from the root of demo 1 (`demos/demo1`)
+
+* Install [Dapr CLI](https://github.com/dapr/docs/blob/master/getting-started/environment-setup.md#installing-dapr-cli)
+* Run
+
+  ```sh
+  dapr init
+  ```
+* Launch app locally using Dapr by running (example, running via dotnet)
+
+  ```sh
+  dapr run --app-id provider --app-port 5000 --port 3500 node app.js
+  ```
+
 * Post a tweet with the word `dapr` (e.g. "watching a cool dapr demo #build2020")
 * Show dapr log to see the debug info
 * View Redis for persisted data 
@@ -42,7 +76,12 @@ Demo 2 builds on demo 1. It illustrates interaction between multiple microservic
 * Introduces service to service discovery/invocation 
 * Introduces eventing using Dapr pubsub component 
 
-### Script
+### Requirements
+* Go
+* [Azure Account](https://azure.microsoft.com/en-us/free/)
+* [Cognitive Services account](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account)
+
+### Run demo 2
 
 Starting from the root of demo 2 (`demos/demo2`)
 
@@ -95,7 +134,7 @@ Demo 3 takes the local development work and illustrates how platform agnostic th
 * Show deployment of locally developed artifacts onto Kubernetes 
 * Illustrate the run-time portability and component pluggability 
 
-### Script
+### Run demo 3
 
 > Assumes the use of pre-built images for [provider](https://hub.docker.com/repository/docker/mchmarny/provider), [processor](https://hub.docker.com/repository/docker/mchmarny/processor), and [viewer](https://hub.docker.com/repository/docker/mchmarny/viewer)
 

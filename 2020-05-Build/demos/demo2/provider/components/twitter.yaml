@@ -4,17 +4,14 @@ metadata:
   name: tweets
 spec:
   type: bindings.twitter
-  metadata:
-    # secrets intentionally left in prep for Mark F's demo
-    # TODO: remove before opening up the repo 
+  metadata:    
   - name: consumerKey
-    value: "WZtafRSw55eqPDEhNTeCszYcO"
+    value: ""
   - name: consumerSecret
-    value: "ru1AxmbMVR8rjxzEihZ94VHhAXSvSOCSwy1WeZ1FO2NZOZKTPP"
+    value: ""
   - name: accessToken
-    value: "6697972-qmVrVMZqMaRtb5PcD3DTIsp0FXDCYlVufL5x8rxUZa"
+    value: ""
   - name: accessSecret
-    value: "dIjwN8YCE9Q5VtNmypg7b3yjC4wazbKkxK0qpWAv1KYSg"
+    value: ""
   - name: query
-    value: "microsoft" # need more tweets during dev ;) 
-    # value: "dapr"
+    value: "dapr" # need more tweets during dev ;) 

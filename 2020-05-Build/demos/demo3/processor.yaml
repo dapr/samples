@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: processor
+  labels:
+    app: processor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: processor
+  template:
+    metadata:
+      labels:
+        app: processor
+        demo: build2020
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/id: "processor"
+        dapr.io/port: "3002"
+        dapr.io/log-as-json: "true"
+        dapr.io/config: "tracing"
+    spec:
+      containers:
+      - name: user-container
+        image: mchmarny/processor:v0.3.3
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3002
+        env:
+        - name: PORT
+          value: "3002"
+        - name: DAPR_HTTP_PORT
+          value: "3500"
+        - name: CS_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: demo-processor-secret
+              key: token

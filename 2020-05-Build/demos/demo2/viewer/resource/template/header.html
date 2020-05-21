@@ -1,0 +1,28 @@
+{{ define "header" }}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>dapr event viewer</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="dapr event viewer">
+    <meta name="keywords" content="events, dapr, websocket, golang">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="static/img/favicon.ico" rel="shortcut icon" />
+    <link rel="stylesheet" href="static/css/app.css" />
+    <script type="text/javascript" src="static/js/app.js"></script>
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Header -->
+        <div id="page-header">
+            <div id="page-header-image">
+                <img src="static/img/dapr.svg" />
+            </div>
+            <div id="connection">connection: <b id="connection-status"></b></div>
+        </div>
+
+        {{end}}

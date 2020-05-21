@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: viewer
+  labels:
+    app: viewer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: viewer
+  template:
+    metadata:
+      labels:
+        app: viewer
+        demo: build2020
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/id: "viewer"
+        dapr.io/port: "8083"
+        dapr.io/log-as-json: "true"
+        dapr.io/config: "tracing"
+    spec:
+      containers:
+      - name: user-container
+        image: mchmarny/viewer:v0.3.3
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8083
+        env:
+        - name: PORT
+          value: "8083"
+        - name: DAPR_HTTP_PORT
+          value: "3500"

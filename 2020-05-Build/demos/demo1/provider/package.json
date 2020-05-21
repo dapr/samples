@@ -1,0 +1,15 @@
+{
+  "name": "provider",
+  "version": "1.0.0",
+  "description": "Dapr demo",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mark@chmarny.com",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "isomorphic-fetch": "^2.2.1"
+  }
+}

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Provider</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="dapr.AspnetCore" Version="0.7.0-preview01" />
+    <PackageReference Include="Dapr.Client" Version="0.7.0-preview01" />
+  </ItemGroup>
+
+</Project>

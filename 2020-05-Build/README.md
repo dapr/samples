@@ -1,10 +1,12 @@
-# build2020-dapr-demo
+# Microsoft Build 2020 - Dapr
 
 This demo illustrates the simplicity of Dapr on Day 1 and it's flexibility of Dapr to adopt to complex of complex use-cases Day 2 by walking through 3 demos:
 
 * **Demo 1** - local development showing the speed with which developers can start and the use of Dapr components (Twitter and state)
 * **Demo 2** - expands on Demo 1 and adds service invocation using both, direct invocation and consumption of events across applications using PubSub
 * **Demo 3** - takes Demo 2 and illustrates how platform agnostic Dapr really is by containerizing these applications without any changes and deploying them onto Kubernetes. This demo also showcases the pluggability of components (state backed by Azure Table Storage, pubsub by Azure Service Bus)
+
+[Recordings](https://www.youtube.com/playlist?list=PLcip_LgkYwzu2ABITS_3cSV_6AeLsX-d0)
 
 ![](images/overview.png)
 

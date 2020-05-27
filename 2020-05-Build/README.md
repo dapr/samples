@@ -2,7 +2,7 @@
 
 >Note: this demo uses Dapr v0.7.1 and may break if different Dapr versions are used
 
-View the [demo recordings](https://www.youtube.com/playlist?list=PLcip_LgkYwzu2ABITS_3cSV_6AeLsX-d0)
+View the [recorded session](https://mybuild.microsoft.com/sessions/3f296b9a-7fe8-479b-b098-a1bfc7783476?source=sessions) and the [demo recordings](https://www.youtube.com/playlist?list=PLcip_LgkYwzu2ABITS_3cSV_6AeLsX-d0)
 
 This demo illustrates the simplicity of [Dapr](https://github.com/dapr/dapr) on Day 1 and it's flexibility of Dapr to adopt to complex of complex use-cases Day 2 by walking through 3 demos:
 

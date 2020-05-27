@@ -2,8 +2,10 @@
 
 >Note: this demo uses Dapr v0.7.1 and may break if different Dapr versions are used
 
+## Recordings
 View the [recorded session](https://mybuild.microsoft.com/sessions/3f296b9a-7fe8-479b-b098-a1bfc7783476?source=sessions) and the [demo recordings](https://www.youtube.com/playlist?list=PLcip_LgkYwzu2ABITS_3cSV_6AeLsX-d0)
 
+## Overview
 This demo illustrates the simplicity of [Dapr](https://github.com/dapr/dapr) on Day 1 and it's flexibility of Dapr to adopt to complex of complex use-cases Day 2 by walking through 3 demos:
 
 * **Demo 1** - local development showing the speed with which developers can start and the use of Dapr components (Twitter and state)

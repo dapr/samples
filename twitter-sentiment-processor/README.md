@@ -1,6 +1,13 @@
-# Microsoft Build 2020 - Dapr
+# Twitter Sentiment Processor
 
 >Note: this demo uses Dapr v0.7.1 and may break if different Dapr versions are used
+
+## Sample info
+| Attribute | Details |
+|--------|--------|
+| Dapr runtime version | v0.7.1 |
+| Language | Go, C# (.NET Core), Node.js | 
+| Environment | Local or Kubernetes |
 
 ## Recordings
 View the [recorded session](https://mybuild.microsoft.com/sessions/3f296b9a-7fe8-479b-b098-a1bfc7783476?source=sessions) and the [demo recordings](https://www.youtube.com/playlist?list=PLcip_LgkYwzu2ABITS_3cSV_6AeLsX-d0)

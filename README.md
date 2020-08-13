@@ -37,7 +37,7 @@ If you want to contribute a sample to this repo, please see the sample [contribu
 Samples should follow these high-level guiding principles:
 - Samples should have a meaningful name that helps users of this repository understand what this sample is about
 - Sample code should be complete (i.e. no major code additions should be needed to make the sample work)
-- Each sample should be include a *README.md* file clearly explaining what the sample does and how to run it including prerequisites. This file should also include details on the Dapr core version this sample is compatible with (see below)
+- Each sample should include a *README.md* file clearly explaining what the sample does and how to run it including prerequisites. This file should also include details on the Dapr core version this sample is compatible with (see below)
 - It is highly recommended to include scripts and automation to allow users to easily run samples which require complex setup and multiple steps to run.
 
 Sample info section at the top of the main sample README should follow the following template

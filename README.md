@@ -45,7 +45,9 @@ Sample info section at the top of the main sample README should follow the follo
 |--------|--------|
 | Dapr runtime version | vX.X |
 | Language | [Languages used in the sample code] | 
-| Environment | [Local or Kubernetes] |
+| Environment | [Environment name] |
+
+>Note: To verify the Dapr runtime version you are running, use the Dapr CLI command `dapr --version` to double check
 
 Example:
 

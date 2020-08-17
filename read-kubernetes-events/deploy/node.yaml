@@ -1,0 +1,74 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: kube-events
+  name: events-reader
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["events"]
+  verbs: ["get", "watch", "list"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+# This role binding allows "jane" to read pods in the "default" namespace.
+# You need to already have a Role named "pod-reader" in that namespace.
+kind: RoleBinding
+metadata:
+  name: read-events
+  namespace: kube-events
+subjects:
+# You can specify more than one "subject"
+- kind: ServiceAccount
+  name: default
+  namespace: kube-events
+roleRef:
+  # "roleRef" specifies the binding to a Role / ClusterRole
+  kind: Role #this must be Role or ClusterRole
+  name: events-reader # this must match the name of the Role or ClusterRole you wish to bind to
+  apiGroup: ""
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: events-nodeapp
+  namespace: kube-events
+  labels:
+    app: node
+spec:
+  selector:
+    app: node
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events-nodeapp
+  namespace: kube-events
+  labels:
+    app: node
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node
+  template:
+    metadata:
+      labels:
+        app: node
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "events-nodeapp"
+        dapr.io/app-port: "3000"
+    spec:
+      containers:
+      - name: node
+        image: dapriosamples/k8s-events-node:edge
+        ports:
+        - containerPort: 3000
+        imagePullPolicy: Always

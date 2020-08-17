@@ -282,5 +282,8 @@ Output should be
 kubectl delete ns kube-events
 ```
 
+## Step 3 - Running in kubernetes cluster
+
+
 ## Next steps
 - Explore additional [samples](../README.md#Samples-in-this-repository) and deploy them locally or on Kubernetes.

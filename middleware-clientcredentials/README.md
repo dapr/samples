@@ -31,12 +31,11 @@ This tutorial walks you through the steps of setting up the OAuth middleware to 
 
 1. Clone the sample repo, then navigate to the middleware sample:
 ```bash
-git clone [-b <dapr_version_tag>] https://github.com/dapr/samples.git
+git clone https://github.com/dapr/samples.git
 cd samples/middleware-clientcredentials/msgraphapp
 ```
-> **Note**: See https://github.com/dapr/samples#supported-dapr-runtime-version for supported tags. Use `git clone https://github.com/dapr/samples.git` when using the edge version of dapr runtime.
 
-2. Examine the ```app.js``` file. You'll see this is a simple Node.js Express web server with a single ```/users``` route that returns the Microsoft Graph API result based on the input query parameter ```displayName```. Also you can see that we will forward the token saved in the request header called `msgraph-token` as the `Authorization` header in the request towards the MS Graph API.
+2. Examine the ```app.js``` file. You'll see this is a simple Node.js Express web server with a single ```/users``` route that returns the Microsoft Graph API result based on the input query parameter ```displayName```. Also you can see that the token saved in the request header called `msgraph-token` will be forwarded as the `Authorization` header in the request towards the MS Graph API.
 
 ```javascript
 app.get('/users', (req, res) => {
@@ -102,7 +101,7 @@ In order for Dapr to acquire access token on your application's behalf, your app
 14. Last but not least click on `Grant admin consent for <yourtenant>` and confirm with `OK` (because of this step you need to be administrator for the AAD)
 ![Step14](./img/aad_app_registration10.png)
 
-Now we are ready to deploy.
+Now you are ready to deploy.
 
 ### Step 3 - Define custom pipeline
 

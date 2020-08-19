@@ -5,7 +5,7 @@
 ## Sample info
 | Attribute | Details |
 |--------|--------|
-| Dapr runtime version | v0.7.1 |
+| Dapr runtime version | v0.9.0 |
 | Language | Go, C# (.NET Core), Node.js | 
 | Environment | Local or Kubernetes |
 

@@ -1,7 +1,7 @@
 DOCKER_IMAGE_PREFIX ?=k8s-events-
 APPS                ?=node
 
-SAMPLE_REGISTRY     ?=docker.io/dapriosamples
+SAMPLE_REGISTRY     ?=docker.io/${DOCKER_REPO}
 REL_VERSION         ?=edge
 
 # Add latest tag if LATEST_RELEASE is true
@@ -50,3 +50,13 @@ endef
 
 # Generate docker image push targets
 $(foreach ITEM,$(APPS),$(eval $(call genDockerImagePush,$(ITEM),$(REL_VERSION))))
+
+# Apply the node app to k8s after making changes to DOCKER_REPO 
+.PHONY: apply-node-app-k8s
+apply-node-app-k8s:  
+	sed -e s"/DOCKER_REPO/${DOCKER_REPO}/g" ./deploy/node.yaml | kubectl apply -f -
+
+# Delete the node app from k8s after making changes to DOCKER_REPO 
+.PHONY: delete-node-app-k8s
+delete-node-app-k8s:  
+	sed -e s"/DOCKER_REPO/${DOCKER_REPO}/g" ./deploy/node.yaml | kubectl delete -f -

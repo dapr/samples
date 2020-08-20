@@ -1,0 +1,71 @@
+# Template to be used with associate make command. Or manually replace DOCKER_REPO in container definintion below.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: kube-events
+  name: events-reader
+rules:
+- apiGroups: [""]
+  resources: ["events"]
+  verbs: ["get", "watch", "list"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-events
+  namespace: kube-events
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: kube-events
+roleRef:
+  kind: Role
+  name: events-reader
+  apiGroup: ""
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: events-nodeapp
+  namespace: kube-events
+  labels:
+    app: node
+spec:
+  selector:
+    app: node
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events-nodeapp
+  namespace: kube-events
+  labels:
+    app: node
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node
+  template:
+    metadata:
+      labels:
+        app: node
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "events-nodeapp"
+        dapr.io/app-port: "3000"
+    spec:
+      containers:
+      - name: node
+        image: DOCKER_REPO/k8s-events-node:edge # When applying using make, the DOCKER_REPO is replaced with the environment variable
+        ports:
+        - containerPort: 3000
+        imagePullPolicy: Always

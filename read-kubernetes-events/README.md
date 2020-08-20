@@ -1,6 +1,6 @@
 # Read Kubernetes events 
 
-This tutorial will show an example of running Dapr with a Kubernetes Events Input bindg. You'll be deploying the [Node](./node) application along with components [described](./node/components/).
+This tutorial will show an example of running Dapr with a Kubernetes events input binding. You'll be deploying the [Node](./node) application and will require a component definition with a Kubernetes event binding [component](./deploy/kubernetes.yaml). 
 
 ## Sample info
 | Attribute | Details |
@@ -77,10 +77,10 @@ This simple gets the request, prints a log line and the request body in the cons
 3. Understand the component definition:
 
 ```bash
-cd ../components/
+cd ../deploy/
 ```
 
-Here the yaml file defines the component that Dapr has to register with the particular configuration. The binding spec can be seen [here](https://github.com/dapr/docs/blob/master/reference/specs/bindings/kubernetes.md).
+The `kubernetes.yaml` file defines the component that Dapr has to register with the particular configuration. The binding spec can be seen [here](https://github.com/dapr/docs/blob/master/reference/specs/bindings/kubernetes.md).
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -113,7 +113,7 @@ The sample uses default kubectl config from the local machine and does not need 
     ```
 * Run Node sample app with Dapr: 
     ```bash
-      dapr run --app-id bindings-kevents-nodeapp --app-port 3000 node app.js --components-path ./components
+      dapr run --app-id bindings-kevents-nodeapp --app-port 3000 node app.js --components-path ../deploy
     ```
 You should see the output:
 
@@ -151,19 +151,7 @@ Output logs from the node application should be of the form:
 == APP ==     metadata: { creationTimestamp: null },
 
 == APP ==     involvedObject: {},
-
-== APP ==     source: {},
-
-== APP ==     firstTimestamp: null,
-
-== APP ==     lastTimestamp: null,
-
-== APP ==     eventTime: null,
-
-== APP ==     reportingComponent: '',
-
-== APP ==     reportingInstance: ''
-
+              ...
 == APP ==   },
 
 == APP ==   newVal: {
@@ -175,58 +163,11 @@ Output logs from the node application should be of the form:
 == APP ==       namespace: 'kube-events',
 
 == APP ==       selfLink: '/api/v1/namespaces/kube-events/events/hello-node.162c269e7cedc889',
-
-== APP ==       uid: 'd1baf297-e1e0-462e-8377-ca82ff8eefed',
-
-== APP ==       resourceVersion: '692745',
-
-== APP ==       creationTimestamp: '2020-08-17T20:00:29Z',
-
-== APP ==       managedFields: [Array]
-
-== APP ==     },
-
-== APP ==     involvedObject: {
-
-== APP ==       kind: 'Deployment',
-
-== APP ==       namespace: 'kube-events',
-
-== APP ==       name: 'hello-node',
-
-== APP ==       uid: 'bbb68f59-74e3-40b5-aa2a-dd0769024f99',
-
-== APP ==       apiVersion: 'apps/v1',
-
-== APP ==       resourceVersion: '692741'
-
-== APP ==     },
-
-== APP ==     reason: 'ScalingReplicaSet',
-
-== APP ==     message: 'Scaled up replica set hello-node-7bf657c596 to 1',
-
-== APP ==     source: { component: 'deployment-controller' },
-
-== APP ==     firstTimestamp: '2020-08-17T20:00:29Z',
-
-== APP ==     lastTimestamp: '2020-08-17T20:00:29Z',
-
-== APP ==     count: 1,
-
-== APP ==     type: 'Normal',
-
-== APP ==     eventTime: null,
-
-== APP ==     reportingComponent: '',
-
-== APP ==     reportingInstance: ''
-
+                ...
 == APP ==   }
 
 == APP == }
 ```
-
 
 > Note that the event is categorized as an `add` event. There are three types of events that the binding monitors `add`, `delete` and `update` events.
 
@@ -247,39 +188,7 @@ Output should be
 == APP ==       name: 'hello-node.162c2661c524d095',
 == APP ==       namespace: 'kube-events',
 == APP ==       selfLink: '/api/v1/namespaces/kube-events/events/hello-node.162c2661c524d095',
-== APP ==       uid: '2323b838-6513-487a-bbfb-4ad3138687d9',
-== APP ==       resourceVersion: '692240',
-== APP ==       creationTimestamp: '2020-08-17T19:56:09Z',
-== APP ==       managedFields: [Array]
-== APP ==     },
-== APP ==     involvedObject: {
-== APP ==       kind: 'Deployment',
-== APP ==       namespace: 'kube-events',
-== APP ==       name: 'hello-node',
-== APP ==       uid: '499390b7-da42-4be5-9cf5-284635140b63',
-== APP ==       apiVersion: 'apps/v1',
-== APP ==       resourceVersion: '692131'
-== APP ==     },
-== APP ==     reason: 'ScalingReplicaSet',
-== APP ==     message: 'Scaled up replica set hello-node-7bf657c596 to 1',
-== APP ==     source: { component: 'deployment-controller' },
-== APP ==     firstTimestamp: '2020-08-17T19:56:09Z',
-== APP ==     lastTimestamp: '2020-08-17T19:56:09Z',
-== APP ==     count: 1,
-== APP ==     type: 'Normal',
-== APP ==     eventTime: null,
-== APP ==     reportingComponent: '',
-== APP ==     reportingInstance: ''
-== APP ==   },
-== APP ==   newVal: {
-== APP ==     metadata: { creationTimestamp: null },
-== APP ==     involvedObject: {},
-== APP ==     source: {},
-== APP ==     firstTimestamp: null,
-== APP ==     lastTimestamp: null,
-== APP ==     eventTime: null,
-== APP ==     reportingComponent: '',
-== APP ==     reportingInstance: ''
+                ...
 == APP ==   }
 == APP == }
 ```
@@ -292,7 +201,7 @@ Output should be
 kubectl delete ns kube-events
 ```
 
-## Step 3 - Running in kubernetes cluster
+## Step 3 - Running in a Kubernetes cluster
 
 ### Prerequisites 
 Apart from the previous requisites the following are needed.
@@ -317,24 +226,7 @@ make build
 The output should be of the form 
 ```
 docker build -f node/Dockerfile node/. -t docker.io/<REPO>/k8s-events-node:edge
-Sending build context to Docker daemon  2.627MB
-Step 1/6 : FROM node:8-alpine
- ---> 2b8fcdc6230a
-Step 2/6 : WORKDIR /app
- ---> Using cache
- ---> b8d2c304c3f0
-Step 3/6 : COPY . .
- ---> Using cache
- ---> 7a9c2ce6a9d6
-Step 4/6 : RUN npm install
- ---> Using cache
- ---> f7e6ebbee818
-Step 5/6 : EXPOSE 3000
- ---> Using cache
- ---> d3756d97db07
-Step 6/6 : CMD [ "node", "app.js" ]
- ---> Using cache
- ---> 908b65d9d01f
+...
 Successfully built 908b65d9d01f
 Successfully tagged <REPO>/k8s-events-node:edge
 ```
@@ -421,35 +313,13 @@ Hello from Kube Events!
    { metadata: { creationTimestamp: null },
      involvedObject: {},
      source: {},
-     firstTimestamp: null,
-     lastTimestamp: null,
-     eventTime: null,
-     reportingComponent: '',
-     reportingInstance: '' },
+...},
   newVal:
    { metadata:
       { name: 'events-nodeapp.162cd2271581f9dc',
         namespace: 'kube-events',
         selfLink: '/api/v1/namespaces/kube-events/events/events-nodeapp.162cd2271581f9dc',
-        uid: 'e2167021-6e23-43d2-afcc-0104b6a31ab2',
-        resourceVersion: '822570',
-        creationTimestamp: '2020-08-20T00:23:53Z',
-        managedFields: [Array] },
-     involvedObject:
-      { kind: 'Deployment',
-        namespace: 'kube-events',
-        name: 'events-nodeapp',
-        uid: 'c61035f6-0f29-4062-a5d1-4c3963c919ac',
-        apiVersion: 'apps/v1',
-        resourceVersion: '822564' },
-     reason: 'ScalingReplicaSet',
-     message: 'Scaled up replica set events-nodeapp-69cdb56c6d to 1',
-     source: { component: 'deployment-controller' },
-     firstTimestamp: '2020-08-20T00:23:53Z',
-     lastTimestamp: '2020-08-20T00:23:53Z',
-     count: 1,
-     type: 'Normal',
-     eventTime: null,
+        ...
      reportingComponent: '',
      reportingInstance: '' } }
 ```

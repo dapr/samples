@@ -34,7 +34,7 @@ spec:
     spec:
       containers:
       - name: msgraph
-        image: cse21.azurecr.io/msgraphapp:sample
+        image: docker.io/h2floh/middleware-msgraphapp:edge
         ports:
         - containerPort: 3000
         imagePullPolicy: Always

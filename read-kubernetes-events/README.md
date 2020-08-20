@@ -480,7 +480,3 @@ kubectl delete -f ./deploy/kubernetes.yaml
 ```bash
 kubectl delete ns kube-events
 ```
-
-
-## Next steps
-- Explore additional [samples](../README.md#Samples-in-this-repository) and deploy them locally or on Kubernetes.

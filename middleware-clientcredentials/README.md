@@ -3,7 +3,7 @@
 ## Sample info
 | Attribute | Details |
 |--------|--------|
-| Dapr runtime version | 0.10.0-rc.0 |
+| Dapr runtime version | 0.10.0 |
 | Language | Javascript | 
 | Environment | Kubernetes |
 

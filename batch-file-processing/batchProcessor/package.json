@@ -1,0 +1,21 @@
+{
+  "name": "rating_api",
+  "version": "1.0.0",
+  "description": "solution for rating api challenge",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "dapr"
+  ],
+  "author": "Daria Kiritseva",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "body-parser": "^1.18.3",
+    "ejs": "^3.0.1",
+    "express": "^4.16.4",
+    "uuid": "^7.0.1"
+  }
+}

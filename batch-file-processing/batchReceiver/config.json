@@ -1,0 +1,5 @@
+{
+    "storageAccountName": "<storage-account-name>",
+    "resourceGroupName": "<resource-group-name>",
+    "subscriptionId": "<subscription-id>"
+}

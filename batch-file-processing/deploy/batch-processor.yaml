@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: batch-processor
+  labels:
+    app: batch-processor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: batch-processor
+  template:
+    metadata:
+      labels:
+        app: batch-processor
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/id: "batch-processor"
+        dapr.io/port: "3000"
+        dapr.io/log-level: "debug"
+        dapr.io/config: "tracing"
+    spec:
+      containers:
+      - name: batch-processor
+        image: <registryLoginServer>/batch-processor:v1
+        ports:
+        - containerPort: 3000
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: config-volume
+          mountPath: app/config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: config

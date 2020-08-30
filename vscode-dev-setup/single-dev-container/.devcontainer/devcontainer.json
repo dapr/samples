@@ -1,5 +1,4 @@
 // For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
-// https://github.com/microsoft/vscode-dev-containers/tree/v0.134.1/containers/ubuntu
 {
 	"name": "single dev container",
 	
@@ -19,18 +18,20 @@
 		"visualstudioexptteam.vscodeintellicode", 
 		"eg2.vscode-npm-script"],
 
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// Use 'forwardPorts' to make a list of ports inside the container available locally,
+	// for example, to make a web application available from the host machine at localhost.
 	// "forwardPorts": [],
 	
 	// You can choose to run Redis in an external container, and run this container using
 	// the Redis container's networking stack, which causes Redis to listen to api calls
 	// from 'localhost' on this container. Uncomment the command below to use the Redis
 	// container's networking, replacing 'dapr_redis' with the name of your Redis container.
+	// ('dapr_redis' is the default name of the Redis container created when you run 'dapr init'.)
 	// "runArgs": ["--network=container:dapr_redis"],
 	
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// Run npm install on the ./node directory, which contains the node app in this sample.
-	// Start Redis
+	// Also start Redis.
 	"postCreateCommand": "cd node && npm install && cd .. && /etc/init.d/redis_6379 start"
 
 	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.

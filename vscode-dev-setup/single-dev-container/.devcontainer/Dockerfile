@@ -1,3 +1,5 @@
+# This node container also has python installed, making it a good start for building the 
+# developer container for this app.
 FROM node:14.8.0
 
 # Instructs apt-get to run without a terminal
@@ -38,8 +40,10 @@ ENV DEBIAN_FRONTEND=dialog
 
 # VS Code will automatically determine the current folder regardless of this setting, 
 # however this will allow connecting to the container from a shell to set the right directory.
-# To connect from a shell enter this command: docker exec -it <name or id of container> bash
+# To connect from a shell enter this command: docker exec -it <name or id of container> /bin/bash
 WORKDIR /workspaces/samples/vscode-dev-setup/single-dev-container
 
-# documentation that the running container should be configured to expose this port
-EXPOSE 8080
+# Documentation that the running container should be configured to expose this port
+# For this sample there is no front end, so no need to exopose an external port.
+# Apps with a user interface will document the port here, and set it in devcontainer.json.
+# EXPOSE 8080

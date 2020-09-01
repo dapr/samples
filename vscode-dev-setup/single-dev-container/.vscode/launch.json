@@ -6,20 +6,31 @@
     "compounds": [
         {
             "name": "Debug All Apps",
-            "configurations": ["Launch Node App"]
+            "configurations": ["Node App", "Python App"]
         }
     ],
     "configurations": [
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Node App",
+            "name": "Node App",
             "skipFiles": [
                 "<node_internals>/**"
             ],
             "program": "./node/app.js",
+            "console": "integratedTerminal",
             "preLaunchTask": "nodeapp-daprd-debug",
             "postDebugTask": "nodeapp-daprd-down"
+        },
+        {
+            "name": "Python App",
+            "type": "python",
+            "pythonPath": "${command:python.interpreterPath}",
+            "request": "launch",
+            "program": "./python/app.py",
+            "console": "integratedTerminal",
+            "preLaunchTask": "pythonapp-daprd-debug",
+            "postDebugTask": "pythonapp-daprd-down"
         }
     ]
 }

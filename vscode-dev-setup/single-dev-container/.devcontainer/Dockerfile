@@ -1,18 +1,7 @@
-# This node container also has python installed, making it a good start for building the 
-# developer container for this app.
 FROM node:14.8.0
 
 # Instructs apt-get to run without a terminal
 ENV DEBIAN_FRONTEND=noninteractive
-
-RUN apt-get update \
-    && apt-get -y install --no-install-recommends apt-utils dialog 2>&1 \
-    && apt-get dist-upgrade -y 
-
-# Install Dapr CLI and init without docker (option "--slim")
-RUN curl -sL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh | bash - 
-RUN dapr init --slim
-ENV PATH=$PATH:/root/.dapr/bin
 
 # Install Redis. See https://redis.io/topics/quickstart
 # NOTE: Redis will not start automatically because systemd is not included in the container.
@@ -34,6 +23,21 @@ RUN wget http://download.redis.io/redis-stable.tar.gz \
     && sed -i "s/^\(pidfile *\).*/\1\/var\/redis\/6379/" /etc/redis/6379.conf \
     && update-rc.d redis_6379 defaults \
     && cd ..
+
+# Install Python3 and pip3
+RUN apt-get update \
+    && apt-get -y install --no-install-recommends apt-utils dialog python3-all-dev python3-pip 2>&1 \
+    && apt-get dist-upgrade -y
+
+# Install pylint
+RUN pip3 install --upgrade setuptools \
+    && pip3 install wheel \
+    && pip3 install ez_setup pylint requests
+
+# Install Dapr CLI and init without docker (option "--slim")
+RUN curl -sL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh | bash - 
+RUN dapr init --slim
+ENV PATH=$PATH:/root/.dapr/bin
 
 # Reset to the default value
 ENV DEBIAN_FRONTEND=dialog

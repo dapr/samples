@@ -67,3 +67,12 @@ Example:
 | Dapr runtime version | v0.7.1 |
 | Language | Go, C# (.NET Core), Node.js | 
 | Environment | Local or Kubernetes |
+
+## External samples
+
+### Templates
+
+* [Dapr gRPC Service in Go](https://github.com/dapr/dapr-grpc-service-template) - Template project to jump start your Dapr event subscriber service with gRPC development
+* [Dapr HTTP Event Subscriber in Go](https://github.com/dapr/dapr-http-event-subscriber-template) - Template project to jump start your Dapr event subscriber service with HTTP development
+* [Dapr gRPC Event Subscriber in Go](https://github.com/dapr/dapr-grpc-event-subscriber-template) - Template project to jump start your Dapr event subscriber service with gRPC development
+* [dapr-http-cron-handler in Go](https://github.com/dapr/dapr-http-cron-handler-template) - Template project to jump start your Dapr service development for scheduled workloads

@@ -16,8 +16,20 @@ const (
 	SupportedCloudEventContentTye = "application/json"
 )
 
+type subscription struct {
+	Topic string `json:"Topic"`
+	Route string `json:"Route"`
+}
+
 func subscribeHandler(c *gin.Context) {
-	topics := []string{sourceTopic}
+	
+	topics := []subscription{
+		subscription{
+			Topic: sourceTopic,
+			Route: "/" + sourceTopic,
+		},
+	}
+	
 	logger.Printf("subscription tipics: %v", topics)
 	c.JSON(http.StatusOK, topics)
 }

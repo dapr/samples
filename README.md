@@ -1,17 +1,16 @@
 # Dapr Samples
 
->Note: The Dapr samples have been recently reorganized. Samples that are aimed for newcomers and are meant to help users get started quickly with Dapr have been migrated to a separate repository [dapr/quickstarts](https://github.com/dapr/quickstarts). Please see that repository for any samples that were previously found under the Samples repository.
+>Note: The Dapr samples have been recently reorganized. Samples that are aimed for newcomers and are meant to help users get started quickly with Dapr have been migrated to a separate repository [dapr/quickstarts](https://github.com/dapr/quickstarts). 
 
-This repository contains code samples that show the usage of [Dapr](https://dapr.io/) capabilities. Different samples in this repository may use different languages and show Dapr as it may be used in different environments and scenarios. Some of these samples may be small applications that show a very specific usage of a single Dapr capability and some may show how a distributed application with multiple services may leverage several Dapr building blocks and capabilities.
+Samples in this repository showcase [Dapr](https://dapr.io/) capabilities using different languages and address wide array of common scenarios. Some focus on specific usage patterns or particular Dapr capability while others are end-to-end demos leveraging several Dapr building blocks and capabilities.
 
-This repository is meant to be used for code reference and is maintained for and by the Dapr community. Please see below for details on [sample maintenance approach](#sample-maintenance) and on how to [contribute a new sample](#sample-contribution) 
+If you are new to Dapr, you may want to review following resources first:
 
-## Get started
+* [Getting started with Dapr](https://github.com/dapr/docs/blob/master/getting-started/README.md)
+* [Dapr overview](https://github.com/dapr/docs/blob/master/overview/README.md) 
+* [Dapr quickstarts](https://github.com/dapr/quickstarts) - a collection of simple tutorials covering Dapr's main capabilities
 
-This repo has a variety of different sample code, if you are new to Dapr it is recommended you review the following useful resources first:
-- [Getting started with Dapr](https://github.com/dapr/docs/blob/master/getting-started/README.md)
-- [Dapr overview](https://github.com/dapr/docs/blob/master/overview/README.md) article in the [Dapr docs](https://github.com/dapr/docs)
-- [Dapr quickstarts](https://github.com/dapr/quickstarts) - a collection of simple tutorials with sample code that demonstrate the main Dapr capabilities
+> Note, these samples are maintained by the Dapr community and are not guaranteed to work properly with the latest Dapr runtime version. 
 
 ## Samples in this repository
 
@@ -24,26 +23,35 @@ This repo has a variety of different sample code, if you are new to Dapr it is r
 | [OAuth Authorization to external service](./middleware-clientcredentials) | Demonstrates how to inject a service principal OAuth Bearer Token within a Dapr service-to-service invocation to call secured APIs |
 | [Read Kubernetes Events](./read-kubernetes-events) | Shows Dapr being used with the Kubernetes Input binding to watch for events in Kubernetes cluster |
 
+## External samples
+
+>This section will include external links to Dapr related samples, located outside the Dapr GitHub repositories.
+
 ## Sample maintenance
 
-Samples in this repository are maintained by the Dapr community and are not guaranteed to work properly with the latest Dapr runtime version. Each sample had a *README.md* file which provides details about the sample code including what is the most recent Dapr version it has been validated with.
+Each sample includes *README.md* which provides information about the validated versions of Dapr for that sample. 
 
 If you would like to have a sample updated or better yet, update it yourself to a newer version of Dapr, please see the [contribution guide](./CONTRIBUTING.md) to learn more about opening issues and submitting pull requests to this repository.
 
-Some samples, overtime, may be retired and removed from this repository if the community feels they are no longer relevant or provide value to Dapr developers.
+> Note, over time, for maintainability reasons, some samples may be removed from this repository.
 
 ## Sample contribution
 
 If you want to contribute a sample to this repo, please see the sample [contribution guide](./CONTRIBUTING.md) for details on the PR process.
 
 Samples should follow these high-level guiding principles:
-- Samples should have a meaningful name that helps users of this repository understand what this sample is about
-- Sample code should be complete (i.e. no major code additions should be needed to make the sample work)
-- Each sample should include a *README.md* file clearly explaining what the sample does and how to run it including prerequisites. This file should also include details on the Dapr core version this sample is compatible with (see below). Highly recommended to include architecture diagrams of the sample application in the README file
-- It is highly recommended to include scripts and automation to allow users to easily run samples which require complex setup and multiple steps to run
-- Along with the sample code and README, samples should be listed in this page in the above [samples table](#samples-in-this-repository)
 
-Sample info section at the top of the main sample README should follow the following template
+* Sample should have a meaningful name that helps users understand what this sample is about
+* Sample code should be complete (i.e. no major code additions should be needed to make the sample work)
+* Each sample should include a *README.md* file clearly explaining what the sample does and how to run it including prerequisites. This file should also include details on the Dapr core version this sample is compatible with (see below). 
+* Highly recommended:
+  * architecture diagrams of the sample application
+  * scripts and automation to allow users to easily run samples which require complex setup and multiple steps to run
+
+Along with the sample code and README, samples should be listed in this page in the above [samples table](#samples-in-this-repository)
+
+Sample info section at the top of the main sample README should follow the following template:
+
 | Attribute | Details |
 |--------|--------|
 | Dapr runtime version | vX.X |
@@ -68,9 +76,3 @@ Example:
 * [Dapr HTTP Event Subscriber in Go](https://github.com/dapr/dapr-http-event-subscriber-template) - Template project to jump start your Dapr event subscriber service with HTTP development
 * [Dapr gRPC Event Subscriber in Go](https://github.com/dapr/dapr-grpc-event-subscriber-template) - Template project to jump start your Dapr event subscriber service with gRPC development
 * [dapr-http-cron-handler in Go](https://github.com/dapr/dapr-http-cron-handler-template) - Template project to jump start your Dapr service development for scheduled workloads
-
-
-
-
-
-

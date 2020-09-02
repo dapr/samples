@@ -62,4 +62,15 @@ Example:
 
 ## External samples
 
->This section will include external links to Dapr related samples, located outside the Dapr GitHub repositories.
+### Templates
+
+* [Dapr gRPC Service in Go](https://github.com/dapr/dapr-grpc-service-template) - Template project to jump start your Dapr event subscriber service with gRPC development
+* [Dapr HTTP Event Subscriber in Go](https://github.com/dapr/dapr-http-event-subscriber-template) - Template project to jump start your Dapr event subscriber service with HTTP development
+* [Dapr gRPC Event Subscriber in Go](https://github.com/dapr/dapr-grpc-event-subscriber-template) - Template project to jump start your Dapr event subscriber service with gRPC development
+* [dapr-http-cron-handler in Go](https://github.com/dapr/dapr-http-cron-handler-template) - Template project to jump start your Dapr service development for scheduled workloads
+
+
+
+
+
+

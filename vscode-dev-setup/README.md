@@ -54,6 +54,35 @@ Required: Windows 10 version 2004 or later
 Install and configure Docker CE.
 
 Each subfolder contains a self-contained development environment. The types of environemThis sample has t
+
 - Single container for all applications, no local Docker installation required
 - Single container with Docker
 - One container for each application, shared Docker 
+
+## Troubleshooting
+
+### File Permissions
+
+By default development containers are run as root, with the local git workspace mounted in the container. A side effect of running as root is that some files may be owned by the root user.  
+
+The example below shows one file having root ownership. This file was created from within a development container.
+
+```BASH
+-rw-r--r-- 1 root  root  1153 Sep  1 15:18 launch.json
+-rw-r--r-- 1 abby  abby    47 Sep  1 15:18 settings.json
+-rw-r--r-- 1 abby  abby  1202 Sep  1 15:18 tasks.json
+```
+
+In this example, attempting to modify `launch.json` from the host machine will result in a permissions error.  
+
+To fix, change the owner back to your regular user using the `chown` command:
+
+```BASH
+chown abby:abby launch.json
+```
+
+### You are prompted to add container configuration files when you already have them.
+
+You try to use an existing container definiton, and you invoke the VS Code command `Remote-Containers: Reopen in Container`, and VS Code prompts you to `Add Development Container Configuration Files` or `Select a container configuration definition`.
+
+You may have opened the wrong folder in VS Code. Make sure that there is a `.devcontainer` folder at the root of your file workspace. The folder should container a file named `devcontainer.json`.

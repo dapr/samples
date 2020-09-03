@@ -25,7 +25,14 @@ If you are new to Dapr, you may want to review following resources first:
 
 ## External samples
 
->This section will include external links to Dapr related samples, located outside the Dapr GitHub repositories.
+>This section will include external links to Dapr related samples, located outside the Dapr Samples repository.
+
+### Templates
+
+* [Dapr gRPC Service in Go](https://github.com/dapr/dapr-grpc-service-template) - Template project to jump start your Dapr event subscriber service with gRPC development
+* [Dapr HTTP Event Subscriber in Go](https://github.com/dapr/dapr-http-event-subscriber-template) - Template project to jump start your Dapr event subscriber service with HTTP development
+* [Dapr gRPC Event Subscriber in Go](https://github.com/dapr/dapr-grpc-event-subscriber-template) - Template project to jump start your Dapr event subscriber service with gRPC development
+* [dapr-http-cron-handler in Go](https://github.com/dapr/dapr-http-cron-handler-template) - Template project to jump start your Dapr service development for scheduled workloads
 
 ## Sample maintenance
 
@@ -68,11 +75,3 @@ Example:
 | Language | Go, C# (.NET Core), Node.js | 
 | Environment | Local or Kubernetes |
 
-## External samples
-
-### Templates
-
-* [Dapr gRPC Service in Go](https://github.com/dapr/dapr-grpc-service-template) - Template project to jump start your Dapr event subscriber service with gRPC development
-* [Dapr HTTP Event Subscriber in Go](https://github.com/dapr/dapr-http-event-subscriber-template) - Template project to jump start your Dapr event subscriber service with HTTP development
-* [Dapr gRPC Event Subscriber in Go](https://github.com/dapr/dapr-grpc-event-subscriber-template) - Template project to jump start your Dapr event subscriber service with gRPC development
-* [dapr-http-cron-handler in Go](https://github.com/dapr/dapr-http-cron-handler-template) - Template project to jump start your Dapr service development for scheduled workloads

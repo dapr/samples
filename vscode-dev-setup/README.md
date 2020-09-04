@@ -86,3 +86,12 @@ chown abby:abby launch.json
 You try to use an existing container definiton, and you invoke the VS Code command `Remote-Containers: Reopen in Container`, and VS Code prompts you to `Add Development Container Configuration Files` or `Select a container configuration definition`.
 
 You may have opened the wrong folder in VS Code. Make sure that there is a `.devcontainer` folder at the root of your file workspace. The folder should container a file named `devcontainer.json`.
+
+### Having trouble opening VS Code to the right folder in WSL 2
+
+Here is a simple way to open VS Code to the right working folder in WSL 2:
+
+1. Open a WSL 2 terminal session and navigate to the folder where you want VS Code to open.
+1. Enter the command `code .` (Make sure you include the trailing `.` character.)
+
+VS Code will launch and open that folder.

@@ -6,13 +6,17 @@
 			"label": "nodeapp-daprd-debug",
 			"appId": "nodeapp",
 			"appPort": 3000,
-			"componentsPath": "./components",
+			"placementAddress": "localhost:50006",
 			"metricsPort": 9090,
+			"grpcPort": 50002,
+			"componentsPath": "./.devcontainer/.dapr/components",
+			"config": "./.devcontainer/.dapr/config.yaml",
 			"presentation": {
+				"group": "nodeapp",
 				"echo": true,
 				"reveal": "always",
 				"focus": false,
-				"panel": "shared",
+				"panel": "new",
 				"showReuseMessage": true,
 				"clear": true
 			}
@@ -22,10 +26,11 @@
 			"label": "nodeapp-daprd-down",
 			"appId": "nodeapp",
 			"presentation": {
+				"group": "nodeapp",
 				"echo": true,
 				"reveal": "always",
 				"focus": false,
-				"panel": "shared",
+				"panel": "new",
 				"showReuseMessage": true,
 				"clear": true
 			}
@@ -34,14 +39,17 @@
 			"type": "daprd",
 			"label": "pythonapp-daprd-debug",
 			"appId": "pythonapp",
-			"componentsPath": "./components",
+			"appPort": 3001,
+			"placementAddress": "localhost:50007",
 			"metricsPort": 9093,
 			"grpcPort": 50003,
+			"componentsPath": "./components",
 			"presentation": {
+				"group": "nodeapp",
 				"echo": true,
 				"reveal": "always",
 				"focus": false,
-				"panel": "shared",
+				"panel": "new",
 				"showReuseMessage": true,
 				"clear": true
 			}
@@ -51,10 +59,11 @@
 			"label": "pythonapp-daprd-down",
 			"appId": "pythonapp",
 			"presentation": {
+				"group": "nodeapp",
 				"echo": true,
 				"reveal": "always",
 				"focus": false,
-				"panel": "shared",
+				"panel": "new",
 				"showReuseMessage": true,
 				"clear": true
 			}

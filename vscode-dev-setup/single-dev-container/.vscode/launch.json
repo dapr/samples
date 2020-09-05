@@ -5,8 +5,13 @@
     "version": "0.2.0",
     "compounds": [
         {
-            "name": "Debug All Apps",
-            "configurations": ["Node App", "Python App"]
+            "name": "Debug All",
+            "configurations": ["Node App", "Python App"],
+            "presentation": {
+                "hidden": false,
+                "group": "daprdemo",
+                "order": 1
+            }
         }
     ],
     "configurations": [
@@ -18,9 +23,14 @@
                 "<node_internals>/**"
             ],
             "program": "./node/app.js",
-            "console": "integratedTerminal",
+            "console": "internalConsole",
             "preLaunchTask": "nodeapp-daprd-debug",
-            "postDebugTask": "nodeapp-daprd-down"
+            "postDebugTask": "nodeapp-daprd-down",
+            "presentation": {
+                "hidden": false,
+                "group": "daprdemo",
+                "order": 2
+            }
         },
         {
             "name": "Python App",
@@ -28,9 +38,14 @@
             "pythonPath": "${command:python.interpreterPath}",
             "request": "launch",
             "program": "./python/app.py",
-            "console": "integratedTerminal",
+            "console": "internalConsole", 
             "preLaunchTask": "pythonapp-daprd-debug",
-            "postDebugTask": "pythonapp-daprd-down"
+            "postDebugTask": "pythonapp-daprd-down",
+            "presentation": {
+                "hidden": false,
+                "group": "daprdemo",
+                "order": 3
+            }
         }
     ]
 }

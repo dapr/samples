@@ -131,10 +131,6 @@ Each subfolder contains a self-contained development environment. The types of e
 
 ## Other Concepts
 
-### TODO: Debugging Dapr Applications from VS Code
-
-TODO: Add details
-
 ### Start a BASH shell instance within a development container
 
 When an instance of VS Code is attached to a running container, there are two options for launching a BASH shell:
@@ -142,7 +138,7 @@ When an instance of VS Code is attached to a running container, there are two op
 - Launch a terminal window within VS Code. The terminal window will be a BASH shell within the container (unless you have configured it to be something else.)
 - Use a Docker command from the host machine to run BASH in the container.
 
-This command shows how to launch a container's BASH shell from a host machine BASH terminal:
+This command shows how to launch a container's BASH shell from a host machine terminal:
 
 ```BASH
 docker exec -it <container name or container ID> /bin/bash
@@ -173,7 +169,7 @@ In this example, attempting to modify `launch.json` from the host machine will r
 To fix, change the owner back to your regular user using the `chown` command:
 
 ```BASH
-chown abby:abby launch.json
+chown <user>:<group> launch.json
 ```
 
 ### You are prompted to add container configuration files when you already have them.

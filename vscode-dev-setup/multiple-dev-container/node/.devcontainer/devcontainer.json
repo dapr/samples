@@ -1,0 +1,38 @@
+// For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
+{
+	"name": "single dev container",
+	
+	// Sets the run context to one level up instead of the .devcontainer folder.
+	"context": "..",
+
+	"dockerFile": "Dockerfile",
+	
+	// Set *default* container specific settings.json values on container create.
+	"settings": { 
+		"terminal.integrated.shell.linux": "/bin/bash"
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [ "ms-azuretools.vscode-dapr", 
+		"visualstudioexptteam.vscodeintellicode", 
+		"eg2.vscode-npm-script",
+		"ms-python.python"],
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally,
+	// for example, to make a web application available from the host machine at localhost.
+	// "forwardPorts": [],
+	
+	// Runs this script on the host machine to generate the .devcontainer/devcontainer.env file,
+	// The file contains environment variables to be set in the container.
+	"initializeCommand": "${localWorkspaceFolder}/../utils/initializecommand.sh",
+	
+	// Sets the --env-file parameter on the docker run command line to read the generated .devcontainer/devcontainer.env file.
+	"runArgs": ["--env-file", "${localWorkspaceFolder}/.devcontainer/devcontainer.env"],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// Run npm install on the ./node directory, which contains the node app in this sample.
+	"postCreateCommand": "cd node && npm install && cd ..",
+
+	// Runs this script after attaching to the container. The script updates the container /etc/hosts file
+	"postAttachCommand": "${containerWorkspaceFolder}/.devcontainer/postattachcommand.sh"
+}

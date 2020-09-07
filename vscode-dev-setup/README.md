@@ -131,6 +131,10 @@ Each subfolder contains a self-contained development environment. The types of e
 
 ## Other Concepts
 
+### TODO: Debugging Dapr Applications from VS Code
+
+TODO: Add details
+
 ### Start a BASH shell instance within a development container
 
 When an instance of VS Code is attached to a running container, there are two options for launching a BASH shell:
@@ -187,7 +191,7 @@ Here is a simple way to open VS Code to the right working folder in WSL 2:
 
 VS Code will launch and open that folder.
 
-### VS Code Debugger Launch Fails with Port Conflicts
+### VS Code debugger launch fails with port conflicts
 
 If one of the dapr-debug tasks fails (see `./.vscode/launch.json`), you may need to kill the daprd process with a manual command. `daprd` is launched as a pre-launch task for debugging the applications, and it is shut down using a separate post-debug task. If an error occurs launching `daprd`, sometimes the post-debug task will not run and `daprd` will continue to run in the background, tying up ports, which prevents `daprd` from launching again. Killing the background instance of `daprd` resolves the problem.
 
@@ -208,3 +212,25 @@ kill 20238
 ```
 
 The `kill` command will send a shutdown signal to `daprd`, which will take a few seconds to shut down.
+
+### A development container becomes misconfigured to the point that it cannot be fixed
+
+One of the great things about developing in a container is that you can delete the container instance (using Docker commands) and start a fresh instance. Source code is attached via Docker bind mounts (by default), so you can delete your container without losing any uncommitted or un-pushed code changes.
+
+1. Close VS Code (or detach from your development container).
+1. Run this command to display a list of your containers, both running and stopped. Your development container will stop after you detach VS Code from it.
+
+    ```BASH
+    docker ps --all
+    ```
+
+1. Remove the container by running this command:
+
+    ```BASH
+    docker rm <container name or container ID>
+    ```
+
+The next time you invoke the VS Code command to reopen the container (`Remote-Containers: Reopen in Container`) a fresh instance of the container will run for you.
+
+> NOTE: You can also rebuild the container image by invoking the VS Code command `Remote-Containers: Rebuild and Reopen in Container` or from within the container you can run `Remote-Containers: Rebuild Container`, which will rebuild and start the container and re-attach VS Code to it.
+> 

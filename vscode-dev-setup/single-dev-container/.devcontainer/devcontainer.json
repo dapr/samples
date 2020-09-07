@@ -1,6 +1,6 @@
 // For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
 {
-	"name": "single dev container slim",
+	"name": "single dev container",
 	
 	// Sets the run context to one level up instead of the .devcontainer folder.
 	"context": "..",
@@ -23,17 +23,20 @@
 	// for example, to make a web application available from the host machine at localhost.
 	// "forwardPorts": [],
 	
-	// You can choose to run Redis in an external container, and run this container using
-	// the Redis container's networking stack, which causes Redis to listen to api calls
-	// from 'localhost' on this container. Uncomment the command below to use the Redis
-	// container's networking, replacing 'dapr_redis' with the name of your Redis container.
-	// ('dapr_redis' is the default name of the Redis container created when you run 'dapr init'.)
-	// "runArgs": ["--network=container:dapr_redis"],
+	// Runs this script on the host machine to generate the .devcontainer/devcontainer.env file,
+	// The file contains environment variables to be set in the container.
+	"initializeCommand": "${localWorkspaceFolder}/.devcontainer/initializecommand.sh",
 	
+	// Sets the --env-file parameter on the docker run command line to read the generated .devcontainer/devcontainer.env file.
+	"runArgs": ["--env-file", "${localWorkspaceFolder}/.devcontainer/devcontainer.env"],
+
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// Run npm install on the ./node directory, which contains the node app in this sample.
 	// Also start Redis.
-	"postCreateCommand": "cd node && npm install && cd .. && /etc/init.d/redis_6379 start"
+	"postCreateCommand": "cd node && npm install && cd ..",
+
+	// Runs this script after attaching to the container. The script updates the container /etc/hosts file
+	"postAttachCommand": "${containerWorkspaceFolder}/.devcontainer/postattachcommand.sh"
 
 	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
 	// "remoteUser": "vscode"

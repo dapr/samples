@@ -3,49 +3,16 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "compounds": [
-        {
-            "name": "Debug All",
-            "configurations": ["Node App", "Python App"],
-            "presentation": {
-                "hidden": false,
-                "group": "daprdemo",
-                "order": 1
-            }
-        }
-    ],
     "configurations": [
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Node App",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "./node/app.js",
-            "console": "internalConsole",
-            "preLaunchTask": "nodeapp-daprd-debug",
-            "postDebugTask": "nodeapp-daprd-down",
-            "presentation": {
-                "hidden": false,
-                "group": "daprdemo",
-                "order": 2
-            }
-        },
         {
             "name": "Python App",
             "type": "python",
             "pythonPath": "${command:python.interpreterPath}",
             "request": "launch",
-            "program": "./python/app.py",
+            "program": "app.py",
             "console": "internalConsole", 
-            "preLaunchTask": "pythonapp-daprd-debug",
-            "postDebugTask": "pythonapp-daprd-down",
-            "presentation": {
-                "hidden": false,
-                "group": "daprdemo",
-                "order": 3
-            }
+            "preLaunchTask": "daprd-debug",
+            "postDebugTask": "daprd-down",
         }
     ]
 }

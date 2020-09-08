@@ -3,16 +3,30 @@
 	"tasks": [
 		{
 			"type": "daprd",
-			"label": "nodeapp-daprd-debug",
-			"appId": "nodeapp",
-			"appPort": 3000,
-			"placementAddress": "dapr_placement:50005",
-			"metricsPort": 9090,
-			"grpcPort": 50002,
-			"componentsPath": "./.devcontainer/.dapr/components",
-			"config": "./.devcontainer/.dapr/config.yaml",
+			"label": "daprd-debug",
+			"appId": "pythonapp",
+			"placementAddress": "dapr-placement-dev:50005",
+			"componentsPath": "../utils/.dapr/components",
+			"config": "../utils/.dapr/config.yaml",
+			"isBackground": true,
+			// The problemMatcher is required for the task to run in the background and recognize when daprd is running.
+			"problemMatcher": {
+				"pattern": [
+					{
+						"regexp": "",
+						"file": 1,
+						"location": 2,
+						"message": 3
+					}
+				],
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^.*starting Dapr Runtime.*",
+					"endsPattern": "^.*dapr initialized.*"
+				}
+			},
 			"presentation": {
-				"group": "nodeapp",
+				"group": "pythonapp",
 				"echo": true,
 				"reveal": "always",
 				"focus": false,
@@ -23,43 +37,10 @@
 		},
 		{
 			"type": "daprd-down",
-			"label": "nodeapp-daprd-down",
-			"appId": "nodeapp",
-			"presentation": {
-				"group": "nodeapp",
-				"echo": true,
-				"reveal": "always",
-				"focus": false,
-				"panel": "new",
-				"showReuseMessage": true,
-				"clear": true
-			}
-		},
-		{
-			"type": "daprd",
-			"label": "pythonapp-daprd-debug",
-			"appId": "pythonapp",
-			"appPort": 3001,
-			"placementAddress": "dapr_placement:50005",
-			"metricsPort": 9093,
-			"grpcPort": 50003,
-			"componentsPath": "./components",
-			"presentation": {
-				"group": "nodeapp",
-				"echo": true,
-				"reveal": "always",
-				"focus": false,
-				"panel": "new",
-				"showReuseMessage": true,
-				"clear": true
-			}
-		},
-		{
-			"type": "daprd-down",
-			"label": "pythonapp-daprd-down",
+			"label": "daprd-down",
 			"appId": "pythonapp",
 			"presentation": {
-				"group": "nodeapp",
+				"group": "pythonapp",
 				"echo": true,
 				"reveal": "always",
 				"focus": false,

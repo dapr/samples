@@ -24,7 +24,7 @@ Host machine (Windows 10, version 2004, with Docker Desktop)
 
 ### Docker Compose
 
-The custom Docker network and the containers for Dapr, Redis, and Zipkin are defined with Docker Compose, which simplifies the provisioning of required containers on the host machine and also ensures that DNS works among all machines on the network so that machines can reference each other by their DNS names.
+The custom Docker network and the containers for Dapr, Redis, and Zipkin are defined with Docker Compose, which simplifies the provisioning of required containers on the host machine and also ensures that DNS works among all machines on the network so that machines can reference each other by their DNS names. (You could build the same environment using Docker commands instead of Docker Compose.)
 
 ## How To Run the Sample
 
@@ -95,7 +95,7 @@ Dapr configuration is stored in `.devcontainer/.dapr` so that you can have confi
 
 The python app is run from a separate instance of VS Code.
 
-1. Open VS Code to the `multiple-dev-container/python` folder.
+1. Open a new instance of VS Code to the `multiple-dev-container/python` folder. (Do not close the instance of VS Code that is attached to the node app development container.)
 1. From the VS Code command palette (Ctrl+Shift+P), run this command:
 
     ```ASCII

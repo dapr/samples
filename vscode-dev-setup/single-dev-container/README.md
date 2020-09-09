@@ -26,7 +26,9 @@ Host machine (Windows 10, version 2004, with Docker Desktop)
 
 ### DNS Name Resolution to Dapr Containers
 
-The Dapr CLI has an excellent feature that creates Dapr support containers on your machine (Redis, Zipkin, Dapr placement) when you run `dapr init`, however, the containers created by `dapr init` cannot be used from a development container because Docker does not provide DNS name resolution between containers for its default network. In this sample, similar containers are created from the same images used by `docker init`, but they are added to a custom Docker network, which provides DNS name resolution between containers. If you perfer, this sample will work with the default Dapr support containers, but you will have to modify the development container configuration to use the IP addresses of the support containers, or add entries to the development container's `/etc/hosts` file. Container IP addresses may change, so this configuration will have to be reapplied every time the host machine reboots.
+The Dapr CLI has an excellent feature that creates Dapr support containers on your machine (Redis, Zipkin, Dapr placement) when you run `dapr init`, however, the containers created by `dapr init` cannot be used from a development container because Docker does not provide DNS name resolution between containers for its default network. In this sample, similar containers are created from the same images used by `docker init`, but they are added to a custom Docker network, which provides DNS name resolution between containers.
+
+If you perfer, this sample will work with the default Dapr support containers, but you will have to modify the development container configuration to use the IP addresses of the support containers, or add entries to the development container's `/etc/hosts` file. Container IP addresses may change, so this configuration will have to be reapplied every time the host machine reboots.
 
 ## How To Run the Sample
 

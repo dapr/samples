@@ -229,4 +229,13 @@ One of the great things about developing in a container is that you can delete t
 The next time you invoke the VS Code command to reopen the container (`Remote-Containers: Reopen in Container`) a fresh instance of the container will run for you.
 
 > NOTE: You can also rebuild the container image by invoking the VS Code command `Remote-Containers: Rebuild and Reopen in Container` or from within the container you can run `Remote-Containers: Rebuild Container`, which will rebuild and start the container and re-attach VS Code to it.
-> 
+
+### `docker-compose up` command fails with port binding errors
+
+If any other containers are running that publish the same ports, you will get binding errors like the one below:
+
+```ASCII
+ERROR: for zipkin-dev-single  Cannot start service zipkin-dev-single: driver failed programming external connectivity on endpoint zipkin-dev-single (1c18022152805ff5d5118658600b3331a9cf9222441d0694e97d6b360a0e8dc6): Bind for 0.0.0.0:9411 failed: port is already allocated
+```
+
+To fix, look for other running containers on your host machine that are publishing the same port(s). Either shut down the other containers or change the published ports on the containers you are trying to start. Keep in mind that if you change a port, like the port for Redis or Zipkin, you will also need to update the Dapr configuration yaml files and possibly the VS Code debugging tasks in 'tasks.json'.

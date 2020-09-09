@@ -1,0 +1,44 @@
+# This file defines containers required by the development containers. These containers must be running
+# to enable the development containers to communicate with Redis, Zipkin, and the Dapr placement container.
+# Notes:
+# - The docker defined network is required so that the containers can use DNS names to communicate because Docker
+#   DNS is enabled only on defined networks. All containers in this example must run on the same Docker network.
+# - DNS name lookups in Docker Compose work for the service names and container names. Service name, hostname, and
+#   container name have been set to the same values to avoid confusion, but the host name and container name are not required.
+# - The placement container is not required because the demo code does not use actors, but it is here to show how placement could be configured. 
+# 
+# To start these containers on your host machine:
+# 1. Ensure that your host machine has docker-compose installed.
+# 2. Open a terminal window and navigate to the folder containing this file.
+# 3. Run this command: docker-compose up
+version: '3.8'
+services:
+  redis-dev-single:
+    image: "redis"
+    hostname: redis-dev-single
+    container_name: redis-dev-single
+    ports:
+      - "6379:6379"
+    networks:
+      - dapr-dev-single
+  zipkin-dev-single:
+    image: "openzipkin/zipkin"
+    hostname: zipkin-dev-single
+    container_name: zipkin-dev-single
+    ports:
+      - "9411:9411"
+    networks:
+      - dapr-dev-single
+  dapr-placement-dev-single:
+    image: "daprio/dapr"
+    hostname: dapr-placement-dev-single
+    container_name: dapr-placement-dev-single
+    entrypoint: "./placement"
+    command: ["-port", "50006"]
+    networks:
+        - dapr-dev-single
+
+# Docker-compose will create this network if it does not already exist.
+networks:
+    dapr-dev-single:
+        name: dapr-dev-single

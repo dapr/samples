@@ -9,8 +9,8 @@
 			"placementAddress": "localhost:50006",
 			"metricsPort": 9090,
 			"grpcPort": 50002,
-			"componentsPath": "./.devcontainer/.dapr/components",
-			"config": "./.devcontainer/.dapr/config.yaml",
+			"componentsPath": ".devcontainer/.dapr/components",
+			"config": ".devcontainer/.dapr/config.yaml",
 			"presentation": {
 				"group": "nodeapp",
 				"echo": true,
@@ -39,11 +39,35 @@
 			"type": "daprd",
 			"label": "pythonapp-daprd-debug",
 			"appId": "pythonapp",
-			"appPort": 3001,
+			// App port is not set because the python app does not have an endpoint. Note: the python app can
+			// be run on this machine without running a second instance of daprd because it does not receive traffic 
+			// from Dapr, i.e. no appPort setting is required and the python app does not expose an end point, 
+			// but this configuration is here to demonstrate how running two instances of daprd on a single machine can work.
+			// If you choose not to run this instance of daprd, update the python app to call dapr on port 3500 instead of 3501.
+			//"appPort": 3001,
 			"placementAddress": "localhost:50007",
 			"metricsPort": 9093,
+			"httpPort": 3501,
 			"grpcPort": 50003,
-			"componentsPath": "./components",
+			"componentsPath": ".devcontainer/.dapr/components",
+			"config": ".devcontainer/.dapr/config.yaml",
+			"isBackground": true,
+			// The problemMatcher is required for the task to run in the background and recognize when daprd is running.
+			"problemMatcher": {
+				"pattern": [
+					{
+						"regexp": "",
+						"file": 1,
+						"location": 2,
+						"message": 3
+					}
+				],
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^.*starting Dapr Runtime.*",
+					"endsPattern": "^.*dapr initialized.*"
+				}
+			},
 			"presentation": {
 				"group": "nodeapp",
 				"echo": true,

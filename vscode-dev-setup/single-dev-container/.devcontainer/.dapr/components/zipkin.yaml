@@ -8,4 +8,4 @@ spec:
   - name: enabled
     value: "true"
   - name: exporterAddress
-    value: http://dapr_zipkin:9411/api/v2/spans
+    value: http://zipkin-dev-single:9411/api/v2/spans

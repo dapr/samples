@@ -29,7 +29,8 @@
 	// with the name of your Redis container. ('dapr_redis' is the default name of the Redis 
 	// container created when you run 'dapr init'.)
 	// "runArgs": ["--network=container:dapr_redis"],
-	
+	"runArgs": ["--name", "single-dev-container-slim", "--hostname", "single-dev-container-slim"],
+
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// Run npm install on the ./node directory, which contains the node app in this sample.
 	// Also start Redis.

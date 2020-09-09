@@ -1,5 +1,12 @@
 # Single Development Container
 
+
+
+NOTE: The Dapr CLI has an excellent feature that creates containers on your machine when you run `dapr init`. It creates supporting containers for Redis, Zipkin, and Dapr placement. These are great for developing and testing from your host machine, but if you are developing within a container then these supporting containers are not addressible by their DNS names because Docker does not provide DNS services among containers on the Docker default network. In this sample, similar containers are created from the same images, but added to a custom Docker network, which provides DNS name resolution between containers. If you perfer, this sample will work with the default Dapr support containers, but you will have to modify the development container configuration to use the IP addresses of the support containers, or add entries to the development container's `/etc/hosts` file. Container IP addresses may change, so this configuration will have to be reapplied every time the host machine reboots.
+
+
+
+
 ## Overview
 
 This development environment consists of a single container with development tools and dependencies installed in the container. Other dependencies, including Redis and Dapr services, run in containers on the host machine. The development container is simpler than the [slim sample](../single-dev-container-slim/README.md) because it does not have Redis installed, but the tradeoff is that the development container needs DNS name resolution to Redis and the other Dapr containers. Also, this configuration takes advantage of the Zipkin container created by Dapr on the host machine for viewing logs.

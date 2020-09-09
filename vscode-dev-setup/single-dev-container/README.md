@@ -50,10 +50,12 @@ Your host machine must be running Docker and Docker Compose. This sample was dev
 
 ### Step-by-step
 
-1. Pull this repository to your host machine.
-1. Open VS Code to the folder that contains this README file.
+1. Open VS Code to the `multiple-dev-container/node` folder.
 
     > IMPORTANT: The folder opened in VS Code must have the `.devcontainer` folder at the root level. Files in that folder define the container VS Code will build and attach to.
+
+    > NOTE: From WSL on Windows, a simple way to open VS Code to the correct folder is to navigate to the folder in a terminal, and type the command `code .` (make sure to include the trailing "`.`" character).
+
 
 1. From the VS Code command palette (Ctrl+Shift+P), run this command:
 
@@ -65,8 +67,8 @@ Your host machine must be running Docker and Docker Compose. This sample was dev
 
     See the files in the `.devcontainer` folder for how the container is defined and configured.
 
-1. When VS Code has attached to the running container, you can press `F5` to build and start debugging.
-1. Zipkin is running as a container on your host machine, so you can view Zipkin logs in a host machine browser by navigating to [http://localhost:9411](http://localhost:9411).
+2. When VS Code has attached to the running container, you can press `F5` to build and start debugging.
+3. Zipkin is running as a container on your host machine, so you can view Zipkin logs in a host machine browser by navigating to [http://localhost:9411](http://localhost:9411).
 
 See the files in the `.vscode` folder for details on how debugging is configured.
 

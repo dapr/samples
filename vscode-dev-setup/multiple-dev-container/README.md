@@ -36,7 +36,12 @@ Your host machine must be running Docker and Docker Compose. This sample was dev
 
 1. Pull this repository to your host machine.
 1. Open a terminal window, and navigate to the `multiple-dev-container` folder, where you should see a `docker-compose.yml` file.
-1. Run the command `docker-compose up`, which will result in three containers starting: `redis-dev`, `zipkin-dev`, and `dapr-placement-dev`.
+1. Run the command `docker-compose up`, which will result in three containers starting:
+
+    - `redis-dev`
+    - `zipkin-dev`
+    - `dapr-placement-dev`
+
    > Note: when you run the `docker-compose up` command, your terminal window will pause until you cancel the command (`Ctrl+c` in BASH), but you can also run the command in the background with the `--detach` parameter, as `docker-compose up --detach`. When you are ready to stop the containers, use `docker-compose stop`. However, it is sometimes useful to view the running console output of `docker-compose`.
 
 ### Run the node app development container

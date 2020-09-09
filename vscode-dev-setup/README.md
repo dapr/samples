@@ -30,24 +30,26 @@ For more information, see the VS Code documentation on [developing inside a cont
 
 ### Single Development Container
 
-This diagram shows a host machine with a single development container, with sidecar containers on the host machine for Dapr placement, Redis, and Dapr metrics (zipkin). The containers for Dapr, Redis, and Zipkin can be quickly created from within the WSL 2 instance (or host machine) by installing the Dapr CLI and running `dapr init`. This development machine configuration may be convenient if all applictions use the same platform technologies. This configuration is not good for applications that use many different platforms and is especially poor for applications in which individual components need to use different versions of a platform.
+This diagram shows a host machine with a single development container, with sidecar containers on the host machine for Dapr placement, Redis, and Dapr metrics (zipkin). The Docker network and the containers for Dapr, Redis, and Zipkin are created using Docker Compose. This development machine configuration may be convenient if all applictions use the same platform technologies. This configuration is not good for applications that use many different platforms and is especially poor for applications in which individual components need to use different versions of a platform.
 
 ```ASCII
 Host machine (Windows 10, version 2004, with Docker Desktop)
     |
     -- WSL 2: local git repo
     |
-    -- Dapr placement container
-    |
-    -- Redis container (state storage and pub/sub)
-    |
-    -- Dapr zipkin container
-    |
-    -- Development container for all applications, with VS Code attached
+    -- Custom Docker network
         |
-        -- Daprd process for debugging app component 1
+        -- Dapr placement container
         |
-        -- Daprd process for debugging app component 2
+        -- Redis container (state storage and pub/sub)
+        |
+        -- Dapr zipkin container
+        |
+        -- Development container for all applications, with VS Code attached
+            |
+            -- Node app
+            |
+            -- Python app
 ```
 
 ### Single Slim Development Container
@@ -83,21 +85,19 @@ This diagram shows the machine topography of the development environment for a m
 ```ASCII
 Host machine (Windows 10, version 2004, with Docker Desktop)
     |
-    -- Dapr placement container
-    |
-    -- Redis container (state storage and pub/sub)
-    |
-    -- Dapr zipkin container
-    |
     -- WSL 2: local git repo
     |
-    -- App Component 1 development container, with VS Code attached
+    -- Custom Docker network
         |
-        -- Daprd process for debugging app component 1
-    |
-    -- App Component 2 development container, with VS Code attached
+        -- Dapr placement container
         |
-        -- Daprd process for debugging app component 2
+        -- Redis container (state storage and pub/sub)
+        |
+        -- Dapr zipkin container
+        |
+        -- Node app development container, with VS Code attached
+        |
+        -- Python app development container, with VS Code attached
 ```
 
 ## Other Possible Development Machine Configurations
@@ -123,12 +123,6 @@ Required: Windows 10 version 2004 or later
 
 Install and configure Docker CE.
 
-Each subfolder contains a self-contained development environment. The types of environemThis sample has t
-
-- Single container for all applications, no local Docker installation required
-- Single container with Docker
-- One container for each application, shared Docker 
-
 ## Other Concepts
 
 ### Start a BASH shell instance within a development container
@@ -146,7 +140,7 @@ docker exec -it <container name or container ID> /bin/bash
 
 When you are finished with the session type `exit` to return to your host machine terminal.
 
-### When the Host Machine is Windows, Use WSL 2
+### When the host machine is Windows, use WSL 2
 
 WSL 2 is recommended, but not required, when using Windows as the host machine. By default, VS Code attaches the local source repo to your development container using a Docker file mount. From the Windows file system you may experience slower disk performance when doing IO intensive operations, so one recommendation is to put your source code repo in the WSL 2 file system. See the [VS Code documentation](https://code.visualstudio.com/docs/remote/containers-advanced#_improving-container-disk-performance) for more details and additional options.
 
@@ -226,11 +220,17 @@ One of the great things about developing in a container is that you can delete t
     docker rm <container name or container ID>
     ```
 
+1. Optionally, remove the container image by running the `docker rmi` command. Removing the image will cause VS Code to rebuild the image the next time you attach to it. VS Code has a command to rebuild a development container, but the rebuild will still used cached image layers.
+
+    ```BASH
+    docker rmi <image tag or image ID>
+    ```
+
 The next time you invoke the VS Code command to reopen the container (`Remote-Containers: Reopen in Container`) a fresh instance of the container will run for you.
 
 > NOTE: You can also rebuild the container image by invoking the VS Code command `Remote-Containers: Rebuild and Reopen in Container` or from within the container you can run `Remote-Containers: Rebuild Container`, which will rebuild and start the container and re-attach VS Code to it.
 
-### `docker-compose up` command fails with port binding errors
+### The `docker-compose up` command fails with port binding errors
 
 If any other containers are running that publish the same ports, you will get binding errors like the one below:
 

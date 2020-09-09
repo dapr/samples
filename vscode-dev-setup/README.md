@@ -30,7 +30,7 @@ For more information, see the VS Code documentation on [developing inside a cont
 
 ### Single Development Container
 
-This diagram shows a host machine with a single development container, with sidecar containers on the host machine for Dapr placement, Redis, and Dapr metrics (zipkin). The Docker network and the containers for Dapr, Redis, and Zipkin are created using Docker Compose. This development machine configuration may be convenient if all applictions use the same platform technologies. This configuration is not good for applications that use many different platforms and is especially poor for applications in which individual components need to use different versions of a platform.
+This diagram shows a host machine with a single development container, with other containers on the host machine for Dapr placement, Redis, and Dapr metrics (zipkin). The Docker network and the containers for Dapr, Redis, and Zipkin are created using Docker Compose. This development machine configuration may be convenient if all applictions use the same platform technologies. This configuration is not good for applications that use many different platforms and is especially poor for applications in which individual components need to use different versions of a platform.
 
 ```ASCII
 Host machine (Windows 10, version 2004, with Docker Desktop)
@@ -80,7 +80,7 @@ Host machine (Windows 10, version 2004, with Docker Desktop)
 
 ### Multiple Development Containers
 
-This diagram shows the machine topography of the development environment for a multi-component application. Each application is developed and debugged in its own container. The container definitions are tailored for the individual applications. This configuration is good for systems with many components that need controlled upgrades of platform dependencies.
+This diagram shows the machine topography of the development environment for a multi-component application. Each component is developed and debugged in its own container. The container definitions are tailored for the individual components. This configuration is good for systems with many components that need controlled upgrades of platform dependencies.
 
 ```ASCII
 Host machine (Windows 10, version 2004, with Docker Desktop)

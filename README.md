@@ -27,13 +27,6 @@ If you are new to Dapr, you may want to review following resources first:
 
 >This section will include external links to Dapr related samples, located outside the Dapr Samples repository.
 
-### Templates
-
-* [Dapr gRPC Service in Go](https://github.com/mchmarny/dapr-grpc-service-template) - Template project to jump start your Dapr event subscriber service with gRPC development
-* [Dapr HTTP Event Subscriber in Go](https://github.com/mchmarny/dapr-http-event-subscriber-template) - Template project to jump start your Dapr event subscriber service with HTTP development
-* [Dapr gRPC Event Subscriber in Go](https://github.com/mchmarny/dapr-grpc-event-subscriber-template) - Template project to jump start your Dapr event subscriber service with gRPC development
-* [dapr-http-cron-handler in Go](https://github.com/mchmarny/dapr-http-cron-handler-template) - Template project to jump start your Dapr service development for scheduled workloads
-
 ## Sample maintenance
 
 Each sample includes *README.md* which provides information about the validated versions of Dapr for that sample. 

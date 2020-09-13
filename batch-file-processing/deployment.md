@@ -9,7 +9,7 @@
 
 ## Scripts
 
-For every powershell script mentioned below there is a [bash version](scripts-bash).
+For every powershell script mentioned below there is a bash version in scripts-bash folder.
 
 ## Set up Cluster
 
@@ -563,3 +563,11 @@ References:
     kubectl apply -f .\deploy\batch-generator.yaml
     kubectl apply -f .\deploy\batch-processor-keda.yaml
     ```
+
+5. Now you can check the logs of the Batch Receiver and see it starts getting events from blobs being created. Once a batch has all 3 files, it puts a message into pub/sub.
+
+    ```
+    kubectl logs <batch-receiver-pod-name> batch-receiver
+    ```
+
+6. Now you can check the logs of the Batch Processor and see it receives the message, processes the batch and stores orders into Cosmos DB.

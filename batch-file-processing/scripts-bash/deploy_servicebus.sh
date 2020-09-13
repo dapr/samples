@@ -1,10 +1,11 @@
 resourceGroupName="<resource-group-name>"
 namespaceName="<service-bus-namespace-name>"
+location="<location>"
 
 az servicebus namespace create \
     --name $namespaceName \
     --resource-group $resourceGroupName \
-    --location westus \
+    --location $location \
     --sku Standard
 
 # Create topic

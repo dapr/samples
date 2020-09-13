@@ -7,6 +7,10 @@
 * Azure CLI
 * Helm3
 
+## Scripts
+
+For every powershell script mentioned below there is a [bash version](scripts-bash).
+
 ## Set up Cluster
 
 In this sample we'll be using Azure Kubernetes Service, but you can install Dapr on any Kubernetes cluster.
@@ -33,7 +37,13 @@ Run [this script](scripts/deploy_aks.ps1) to deploy an AKS cluster or follow the
 4. Create an Azure Kubernetes Service cluster:
 
     ```powershell
-    az aks create --resource-group <resource-group-name> --name <cluster-name> --node-count 2 --kubernetes-version 1.17.9 --enable-addons http_application_routing --generate-ssh-keys --location westus2
+    az aks create --resource-group <resource-group-name> --name <cluster-name> --node-count 2 --kubernetes-version 1.17.9 --enable-addons http_application_routing --generate-ssh-keys --location <location>
+    ```
+
+5. Connect to the cluster:
+    
+    ```powershell
+    az aks get-credentials --resource-group <resource-group-name> --name <cluster-name>
     ```
 
 References:
@@ -102,7 +112,7 @@ Run [this script](scripts/deploy_storage.ps1) to execute steps 1 through 4 or fo
 
 5. Replace <container_base_url> in [batchProcessor/config.json](batchProcessor/config.json) with `https://<storage-account-name>.blob.core.windows.net/orders/`.
 
-6. Replace <storage_sas_token> in [batchProcessor/config.json](batchProcessor/config.json) with the SAS token that you generated earlier.
+6. Replace <storage_sas_token> in [batchProcessor/config.json](batchProcessor/config.json) with the SAS token that you generated earlier (make sure to leave a "?" before the pasted SAS).
 
 7. Update [batchReceiver/config.json](batchReceiver/config.json) with your storage account name, resource group name and Azure subscription ID.
 
@@ -247,7 +257,7 @@ Event Grid Web Hook which we'll be configuring later has to be HTTPS and self-si
     kubectl describe certificate tls-secret
     ```
 
-    The output should be similar to this and your connection should now be secure:
+    The output should be similar to this and your connection should now be secure (the certificate issue part might take a few minutes):
 
     | Type   | Reason       | Age | From         | Message                         |
     |--------|--------------|-----|--------------|---------------------------------|
@@ -260,7 +270,7 @@ References:
 
 ## Create Cosmos DB resources
 
-Run [this script](scripts/deploy_cosmosdb.ps1) to execute steps 1 through 4 or follow the steps below.
+Run [this script](scripts/deploy_cosmosdb.ps1) to execute steps 1 through 5 or follow the steps below.
 
 1. Initialize variables:
 
@@ -294,13 +304,15 @@ Run [this script](scripts/deploy_cosmosdb.ps1) to execute steps 1 through 4 or f
         --resource-group $resourceGroupName
     ```
 
-5. Copy AccountEndpoint and AccountKey from the output:
+5. List AccountEndpoint and AccountKey:
 
     ```powershell
     az cosmosdb keys list -g $resourceGroupName --name $dbAccountName --type connection-strings
     ```
 
-6. Update the yaml file with DB account endpoint, DB key, database and container name [deploy/cosmosdb-orders.yaml](deploy/cosmosdb-orders.yaml).
+6. Copy AccountEndpoint and AccountKey from the output.
+
+7. Update the yaml file with DB account endpoint, DB key, database and container name [deploy/cosmosdb-orders.yaml](deploy/cosmosdb-orders.yaml).
 
 ## Redis
 
@@ -346,7 +358,7 @@ Run [this script](scripts/deploy_servicebus.ps1) to execute steps 1 through 4 or
     az servicebus namespace create `
         --name $namespaceName `
         --resource-group $resourceGroupName `
-        --location westus `
+        --location <location> `
         --sku Standard
     ```
 

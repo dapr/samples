@@ -1,6 +1,6 @@
 # Utilities
 
-This folder contains configuration and scripts that are common to both development containers.
+This folder contains configurations and scripts that are common to both development containers.
 
 ## .dapr/components
 

@@ -28,7 +28,7 @@ Host machine (Windows 10, version 2004, with Docker Desktop)
 
 The Dapr CLI has an excellent feature that creates Dapr support containers on your machine (Redis, Zipkin, Dapr placement) when you run `dapr init`, however, the containers created by `dapr init` cannot be used from a development container because Docker does not provide DNS name resolution between containers for its default network. In this sample, similar containers are created from the same images used by `docker init`, but they are added to a custom Docker network, which provides DNS name resolution between containers.
 
-If you perfer, this sample will work with the default Dapr support containers, but you will have to modify the development container configuration to use the IP addresses of the support containers, or add entries to the development container's `/etc/hosts` file. Container IP addresses may change, so this configuration will have to be reapplied every time the host machine reboots.
+If you prefer, this sample will work with the default Dapr support containers, but you will have to modify the development container configuration to use the IP addresses of the support containers, or add entries to the development container's `/etc/hosts` file. Container IP addresses may change, so this configuration will have to be reapplied every time the host machine reboots.
 
 ## How To Run the Sample
 
@@ -46,7 +46,7 @@ Your host machine must be running Docker and Docker Compose. This sample was dev
    - `redis-dev-single`
    - `zipkin-dev-single`
   
-   > Note: when you run the `docker-compose up` command, your terminal window will pause until you cancel the command (`Ctrl+c` in BASH), but you can also run the command in the background with the `--detach` parameter, as `docker-compose up --detach`. When you are ready to stop the containers, use `docker-compose stop`. However, it is sometimes useful to view the running console output of `docker-compose`.
+   > Note: when you run the `docker-compose up` command, your terminal window will pause until you cancel the command (`Ctrl+C` in BASH), but you can also run the command in the background with the `--detach` parameter, as `docker-compose up --detach`. When you are ready to stop the containers, use `docker-compose stop`. However, it is sometimes useful to view the running console output of `docker-compose`.
 
 ### Step-by-step
 

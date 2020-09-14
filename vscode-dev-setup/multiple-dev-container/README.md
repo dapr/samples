@@ -42,7 +42,7 @@ Your host machine must be running Docker and Docker Compose. This sample was dev
     - `zipkin-dev`
     - `dapr-placement-dev`
 
-   > Note: when you run the `docker-compose up` command, your terminal window will pause until you cancel the command (`Ctrl+c` in BASH), but you can also run the command in the background with the `--detach` parameter, as `docker-compose up --detach`. When you are ready to stop the containers, use `docker-compose stop`. However, it is sometimes useful to view the running console output of `docker-compose`.
+   > Note: when you run the `docker-compose up` command, your terminal window will pause until you cancel the command (`Ctrl+C` in BASH), but you can also run the command in the background with the `--detach` parameter, as `docker-compose up --detach`. When you are ready to stop the containers, use `docker-compose stop`. However, it is sometimes useful to view the running console output of `docker-compose`.
 
 ### Run the node app development container
 
@@ -74,7 +74,7 @@ Your host machine must be running Docker and Docker Compose. This sample was dev
     Node App listening on port 3000!
     ```
 
-    When the python app is started from a separate instance of VS Code (see below for step-by-step instructions), you will see debugging output in the window that looks like this:
+    When the Python app is started from a separate instance of VS Code (see below for step-by-step instructions), you will see debugging output in the window that looks like this:
 
     ```ASCII
     /usr/local/bin/node app.js
@@ -96,9 +96,9 @@ Zipkin is running as a container on your host machine, so you can view Zipkin lo
 
 Dapr configuration is stored in `.devcontainer/.dapr` so that you can have configuration that is different between a regular deployment and a development container.
 
-### Run the python app development container
+### Run the Python app development container
 
-The python app is run from a separate instance of VS Code.
+The Python app is run from a separate instance of VS Code.
 
 1. Open a new instance of VS Code to the `multiple-dev-container/python` folder. (Do not close the instance of VS Code that is attached to the node app development container.)
 1. From the VS Code command palette (Ctrl+Shift+P), run this command:
@@ -117,7 +117,7 @@ The python app is run from a separate instance of VS Code.
     Sending order 3
     ```
 
-1. Switch to the instance of VS Code that is running the node app. (The app should be running with the debugger attached.) You should see output like this in the `DEBUG CONSOLE`.
+1. Switch to the instance of VS Code that is running the Node.js app. (The app should be running with the debugger attached.) You should see output like this in the `DEBUG CONSOLE`.
 
     ```ASCII
     /usr/local/bin/node app.js

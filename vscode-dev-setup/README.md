@@ -18,7 +18,7 @@ The goal of all development environment setup is to make developer adoption as s
 
 Dapr provides a simple way to develop an application built from a single component: install Dapr and your development tools on a machine (physical machine, virtual machine, or container), then debug the application using the Dapr CLI.
 
-If your application is composed of multiple components, especially when multiple platforms and languages are required, then additional setup is needed in order to debug the whole application. For example, if a web application written in node.js is posting messages to Dapr's pub/sub servce, and a separate Python app is processing those messages, you will have to run and debug two separate components. Depending on your application, putting all frameworks and tools on a single development machine may make sense, or you may need to separate each component onto it's own isolated development machine.
+If your application is composed of multiple components, especially when multiple platforms and languages are required, then additional setup is needed in order to debug the whole application. For example, if a web application written in Node.js is posting messages to Dapr's pub/sub service, and a separate Python app is processing those messages, you will have to run and debug two separate components. Depending on your application, putting all frameworks and tools on a single development machine may make sense, or you may need to separate each component onto its own isolated development machine.
 
 ### Development Containers
 
@@ -30,7 +30,7 @@ For more information, see the VS Code documentation on [developing inside a cont
 
 ### Single Development Container
 
-This diagram shows a host machine with a single development container, with other containers on the host machine for Dapr placement, Redis, and Dapr metrics (zipkin). The Docker network and the containers for Dapr, Redis, and Zipkin are created using Docker Compose. This development machine configuration may be convenient if all applictions use the same platform technologies. This configuration is not good for applications that use many different platforms and is especially poor for applications in which individual components need to use different versions of a platform.
+This diagram shows a host machine with a single development container, with other containers on the host machine for Dapr placement, Redis, and Dapr metrics (zipkin). The Docker network and the containers for Dapr, Redis, and Zipkin are created using Docker Compose. This development machine configuration may be convenient if all applications use the same platform technologies. This configuration is not good for applications that use many different platforms and is especially poor for applications in which individual components need to use different versions of a platform.
 
 ```ASCII
 Host machine (Windows 10, version 2004, with Docker Desktop)

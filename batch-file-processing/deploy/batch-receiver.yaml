@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: batch-receiver
+  labels:
+    app: batch-receiver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: batch-receiver
+  template:
+    metadata:
+      labels:
+        app: batch-receiver
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/id: "batch-receiver"
+        dapr.io/port: "3000"
+        dapr.io/log-level: "debug"
+        dapr.io/config: "tracing"
+    spec:
+      containers:
+      - name: batch-receiver
+        image: <registryLoginServer>/batch-receiver:v1
+        ports:
+        - containerPort: 3000
+        imagePullPolicy: Always

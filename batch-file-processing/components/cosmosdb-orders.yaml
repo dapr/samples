@@ -1,0 +1,17 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: cosmosdb-orders
+spec:
+  type: bindings.azure.cosmosdb
+  metadata:
+  - name: url
+    value: <DB_URI>
+  - name: masterKey
+    value: <DB_PRIMARY_KEY>
+  - name: database
+    value: IcecreamDB
+  - name: collection
+    value: Orders
+  - name: partitionKey
+    value: id

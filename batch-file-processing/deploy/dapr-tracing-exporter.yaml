@@ -1,0 +1,11 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: native
+spec:
+  type: exporters.native
+  metadata:
+  - name: enabled
+    value: "true"
+  - name: agentEndpoint
+    value: "ai-local-forwarder:55678"

@@ -1,0 +1,50 @@
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: ai-local-forwarder
+  labels:
+    app: ai-local-forwarder
+spec:
+  selector:
+    app: ai-local-forwarder
+  ports:
+  - protocol: TCP
+    name: http
+    port: 55678
+    targetPort: 55678
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-local-forwarder
+  labels:
+    app: ai-local-forwarder
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai-local-forwarder
+  template:
+    metadata:
+      labels:
+        app: ai-local-forwarder
+    spec:
+      containers:
+      - name: ai-local-forwarder
+        image: m009/ai-local-forwarder:latest
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: 0.2
+          requests:
+            memory: 128Mi
+            cpu: 0.1
+        env:
+          - name: APPINSIGHTS_INSTRUMENTATIONKEY
+            value: "<appinsights_instrumentationkey>"
+        ports:
+        - containerPort: 55678
+        imagePullPolicy: Always
+

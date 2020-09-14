@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: batch-generator
+  labels:
+    app: batch-generator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: batch-generator
+  template:
+    metadata:
+      labels:
+        app: batch-generator
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/id: "batch-generator"
+        dapr.io/port: "3003"
+        dapr.io/log-level: "debug"
+        dapr.io/config: "tracing"
+    spec:
+      containers:
+      - name: batch-generator
+        image: <registryLoginServer>/batch-generator:v1
+        ports:
+        - containerPort: 3003
+        imagePullPolicy: Always

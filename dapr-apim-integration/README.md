@@ -21,7 +21,11 @@ In addition, we will overview the use of APIM tracing to debug your configuratio
 * [Kubernetes cluster with Dapr](https://github.com/dapr/docs/blob/v0.9.0/getting-started/environment-setup.md#installing-dapr-on-a-kubernetes-cluster)
 * [Helm](https://helm.sh/docs/intro/install/)
 
-> Note, this demo has been only tested with v0.10 release of Dapr
+| Attribute | Details |
+|--------|--------|
+| Dapr runtime version | v0.10.0 |
+| Language | APIs only for configuration, optionally, go for source of used images | 
+| Environment | Kubernetes |
 
 ## Terminology
 

@@ -23,6 +23,7 @@ If you are new to Dapr, you may want to review following resources first:
 | [OAuth Authorization to external service](./middleware-clientcredentials) | Demonstrates how to inject a service principal OAuth Bearer Token within a Dapr service-to-service invocation to call secured APIs |
 | [Read Kubernetes Events](./read-kubernetes-events) | Shows Dapr being used with the Kubernetes Input binding to watch for events in Kubernetes cluster |
 | [Batch File Processing](./batch-file-processing) | This sample demonstrates an end-to-end sample for processing a batch of related text files using microservices and Dapr. Through this sample you will learn about Dapr's state management, bindings, Pub/Sub, and end-to-end tracing. |
+| [Dapr integration in Azure APIM](./dapr-apim-integration) | Dapr configuration in Azure API Management service using self-hosted gateway on Kubernetes. Illustrates exposing Dapr API for service method invocation, publishing content to a Pub/Sub topic, and binding invocation with request content transformation. |
 
 ## External samples
 

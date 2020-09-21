@@ -1,0 +1,6 @@
+{
+    "properties": {
+      "format": "xml",
+      "value": "<policies><inbound><base /><set-variable name=\"key\" value=\"@{ return Guid.NewGuid().ToString(); }\" /><invoke-dapr-binding name=\"demo-binding\" operation=\"create\" response-variable-name=\"binding-response\"><metadata><item key=\"source\">APIM</item><item key=\"client-ip\">@( context.Request.IpAddress )</item><item key=\"key\">@( (string)context.Variables[\"key\"] )</item></metadata><data>@( context.Request.Body.As&lt;string&gt;() )</data></invoke-dapr-binding><return-response response-variable-name=\"binding-response\" /></inbound><backend /><outbound><base /></outbound><on-error><base /></on-error></policies>"
+    }
+}

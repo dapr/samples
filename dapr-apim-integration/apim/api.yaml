@@ -1,0 +1,50 @@
+openapi: 3.0.1
+info:
+  title: dapr
+  version: '1.0'
+servers:
+  - url: http://dapr-apim-demo.azure-api.net
+  - url: https://dapr-apim-demo.azure-api.net
+paths:
+  /echo:
+    post:
+      summary: Echo Service
+      description: Invoke service using Dapr API
+      operationId: echo
+      requestBody:
+        content:
+          application/json:
+            example:
+              message: hello
+      responses:
+        '200':
+          description: ''
+  /message:
+    post:
+      summary: Message Topic
+      description: Post to topic using Dapr API
+      operationId: message
+      requestBody:
+        content:
+          application/json:
+            example:
+              content: hello
+      responses:
+        '200':
+          description: ''
+  /save:
+    post:
+      summary: DB Binding
+      description: DB binding using Dapr API
+      operationId: save
+      requestBody:
+        content:
+          application/json:
+            example:
+              city: PDX,
+              time: 1600171062
+              metric: aqi
+              value: 457
+      responses:
+        '200':
+          description: ''

@@ -117,7 +117,7 @@ You can also use the Postman GUI.
 Open Postman and create a POST request against `http://localhost:3500/v1.0/invoke/nodeapp/method/neworder`
 ![Postman Screenshot](./img/postman1.jpg)
 In your terminal window, you should see logs indicating that the message was received and state was updated:
-```bash
+```
 == APP == Got a new order! Order ID: 42
 == APP == Successfully persisted state.
 ```

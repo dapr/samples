@@ -57,7 +57,7 @@ References:
 Run [this script](scripts/deploy_dapr_aks.ps1) to install Dapr on the Kubernetes cluster or follow the steps below.
 
 ```powershell
-helm repo add dapr https://daprio.azurecr.io/helm/v1/repo
+helm repo add dapr https://dapr.github.io/helm-charts/
 helm repo update
 kubectl create namespace dapr-system
 helm install dapr dapr/dapr --namespace dapr-system

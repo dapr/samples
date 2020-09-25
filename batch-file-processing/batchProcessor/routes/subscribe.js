@@ -10,7 +10,7 @@ router.get('/dapr/subscribe', (req, res) => {
     res.json([{
         topic: "batchReceived",
         route: "batchReceived",
-        pubsubName: "messagebus"
+        pubsubname: "messagebus"
     }]);
 });
 

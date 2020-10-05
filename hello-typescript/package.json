@@ -1,0 +1,19 @@
+{
+  "name": "hello-dapr-ts",
+  "version": "1.0.0",
+  "main": "app.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node-dev --inspect --ignore-watch node_modules app.ts",
+    "start": "dapr run --app-id=nodeapp --dapr-http-port=3500 --app-port=3000 -- ts-node-dev --inspect --ignore-watch node_modules app.ts"
+  },
+  "dependencies": {
+    "dapr-client": "^0.7.0-preview01",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^1.0.0-pre.63",
+    "typescript": "^4.0.3"
+  }
+}

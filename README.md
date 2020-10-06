@@ -27,7 +27,9 @@ If you are new to Dapr, you may want to review following resources first:
 
 ## External samples
 
->This section will include external links to Dapr related samples, located outside the Dapr Samples repository.
+| Sample | Details | 
+|------|-------|
+| [Dapr RetroPOS](https://github.com/robece/dapr-retropos) | Dapr Retro Point of Sales is a sample of backend workflow based on microservices. |
 
 ## Sample maintenance
 

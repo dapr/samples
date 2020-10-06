@@ -29,7 +29,7 @@ If you are new to Dapr, you may want to review following resources first:
 
 | Sample | Details | 
 |------|-------|
-| [Dapr RetroPOS](https://github.com/robece/dapr-retropos) | Dapr Retro Point of Sales (Backend Workflows) is an event-driven microservices based architecture for Contoso Ltd., which will enable scalability with a plugable design for the next generation of cloud point of sales. |
+| [Dapr RetroPOS](https://github.com/robece/dapr-retropos) | Dapr Retro Point of Sales is a sample of backend workflow based on microservices. |
 
 ## Sample maintenance
 

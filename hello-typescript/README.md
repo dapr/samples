@@ -10,7 +10,7 @@
 
 ## Overview
 
-This tutorial and sample will demonstrate how to use Dapr in a TypeScript application. You will be deploying a TypeScript app that will read and write state via Dapr. The following architecture diagram illustrates the components that make up this sample: 
+This tutorial and sample demonstrates how to use Dapr in a TypeScript application. You will deploy a TypeScript app that reads and write state via Dapr. The following architecture diagram illustrates the components that make up this sample: 
 
 ![Architecture Diagram](./img/Architecture_Diagram.png)
 

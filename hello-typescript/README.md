@@ -207,7 +207,7 @@ Additionally the log in the node application started with Dapr should be
 In this sample, the project is setup in a way that code changes do not require the app to be restarted. Make a simple code change and see how it is loaded without the need to restart Dapr runtime or the app. The following log message can be modified and a new GET request made to reproduce this feature.
 
 ```ts
-            console.log('Got!');
+            console.log('Found order!');
 ```
 
 ## Step 7 - Cleanup

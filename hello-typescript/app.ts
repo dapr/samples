@@ -46,7 +46,7 @@ app.get('/order', (_req, res) => {
             console.log(error);
             res.status(500).send({message: error});
         } else {
-            console.log('Got!');
+            console.log('Found order!');
             console.log(String.fromCharCode.apply(null, response.getData()));
             res.status(200).send(String.fromCharCode.apply(null, response.getData()));
         }

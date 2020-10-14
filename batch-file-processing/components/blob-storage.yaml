@@ -1,0 +1,14 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: blob-storage
+  namespace: default
+spec:
+  type: bindings.azure.blobstorage
+  metadata:
+  - name: storageAccount
+    value: <storage_account_name>
+  - name: storageAccessKey
+    value: <storage_account_access_key>
+  - name: container
+    value: orders

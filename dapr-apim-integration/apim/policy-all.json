@@ -1,0 +1,6 @@
+{
+    "properties": {
+      "format": "xml",
+      "value": "<policies><inbound><rate-limit-by-key calls=\"120\" renewal-period=\"60\" increment-condition=\"@(context.Response.StatusCode == 200)\" counter-key=\"@(context.Request.IpAddress)\" /></inbound><backend><forward-request /></backend><outbound /><on-error /></policies>"
+    }
+}

@@ -18,21 +18,19 @@ If you are new to Dapr, you may want to review following resources first:
 |------|-------|
 | [Twitter Sentiment Processor](./twitter-sentiment-processor) | Code sample used to demo Dapr during Micorosft's Build 2020 conference showing a polyglot distributed application which performs sentiment processing for tweets |
 | [Hello world slim (no Docker dependency)](./hello-dapr-slim) | This sample is a version of the [hello-world](https://github.com/dapr/quickstarts/tree/master/hello-world) quickstart sample showing how to install initialize and use Dapr without having Docker in your local environment |
+| [Hello TypeScript](./hello-typescript) | This sample is a version of the [hello-world](https://github.com/dapr/quickstarts/tree/master/hello-world) quickstart sample showing how to use Dapr in a TypeScript project. |
 | [Docker compose sample](./hello-docker-compose) | Demonstrates how to get Dapr running locally with Docker Compose |
 | [Dapr, Azure Functions, and KEDA](./functions-and-keda) | Shows Dapr being used with Azure Functions and KEDA to create a polygot Functions-as-a-Service application which leverages Dapr pub/sub |
 | [OAuth Authorization to external service](./middleware-clientcredentials) | Demonstrates how to inject a service principal OAuth Bearer Token within a Dapr service-to-service invocation to call secured APIs |
 | [Read Kubernetes Events](./read-kubernetes-events) | Shows Dapr being used with the Kubernetes Input binding to watch for events in Kubernetes cluster |
+| [Batch File Processing](./batch-file-processing) | This sample demonstrates an end-to-end sample for processing a batch of related text files using microservices and Dapr. Through this sample you will learn about Dapr's state management, bindings, Pub/Sub, and end-to-end tracing. |
+| [Dapr integration in Azure APIM](./dapr-apim-integration) | Dapr configuration in Azure API Management service using self-hosted gateway on Kubernetes. Illustrates exposing Dapr API for service method invocation, publishing content to a Pub/Sub topic, and binding invocation with request content transformation. |
 
 ## External samples
 
->This section will include external links to Dapr related samples, located outside the Dapr Samples repository.
-
-### Templates
-
-* [Dapr gRPC Service in Go](https://github.com/dapr/dapr-grpc-service-template) - Template project to jump start your Dapr event subscriber service with gRPC development
-* [Dapr HTTP Event Subscriber in Go](https://github.com/dapr/dapr-http-event-subscriber-template) - Template project to jump start your Dapr event subscriber service with HTTP development
-* [Dapr gRPC Event Subscriber in Go](https://github.com/dapr/dapr-grpc-event-subscriber-template) - Template project to jump start your Dapr event subscriber service with gRPC development
-* [dapr-http-cron-handler in Go](https://github.com/dapr/dapr-http-cron-handler-template) - Template project to jump start your Dapr service development for scheduled workloads
+| Sample | Details | 
+|------|-------|
+| [Dapr RetroPOS](https://github.com/robece/dapr-retropos) | Dapr Retro Point of Sales is a sample of backend workflow based on microservices. |
 
 ## Sample maintenance
 
@@ -74,4 +72,8 @@ Example:
 | Dapr runtime version | v0.7.1 |
 | Language | Go, C# (.NET Core), Node.js | 
 | Environment | Local or Kubernetes |
+
+## Code of Conduct
+
+Please refer to our [Dapr Community Code of Conduct](https://github.com/dapr/community/blob/master/CODE-OF-CONDUCT.md)
 

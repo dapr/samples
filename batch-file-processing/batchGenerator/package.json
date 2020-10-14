@@ -1,0 +1,22 @@
+{
+  "name": "batchgenerator",
+  "version": "1.0.0",
+  "description": "Service that generates csv files with order information and sends them to blob storage",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "dapr"
+  ],
+  "author": "Daria Kiritseva",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "faker": "^4.1.0",
+    "moment": "^2.26.0",
+    "uuid": "^8.0.0"
+  }
+}

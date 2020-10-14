@@ -1,0 +1,104 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+            "label": "daprd-batch-processor",
+            "command": "daprd",
+            "args": [
+                "-app-id",
+                "batch-processor",
+                "-components-path",
+                "${workspaceFolder}/components",
+                "-app-port",
+                "3000",
+                "-dapr-http-port",
+                "3500",
+                "-dapr-grpc-port",
+                "52000",
+                "-config",
+                "${workspaceFolder}/deploy/dapr-tracing.yaml"
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": [
+                    {
+                      "regexp": ".",
+                      "file": 1,
+                      "location": 2,
+                      "message": 3
+                    }
+                ],
+                "background": {
+                    "beginsPattern": "^.*starting Dapr Runtime.*",
+                    "endsPattern": "^.*waiting on port.*"
+                }
+            }
+        },
+        {
+            "label": "daprd-batch-receiver",
+            "command": "daprd",
+            "args": [
+                "-app-id",
+                "batch-receiver",
+                "-components-path",
+                "${workspaceFolder}/components",
+                "-app-port",
+                "3000",
+                "-dapr-http-port",
+                "3500",
+                "-dapr-grpc-port",
+                "52000",
+                "-config",
+                "${workspaceFolder}/deploy/dapr-tracing.yaml"
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": [
+                    {
+                      "regexp": ".",
+                      "file": 1,
+                      "location": 2,
+                      "message": 3
+                    }
+                ],
+                "background": {
+                    "beginsPattern": "^.*starting Dapr Runtime.*",
+                    "endsPattern": "^.*waiting on port.*"
+                }
+            }
+        },
+        {
+            "label": "daprd-batch-generator",
+            "command": "daprd",
+            "args": [
+                "-app-id",
+                "batch-generator",
+                "-components-path",
+                "${workspaceFolder}/components",
+                "-app-port",
+                "3003",
+                "-dapr-http-port",
+                "3503",
+                "-dapr-grpc-port",
+                "52003",
+                "-config",
+                "${workspaceFolder}/deploy/dapr-tracing.yaml"
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": [
+                    {
+                      "regexp": ".",
+                      "file": 1,
+                      "location": 2,
+                      "message": 3
+                    }
+                ],
+                "background": {
+                    "beginsPattern": "^.*starting Dapr Runtime.*",
+                    "endsPattern": "^.*waiting on port.*"
+                }
+            }
+        }
+	]
+}

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-subscriber
+  labels:
+    app: event-subscriber
+    demo: dapr-apim
+spec:
+  selector:
+    matchLabels:
+      app: event-subscriber
+  template:
+    metadata:
+      labels:
+        app: event-subscriber
+        demo: dapr-apim
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/id: "event-subscriber"
+        dapr.io/port: "8080"
+        dapr.io/config: "tracing"
+        dapr.io/log-as-json: "true"
+        dapr.io/log-level: "debug"
+    spec:
+      containers:
+      - name: service
+        image: mchmarny/http-event-subscriber:v0.14.0
+        ports:
+        - containerPort: 8080
+        env:
+        - name: PORT
+          value: "8080"
+        - name: PUBSUB_NAME
+          value: "demo-events"
+        - name: TOPIC_NAME
+          value: "messages"

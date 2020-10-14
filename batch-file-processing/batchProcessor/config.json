@@ -1,0 +1,4 @@
+{
+  "blobStorageAccountBaseUrl": "<container_base_url>",
+  "storageSasToken": "?<storage_sas_token>"
+}

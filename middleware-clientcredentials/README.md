@@ -118,7 +118,7 @@ kubectl apply -f deploy/msgraphpipeline.yaml
 ### Step 4 - Deploy the application
 Next, you'll deploy the application. This example has no public ingress endpoint due to the confidentiallity of the returned data by the service. 
 
-> **NOTE:** In general this middleware component should be used to inject external service authentication tokens to your services, in order to use/pass them to the called external services. It is not meant for public endpoint authentication. Please see sample [middleware](../middleware/README.md) for intractive public endpoint authentication flow. 
+> **NOTE:** In general this middleware component should be used to inject external service authentication tokens to your services, in order to use/pass them to the called external services. It is not meant for public endpoint authentication. Please see [middleware sample](https://github.com/dapr/quickstarts/tree/master/middleware) for intractive public endpoint authentication flow. 
 
 1. Deploy the application:
 ```bash

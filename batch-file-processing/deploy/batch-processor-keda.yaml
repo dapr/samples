@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: batch-processor
+  namespace: default
+data:
+  SERVICE_BUS: <your-base64-encoded-connection-string>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: batch-processor
+  namespace: default
+  labels:
+    app: batch-processor
+spec:
+  selector:
+    matchLabels:
+      app: batch-processor
+  template:
+    metadata:
+      labels:
+        app: batch-processor
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/id: "batch-processor"
+        dapr.io/port: "3000"
+        dapr.io/log-level: "debug"
+        dapr.io/config: "tracing"
+    spec:
+      containers:
+      - name: batch-processor
+        image: <registryLoginServer>/batch-processor:v1
+        ports:
+        - containerPort: 3000
+        imagePullPolicy: Always
+        envFrom:
+        - secretRef:
+            name: batch-processor
+---
+apiVersion: keda.k8s.io/v1alpha1
+kind: ScaledObject
+metadata:
+  name: batch-processor-scaler
+  namespace: default
+  labels:
+    deploymentName: batch-processor
+spec:
+  scaleTargetRef:
+    deploymentName: batch-processor
+  minReplicaCount: 1 # Change to define how many minimum replicas you want
+  cooldownPeriod:  60
+  # maxReplicaCount: 5
+  triggers:
+  - type: azure-servicebus
+    metadata:
+      name: mySbMsg
+      type: serviceBusTrigger
+      direction: in
+      topicName: batchreceived
+      subscriptionName: batch-processor
+      connection: SERVICE_BUS
+      queueLength: '5'

@@ -1,0 +1,71 @@
+# NOTE: Before deploying to a production environment, please review the documentation -> https://aka.ms/self-hosted-gateway-production
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-apim-gateway
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: demo-apim-gateway
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 25%
+  template:
+    metadata:
+      labels:
+        app: demo-apim-gateway
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "demo-apim-gateway"
+        dapr.io/config: "tracing"
+        dapr.io/log-as-json: "true"
+        dapr.io/log-level: "debug"
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name: demo-apim-gateway
+        image: mcr.microsoft.com/azure-api-management/gateway:beta
+        ports:
+        - name: http
+          containerPort: 8080
+        - name: https
+          containerPort: 8081
+        readinessProbe:
+          httpGet:
+            path: /internal-status-0123456789abcdef
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 0
+          periodSeconds: 5
+          failureThreshold: 3
+          successThreshold: 1
+        env:
+        - name: config.service.auth
+          valueFrom:
+            secretKeyRef:
+              name: demo-apim-gateway-token
+              key: value
+        envFrom:
+        - configMapRef:
+            name: demo-apim-gateway-env
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-apim-gateway
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+  - name: https
+    port: 443
+    targetPort: 8081
+  selector:
+    app: demo-apim-gateway

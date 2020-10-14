@@ -1,0 +1,6 @@
+{
+    "properties": {
+      "format": "xml",
+      "value": "<policies><inbound><base /><publish-to-dapr topic=\"@(&quot;demo-events/messages&quot;)\" response-variable-name=\"pubsub-response\">@( context.Request.Body.As&lt;string&gt;() )</publish-to-dapr><return-response response-variable-name=\"pubsub-response\" /></inbound><backend /><outbound><base /></outbound><on-error><base /></on-error></policies>"
+    }
+}

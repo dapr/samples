@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: node-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /v1.0/invoke/batch-receiver/method/$1
+spec:
+  tls:
+  - hosts:
+    - <FQDN>
+    secretName: tls-secret
+  rules:
+  - host: <FQDN>
+    http:
+      paths:
+      - path: /api/(.+)
+        backend:
+          serviceName: batch-receiver-dapr
+          servicePort: 3500

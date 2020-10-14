@@ -1,0 +1,15 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: messagebus
+spec:
+  type: pubsub.azure.servicebus
+  metadata:
+  - name: connectionString
+    value: <namespace_connection_string> # Required.
+  - name: maxActiveMessages
+    value: "1"
+  - name: lockRenewalInSec
+    value: "0"
+  - name: maxDeliveryCount
+    value: "10"

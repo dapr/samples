@@ -1,0 +1,6 @@
+{
+    "properties": {
+      "format": "xml",
+      "value": "<policies><inbound><base /><set-backend-service backend-id=\"dapr\" dapr-app-id=\"echo-service\" dapr-method=\"echo\" /></inbound><backend><base /></backend><outbound></outbound><on-error><base /></on-error></policies>"
+    }
+}

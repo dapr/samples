@@ -4,7 +4,8 @@
 
 | Attribute | Details |
 |--------|--------|
-| Dapr runtime version | v0.10 |
+| Dapr runtime version | v0.11 |
+| docker compose version | 1.27.4 |
 | Language | Javascript, Python |
 | Environment | Local |
 
@@ -124,6 +125,10 @@ Required: Windows 10 version 2004 or later
 Install and configure Docker CE.
 
 ## Other Concepts
+
+### Rebuild a development container from VS Code
+
+When running a development container on a host machine, sometimes the container image will need to be rebuilt, like when new versions of dependencies are released. You can rebuild the container by removing the Docker container image from your machine, which will force a rebuild the next time you run the development container. Or you can run this command from the VS Code command palette: `Remote-Containers: Rebuild and Reopen in Container`.
 
 ### Start a BASH shell instance within a development container
 

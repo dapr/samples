@@ -32,16 +32,16 @@ Host machine (Windows 10, version 2004, with Docker Desktop)
 1. Open VS Code to the folder that contains this README file.
 
     > IMPORTANT: The folder opened in VS Code must have the `.devcontainer` folder at the root level. Files in that folder define the container VS Code will build and attach to.
-    
-1. From the VS Code command palette (Ctrl+Shift+P), run this command: 
+
+1. From the VS Code command palette (Ctrl+Shift+P), run this command:
 
     ```
     Remote-Containers: Reopen in Container
     ```
 
     VS Code will build the Docker container and attach to the container. The first time the container is built, this command will take some time to pull the local base image and create the container image. Attaching to the container after the first build will be much faster.
-    
-    See the files in the `.devcontainer` folder for how the container is defined and configured.
+
+    > See the files in the `.devcontainer` folder for how the container is defined and configured.
 
 1. When VS Code has attached to the running container, you can press `F5` to build and start debugging.
 

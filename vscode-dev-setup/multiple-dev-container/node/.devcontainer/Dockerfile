@@ -8,7 +8,7 @@ RUN apt-get update \
     && apt-get dist-upgrade -y
 
 # Install Dapr CLI and init without docker (option "--slim")
-RUN curl -sL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh | bash - 
+RUN curl -sL https://raw.githubusercontent.com/dapr/cli/release-0.11/install/install.sh | bash -
 RUN dapr init --slim
 ENV PATH=$PATH:/root/.dapr/bin
 

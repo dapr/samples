@@ -35,7 +35,7 @@ RUN pip3 install --upgrade setuptools \
     && pip3 install ez_setup pylint requests
 
 # Install Dapr CLI and init without docker (option "--slim")
-RUN curl -sL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh | bash - 
+RUN curl -sL https://raw.githubusercontent.com/dapr/cli/release-0.11/install/install.sh | bash -
 RUN dapr init --slim
 ENV PATH=$PATH:/root/.dapr/bin
 

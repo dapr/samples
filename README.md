@@ -6,8 +6,8 @@ Samples in this repository showcase [Dapr](https://dapr.io/) capabilities using 
 
 If you are new to Dapr, you may want to review following resources first:
 
-* [Getting started with Dapr](https://github.com/dapr/docs/blob/master/getting-started/README.md)
-* [Dapr overview](https://github.com/dapr/docs/blob/master/overview/README.md) 
+* [Getting started with Dapr](https://docs.dapr.io/getting-started/)
+* [Dapr overview](https://docs.dapr.io/concepts/overview/) 
 * [Dapr quickstarts](https://github.com/dapr/quickstarts) - a collection of simple tutorials covering Dapr's main capabilities
 
 > Note, these samples are maintained by the Dapr community and are not guaranteed to work properly with the latest Dapr runtime version. 

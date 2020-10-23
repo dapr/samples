@@ -23,7 +23,7 @@ This sample requires you to have the following installed on your machine:
 
 ## Step 1 - Setup Dapr
 
-Follow [instructions](https://github.com/dapr/docs/blob/master/getting-started/environment-setup.md#installing-dapr-in-self-hosted-mode) to download and install the Dapr CLI and initialize Dapr with `dapr init`.
+Follow [instructions](https://docs.dapr.io/getting-started/install-dapr/#install-dapr-in-self-hosted-mode) to download and install the Dapr CLI and initialize Dapr with `dapr init`.
 
 ## Step 2 - Understand the Code
 
@@ -224,6 +224,6 @@ To see that services have stopped running, run `dapr list`, noting that your ser
 ## Next Steps
 
 Now that you've gotten Dapr running locally on your machine with state store, consider these next steps:
-- Learn more about Dapr in the [Dapr overview](https://github.com/dapr/docs/blob/master/overview/README.md) documentation.
-- Explore other Dapr concepts such as building blocks and components in the [Dapr concepts](https://github.com/dapr/docs/blob/master/concepts/README.md) documentation.
+- Learn more about Dapr in the [Dapr overview](https://docs.dapr.io/concepts/overview/) documentation.
+- Explore other Dapr concepts such as building blocks and components in the [Dapr concepts](https://docs.dapr.io/concepts/) documentation.
 - Look at other APIs available in the Dapr's [JavaScript SDK](https://github.com/dapr/js-sdk).

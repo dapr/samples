@@ -18,7 +18,7 @@ In addition, we will overview the use of APIM tracing to debug your configuratio
 
 * [Azure account](https://azure.microsoft.com/en-us/free/)
 * [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
-* [Kubernetes cluster with Dapr](https://github.com/dapr/docs/blob/v0.9.0/getting-started/environment-setup.md#installing-dapr-on-a-kubernetes-cluster)
+* [Kubernetes cluster with Dapr](https://docs.dapr.io/getting-started/install-dapr/#install-dapr-on-a-kubernetes-cluster)
 * [Helm](https://helm.sh/docs/intro/install/)
 
 | Attribute | Details |
@@ -33,7 +33,7 @@ You will see a few different APIs being used throughout this demo. At one point 
 
 * [Azure API](https://docs.microsoft.com/en-us/rest/api/apimanagement/) - this is the API provided by Azure to manage its service (yes, including the API Management Service)
 * [API in APIM](https://docs.microsoft.com/en-us/azure/api-management/edit-api) - is the API which we will define in APIM service. Its operations will be used by the users
-* [Dapr API](https://github.com/dapr/docs/tree/master/reference/api#dapr-api-reference) - are the RESTful HTTP APIs defined by Dapr which developers interact with building applications
+* [Dapr API](https://docs.dapr.io/reference/api/) - are the RESTful HTTP APIs defined by Dapr which developers interact with building applications
 
 ## Setup 
 
@@ -321,7 +321,7 @@ Switching now to the Kubernetes cluster...
 
 ### Dependencies 
 
-To showcase the ability to expose Dapr pub/sub and binding APIs in APIM, we are going to need [Dapr components](https://github.com/dapr/docs/tree/master/concepts#components) configured on the cluster. 
+To showcase the ability to expose Dapr pub/sub and binding APIs in APIM, we are going to need [Dapr components](https://docs.dapr.io/concepts/components-concept/) configured on the cluster. 
 
 > Note, while Dapr supports some 75+ different components, to keep things simple in this demo we will use Redis as both pub/sub and binding backing service
 
@@ -344,7 +344,7 @@ kubectl rollout status statefulset.apps/redis-slave
 
 ### Dapr Components 
 
-Dapr's modular design means that we can easily extend its functionality using [components](https://github.com/dapr/docs/tree/master/concepts#components). The specific implementation for these components which can be any number of the readily available Dapr building blocks is done in configuration. That means that it's also easy to swap or reconfigure them at runtime without the need to modify your code. 
+Dapr's modular design means that we can easily extend its functionality using [components](https://docs.dapr.io/concepts/components-concept/). The specific implementation for these components which can be any number of the readily available Dapr building blocks is done in configuration. That means that it's also easy to swap or reconfigure them at runtime without the need to modify your code. 
 
 ![](img/dapr-building-blocks.png)
 
@@ -388,7 +388,7 @@ annotations:
      dapr.io/port: "8080"
 ```
 
-> To learn more about Kubernetes sidecar configuration see [Dapr docs](https://github.com/dapr/docs/blob/master/concepts/configuration/README.md#kubernetes-sidecar-configuration).
+> To learn more about Kubernetes sidecar configuration see [Dapr docs](https://docs.dapr.io/operations/configuration/configuration-overview/#kubernetes-sidecar).
 
 For this demo we will use pre-build Docker images of two applications: [gRPC Echo Service](src/grpc-echo-service) and [HTTP Event Subscriber](src/http-event-subscriber). The Kubernetes deployment files for both of these are located here:
 

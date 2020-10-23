@@ -21,7 +21,7 @@ This sample requires you to have the following installed on your machine:
 
 ## Step 1 - Setup Dapr (Slim Init)
 
-Follow [instructions](https://github.com/dapr/docs/blob/master/getting-started/environment-setup.md#installing-dapr-in-self-hosted-mode) to download and install the Dapr CLI and initialize Dapr.
+Follow [instructions](https://docs.dapr.io/getting-started/install-dapr/#install-dapr-in-self-hosted-mode) to download and install the Dapr CLI and initialize Dapr.
 
 ## Step 2 - Understand the Code
 
@@ -148,11 +148,11 @@ To see that services have stopped running, run `dapr list`, noting that your ser
 
 ## Slim Init vs Default Init
 
-With the run of `dapr init --slim`, only the binaries `daprd` and `placement` are installed in the system. In the normal default init, `dapr init` placement service is installed as a container and additionally redis and zipkin containers are run for enabling state store and tracing, which requires Docker to be installed as a prerequisite. See [environment setup](https://github.com/dapr/docs/blob/master/getting-started/environment-setup.md) for more information. The slim init provides only limited functionaity unless you [configure](https://github.com/dapr/docs/tree/master/howto/configure-redis#Self-Hosted-Mode-without-Containers) a state store yourself.
+With the run of `dapr init --slim`, only the binaries `daprd` and `placement` are installed in the system. In the normal default init, `dapr init` placement service is installed as a container and additionally redis and zipkin containers are run for enabling state store and tracing, which requires Docker to be installed as a prerequisite. See [environment setup](https://docs.dapr.io/getting-started/install-dapr/e) for more information. The slim init provides only limited functionaity unless you [configure](https://docs.dapr.io/getting-started/configure-redis/) a state store yourself.
 
 
 ## Next Steps
 
 Now that you've gotten Dapr running locally on your machine, consider these next steps:
-- Learn more about Dapr in the [Dapr overview](https://github.com/dapr/docs/blob/master/overview/README.md) documentation.
-- Explore Dapr concepts such as building blocks and components in the [Dapr concepts](https://github.com/dapr/docs/blob/master/concepts/README.md) documentation.
+- Learn more about Dapr in the [Dapr overview](https://docs.dapr.io/concepts/overview/) documentation.
+- Explore Dapr concepts such as building blocks and components in the [Dapr concepts](https://docs.dapr.io/concepts/) documentation.

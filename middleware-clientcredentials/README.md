@@ -19,7 +19,7 @@ This tutorial walks you through the steps of setting up the OAuth middleware to 
 
 ### Prerequisites
 
-- [Dapr enabled Kubernetes cluster](https://github.com/dapr/docs/blob/master/getting-started/environment-setup.md#installing-dapr-on-a-kubernetes-cluster)
+- [Dapr enabled Kubernetes cluster](https://docs.dapr.io/getting-started/install-dapr/#install-dapr-on-a-kubernetes-cluster)
 - [Node.js version 8 or greater](https://nodejs.org/en/)
 - [Docker](https://docs.docker.com/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)

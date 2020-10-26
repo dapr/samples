@@ -59,7 +59,7 @@ Twitter credentials will have to be added to `components/twitter.yaml`:
 
 Starting from the root of demo 1 (`demos/demo1`)
 
-* Install [Dapr CLI](https://github.com/dapr/docs/blob/master/getting-started/environment-setup.md#installing-dapr-cli)
+* Install [Dapr CLI](https://docs.dapr.io/getting-started/install-dapr/#install-the-dapr-cli)
 * Run
 
   ```sh

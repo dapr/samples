@@ -49,8 +49,8 @@ Run [this script](scripts/deploy_aks.ps1) to deploy an AKS cluster or follow the
 References:
 
 * [Deploy AKS using Portal](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal)
-* [Deploy AKS using CLI](https://github.com/dapr/docs/blob/master/getting-started/cluster/setup-aks.md)
-* [Dapr Environment - Setup Cluster](https://github.com/dapr/docs/blob/master/getting-started/environment-setup.md#setup-cluster)
+* [Deploy AKS using CLI](https://docs.dapr.io/operations/hosting/kubernetes/cluster/setup-aks/)
+* [Dapr Environment - Setup Cluster](https://docs.dapr.io/getting-started/install-dapr/#setup-cluster)
 
 ## Install Dapr
 
@@ -65,8 +65,8 @@ helm install dapr dapr/dapr --namespace dapr-system
 
 References:
 
-* [Dapr Environment Setup](https://github.com/dapr/docs/blob/master/getting-started/environment-setup.md)
-* [Install Dapr on a Kubernetes cluster using Helm](https://github.com/dapr/docs/blob/master/getting-started/environment-setup.md#using-helm-advanced)
+* [Dapr Environment Setup](https://docs.dapr.io/getting-started/install-dapr/)
+* [Install Dapr on a Kubernetes cluster using Helm](https://docs.dapr.io/getting-started/install-dapr/#install-with-helm-advanced)
 
 ## Create Blob Storage
 
@@ -338,8 +338,8 @@ Run [this script](scripts/deploy_redis.ps1) to execute steps 1 through 2 or foll
 
 References:
 
-* [Setup Redis](https://github.com/RicardoNiepel/dapr-docs/blob/master/howto/setup-state-store/setup-redis.md)
-* [Setup other state stores](https://github.com/dapr/docs/tree/master/howto/setup-state-store)
+* [Setup Redis](https://docs.dapr.io/getting-started/configure-redis/)
+* [Setup other state stores](https://docs.dapr.io/operations/components/setup-state-store/supported-state-stores/)
 
 ## Service Bus
 
@@ -382,7 +382,7 @@ Run [this script](scripts/deploy_servicebus.ps1) to execute steps 1 through 4 or
 References:
 
 * [Create a Service Bus namespace and topic](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-quickstart-topics-subscriptions-portal)
-* [Setup a Dapr pub/sub](https://github.com/dapr/docs/tree/master/howto/setup-pub-sub-message-broker)
+* [Setup a Dapr pub/sub](https://docs.dapr.io/developing-applications/building-blocks/pubsub/howto-publish-subscribe/)
 
 ## Set up distributed tracing
 

@@ -15,7 +15,7 @@ This sample requires you to have the following installed on your machine:
 - [Docker](https://docs.docker.com/get-docker/)
 - [Dapr](https://github.com/dapr/cli/tree/release-0.10) v0.10.0+
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
-- A Kubernetes cluster, such as [Minikube](https://github.com/dapr/docs/blob/master/getting-started/cluster/setup-minikube.md), [AKS](https://github.com/dapr/docs/blob/master/getting-started/cluster/setup-aks.md) or [GKE](https://cloud.google.com/kubernetes-engine/)
+- A Kubernetes cluster, such as [Minikube](https://docs.dapr.io/operations/hosting/kubernetes/cluster/setup-minikube/), [AKS](https://docs.dapr.io/operations/hosting/kubernetes/cluster/setup-aks/) or [GKE](https://cloud.google.com/kubernetes-engine/)
 
 Also, unless you have already done so, clone the repository with the samples and ````cd```` into the right directory:
 ```
@@ -39,7 +39,7 @@ This should either have output as `No resources found in default namespace.` or 
 
 1. Setup Dapr 
 
-Follow [instructions](https://github.com/dapr/docs/blob/master/getting-started/environment-setup.md#environment-setup) to download and install the Dapr CLI and initialize Dapr.
+Follow [instructions](https://docs.dapr.io/getting-started/install-dapr/) to download and install the Dapr CLI and initialize Dapr.
 
 2. Understand the code
 
@@ -80,7 +80,7 @@ This simple gets the request, prints a log line and the request body in the cons
 cd ../deploy/
 ```
 
-The `kubernetes.yaml` file defines the component that Dapr has to register with the particular configuration. The binding spec can be seen [here](https://github.com/dapr/docs/blob/master/reference/specs/bindings/kubernetes.md).
+The `kubernetes.yaml` file defines the component that Dapr has to register with the particular configuration. The binding spec can be seen [here](https://docs.dapr.io/operations/components/setup-bindings/supported-bindings/kubernetes-binding/).
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -261,7 +261,7 @@ kubectl apply -f ./deploy/kubernetes.yaml
 ```
 
 8. View the `./deploy/node.yaml` file. It does the following 
-* Creates a role called `events-reader` with permission to `get, list and watch` `events` resource. More details can be found [here](https://github.com/dapr/docs/blob/master/reference/specs/bindings/kubernetes.md).
+* Creates a role called `events-reader` with permission to `get, list and watch` `events` resource. More details can be found [here](https://docs.dapr.io/operations/components/setup-bindings/supported-bindings/kubernetes-binding/).
 * Creates a role binding called `read-events` which binds default ServiceAccount in `kube-events` namespace to the Role previously created.
 * Create a service called `events-nodeapp`.
 * Creates a deployment called `events-nodeapp` with reference to be container created and pushed in steps 4 and 5.

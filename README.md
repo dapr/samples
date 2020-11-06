@@ -1,6 +1,6 @@
 # Dapr Samples
 
->Note: The Dapr samples have been recently reorganized. Samples that are aimed for newcomers and are meant to help users get started quickly with Dapr have been migrated to a separate repository [dapr/quickstarts](https://github.com/dapr/quickstarts). 
+>Note: The Dapr samples have been recently reorganized. Samples that are aimed for newcomers and are meant to help users get started quickly with Dapr have been migrated to a separate repository [dapr/quickstarts](https://github.com/dapr/quickstarts).
 
 Samples in this repository showcase [Dapr](https://dapr.io/) capabilities using different languages and address wide array of common scenarios. Some focus on specific usage patterns or particular Dapr capability while others are end-to-end demos leveraging several Dapr building blocks and capabilities.
 
@@ -10,11 +10,11 @@ If you are new to Dapr, you may want to review following resources first:
 * [Dapr overview](https://docs.dapr.io/concepts/overview/) 
 * [Dapr quickstarts](https://github.com/dapr/quickstarts) - a collection of simple tutorials covering Dapr's main capabilities
 
-> Note, these samples are maintained by the Dapr community and are not guaranteed to work properly with the latest Dapr runtime version. 
+> Note, these samples are maintained by the Dapr community and are not guaranteed to work properly with the latest Dapr runtime version.
 
 ## Samples in this repository
 
-| Sample | Details | 
+| Sample | Details |
 |------|-------|
 | [Twitter Sentiment Processor](./twitter-sentiment-processor) | Code sample used to demo Dapr during Micorosft's Build 2020 conference showing a polyglot distributed application which performs sentiment processing for tweets |
 | [Hello world slim (no Docker dependency)](./hello-dapr-slim) | This sample is a version of the [hello-world](https://github.com/dapr/quickstarts/tree/master/hello-world) quickstart sample showing how to install initialize and use Dapr without having Docker in your local environment |
@@ -28,13 +28,14 @@ If you are new to Dapr, you may want to review following resources first:
 
 ## External samples
 
-| Sample | Details | 
+| Sample | Details |
 |------|-------|
 | [Dapr RetroPOS](https://github.com/robece/dapr-retropos) | Dapr Retro Point of Sales is a sample of backend workflow based on microservices. |
+| [Dapr Traffic Control](https://github.com/edwinvw/dapr-traffic-control) | Simulated traffic-control system with speeding cameras using Dapr pub/sub and service-to-service invocation. |
 
 ## Sample maintenance
 
-Each sample includes *README.md* which provides information about the validated versions of Dapr for that sample. 
+Each sample includes *README.md* which provides information about the validated versions of Dapr for that sample.
 
 If you would like to have a sample updated or better yet, update it yourself to a newer version of Dapr, please see the [contribution guide](./CONTRIBUTING.md) to learn more about opening issues and submitting pull requests to this repository.
 
@@ -48,7 +49,7 @@ Samples should follow these high-level guiding principles:
 
 * Sample should have a meaningful name that helps users understand what this sample is about
 * Sample code should be complete (i.e. no major code additions should be needed to make the sample work)
-* Each sample should include a *README.md* file clearly explaining what the sample does and how to run it including prerequisites. This file should also include details on the Dapr core version this sample is compatible with (see below). 
+* Each sample should include a *README.md* file clearly explaining what the sample does and how to run it including prerequisites. This file should also include details on the Dapr core version this sample is compatible with (see below).
 * Highly recommended:
   * architecture diagrams of the sample application
   * scripts and automation to allow users to easily run samples which require complex setup and multiple steps to run
@@ -60,7 +61,7 @@ Sample info section at the top of the main sample README should follow the follo
 | Attribute | Details |
 |--------|--------|
 | Dapr runtime version | vX.X |
-| Language | [Languages used in the sample code] | 
+| Language | [Languages used in the sample code] |
 | Environment | [Environment name] |
 
 >Note: If you are not sure what Dapr runtime version you are running, use the Dapr CLI command `dapr --version`
@@ -70,7 +71,7 @@ Example:
 | Attribute | Details |
 |--------|--------|
 | Dapr runtime version | v0.7.1 |
-| Language | Go, C# (.NET Core), Node.js | 
+| Language | Go, C# (.NET Core), Node.js |
 | Environment | Local or Kubernetes |
 
 ## Code of Conduct

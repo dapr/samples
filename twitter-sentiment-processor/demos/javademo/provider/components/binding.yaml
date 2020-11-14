@@ -1,0 +1,24 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: tweet
+auth:
+    secretStore: secretstore
+spec:
+  type: bindings.twitter
+  metadata:
+  - name: consumerKey
+    secretKeyRef:
+      name: Twitter:ConsumerKey # twitter api consumer key, required
+  - name: consumerSecret
+    secretKeyRef:
+      name: Twitter:ConsumerSecret # twitter api consumer secret, required
+  - name: accessToken
+    secretKeyRef:
+      name: Twitter:AccessToken # twitter api access token, required
+  - name: accessSecret
+    secretKeyRef:
+      name: Twitter:AccessSecret # twitter api access secret, required
+  - name: query
+    value: "cat" # your search query, required
+

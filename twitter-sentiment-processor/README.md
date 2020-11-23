@@ -18,6 +18,7 @@ This demo illustrates the simplicity of [Dapr](https://github.com/dapr/dapr) on 
 * **Demo 1** - local development showing the speed with which developers can start and the use of Dapr components (Twitter and state)
 * **Demo 2** - expands on Demo 1 and adds service invocation using both, direct invocation and consumption of events across applications using PubSub
 * **Demo 3** - takes Demo 2 and illustrates how platform agnostic Dapr really is by containerizing these applications without any changes and deploying them onto Kubernetes. This demo also showcases the pluggability of components (state backed by Azure Table Storage, pubsub by Azure Service Bus)
+* **Java Demo** - Implements [a similar scenario in Java](javademo/README.md), using Dapr's Java SDK.
 
 ![](images/overview.png)
 

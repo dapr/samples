@@ -9,14 +9,15 @@ from dapr.ext.grpc import App, InvokeServiceRequest, InvokeServiceResponse
 
 LANG_DEFAULT = 'en'
 SECRET_STORE_NAME = 'pipeline-secrets'
+SECRET_STORE_ENDPOINT = 'Azure:CognitiveAPIEndpoint'
 SECRET_STORE_KEY = 'Azure:CognitiveAPIKey'
 
 APP_PORT = os.getenv('APP_PORT', '3002')
 COGNITIVE_SERVICE_API_KEY = os.getenv('COGNITIVE_API_KEY', '')
-COGNITIVE_SERVICE_API_DOMAIN = os.getenv('COGNITIVE_API_DOMAIN', 'tweet-sentiment-py')
+COGNITIVE_SERVICE_API_ENDPOINT = os.getenv('COGNITIVE_API_ENDPOINT', '')
 
-analytics_endpoint = "https://{}.cognitiveservices.azure.com/".format(COGNITIVE_SERVICE_API_DOMAIN)
-analytics_key = ""
+analytics_endpoint = ''
+analytics_key = ''
 
 
 app = App()
@@ -28,6 +29,8 @@ def sentiment(request: InvokeServiceRequest) -> InvokeServiceResponse:
     lang = req.get('lang') or LANG_DEFAULT
     analytics_client = get_analytics_client(analytics_endpoint, analytics_key)
     score = get_sentiment(analytics_client, lang, req['content'])
+
+    logging.info(score)
 
     return InvokeServiceResponse(json.dumps(score), 'application/json')
 
@@ -57,7 +60,7 @@ def get_sentiment(client: TextAnalyticsClient, lang: str, text: str):
 
 
 def main():
-    global analytics_key
+    global analytics_key, analytics_endpoint
 
     if COGNITIVE_SERVICE_API_KEY == '':
         with DaprClient() as d:
@@ -65,6 +68,14 @@ def main():
             analytics_key = resp.secret[SECRET_STORE_KEY]
     else:
         analytics_key = COGNITIVE_SERVICE_API_KEY
+
+
+    if COGNITIVE_SERVICE_API_ENDPOINT == '':
+        with DaprClient() as d:
+            resp = d.get_secret(SECRET_STORE_NAME, SECRET_STORE_ENDPOINT)
+            analytics_endpoint = resp.secret[SECRET_STORE_ENDPOINT]
+    else:
+        analytics_endpoint = COGNITIVE_SERVICE_API_ENDPOINT
 
     app.run(APP_PORT)
 

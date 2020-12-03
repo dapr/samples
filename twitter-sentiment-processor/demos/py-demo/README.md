@@ -32,7 +32,8 @@ Set Twitter and Azure Cognitive Services credentials in the secrets file [local_
         "AccessSecret": ""
     },
     "Azure": {
-        "CognitiveAPIKey": ""
+        "CognitiveAPIEndpoint": "https://<service_name>.cognitiveservices.azure.com/",
+        "CognitiveAPIKey": "<Service Api Key>"
     }
 }
 ```

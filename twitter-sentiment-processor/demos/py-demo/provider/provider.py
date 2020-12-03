@@ -44,7 +44,7 @@ def extract_tweets(payload):
 
     return {
         'id': payload['id_str'],
-        'author': user_info['screen_name'],
+        'author': user_info['screen_name'] or user_info['name'],
         'author_pic': user_info['profile_image_url_https'],
         'content': content,
         'lang': payload['lang'],

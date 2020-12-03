@@ -21,7 +21,7 @@ This demo is an implementation of the Twitter Processing Pipeline demo in Python
 * [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
 * API Key for [Text Analytics](https://azure.microsoft.com/en-us/services/cognitive-services/text-analytics/) in Azure Cognitive Services.
 
-Twitter and azure cognitive servce credentials will have to set in a new file [local_secrets.json](./local_secrets.json):
+Set Twitter and Azure Cognitive Services credentials in the secrets file [local_secrets.json](./local_secrets.json):
 
 ```json
 {
@@ -38,8 +38,6 @@ Twitter and azure cognitive servce credentials will have to set in a new file [l
 ```
 
 ## Undersanding the Pipeline
-
-All the applications described here uses Spring Boot.
 
 ### Provider
 

@@ -3,8 +3,6 @@ window.onload = function () {
     console.log("Protocol: " + location.protocol);
     var wsURL = location.protocol + "//" + document.location.host
 
-    console.log("WS URL: " + wsURL);
-
     var log = document.getElementById("tweets");
 
     function appendLog(item) {
@@ -16,9 +14,7 @@ window.onload = function () {
     }
 
     if (log) {
-
         var sock = io.connect(wsURL);
-
         var connDiv = document.getElementById("connection-status");
         connDiv.innerText = "closed";
 
@@ -42,7 +38,7 @@ window.onload = function () {
                     scoreStr = t.sentiment.sentiment;
                     scoreAlt = scoreStr + ": " + t.sentiment.confidence;
                 }
-            } 
+            }
 
             var item = document.createElement("div");
             item.className = "item";

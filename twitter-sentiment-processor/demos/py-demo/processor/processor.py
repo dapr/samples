@@ -38,11 +38,22 @@ def get_analytics_client(endpoint: str, key: str):
 
 
 def get_sentiment(client: TextAnalyticsClient, lang: str, text: str):
-    response = client.analyze_sentiment(documents=[text], language=lang)[0]
-    return {
-        'sentiment': response.sentiment,
-        'confidence': response.confidence_scores.get(response.sentiment, 0.0),
+    sentiment = {
+        'sentiment': 'unknown',
+        'confidence': 0.0,
     }
+
+    try:
+        response = client.analyze_sentiment(documents=[text], language=lang)[0]
+        sentiment = {
+            'sentiment': response.sentiment,
+            'confidence': response.confidence_scores.get(response.sentiment, 0.0),
+        }
+    except Exception as ex:
+        pass
+
+    return sentiment
+
 
 
 def main():

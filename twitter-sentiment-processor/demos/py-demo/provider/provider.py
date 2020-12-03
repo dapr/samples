@@ -49,7 +49,6 @@ def extract_tweets(payload):
         'content': content,
         'lang': payload['lang'],
         'published': payload['created_at'],
-        'sentiment': 0.5,
     }
 
 

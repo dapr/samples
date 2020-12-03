@@ -61,13 +61,14 @@ Processor service exposes `sentiment-score` method which `Provider` service to i
 
 * Secret Store - is used to serve secrets to the Twitter feed config, see it defined in [processor/components/secretstore.yaml](processor/components/secretstore.yaml)
 
+
 ### Viewer
 
 Viewer app is a Flask web application serving web service. [flask-SocketIO](https://flask-socketio.readthedocs.io/en/latest/) is used to enable real-time update tweets on the web page. This creates subscription to `processed-tweets` topic and broadcast tweet message from the topic to webpage via [socket.io](https://socket.io/)
 
 #### Used building blocks
 
-* Pub Sub - is used to subscribe tweets to show tweet sentiment on webpage. PubSub is defined in [provider/components/pubsub.yaml](viewer/components/pubsub.yaml)
+* Pub Sub - is used to subscribe to `processed-tweets` topic. tweets can be displayed on the tweet sentiment on webpage. PubSub is defined in [viewer/components/pubsub.yaml](viewer/components/pubsub.yaml)
 
 
 ## Running

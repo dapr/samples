@@ -11,7 +11,7 @@
 
 ## Overview
 
-This demo is an implementation of the Twitter Processing Pipeline demo in Python, using Dapr's Python SDK. The purpose of this demo is to showcase Dapr in Java.
+This demo is an implementation of the Twitter Processing Pipeline demo in Python, using Dapr's Python SDK. The purpose of this demo is to showcase Dapr in Python.
 
 ![Overview](overview.png)
 

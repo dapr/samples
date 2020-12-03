@@ -41,11 +41,11 @@ Set Twitter and Azure Cognitive Services credentials in the secrets file [local_
 
 ### Provider
 
-Provider service will receive Twitter feeds, invoke the processor application above, then save the results to state store and finally publishes to a topic.
+Provider service will receive Twitter feeds, invoke the processor application above, then save the results to state store and finally publishes to `processed-tweets` topic.
 
 #### Used building blocks
 
-* Bindings - is used to receive Twitter feed as defined in [provider/components/twitter_binding.yaml](provider/components/twitter_binding.yaml)
+* Binding - is used to receive Twitter feed as defined in [provider/components/twitter_binding.yaml](provider/components/twitter_binding.yaml)
 * Secret Store - is used to serve secrets to the Twitter feed config, see it defined in [provider/components/secretstore.yaml](provider/components/secretstore.yaml)
 * Service Invocation - is used to invoke the sentiment analysis API in the Processor application defined later on.
 * State Store - is used to save tweets to Redis, as defined in [provider/components/statestore.yaml](provider/components/statestore.yaml)
@@ -62,7 +62,7 @@ Processor service exposes `sentiment-score` method which `Provider` service to i
 
 ### Viewer
 
-Viewer app is a Flask web application serving web service. [flask-SocketIO](https://flask-socketio.readthedocs.io/en/latest/) is used to enable real-time update tweets on the web page. This subscribes tweet messages with sentiment published by Provider and broadcast tweet message to webpage via [socket.io](https://socket.io/)
+Viewer app is a Flask web application serving web service. [flask-SocketIO](https://flask-socketio.readthedocs.io/en/latest/) is used to enable real-time update tweets on the web page. This creates subscription to `processed-tweets` topic and broadcast tweet message from the topic to webpage via [socket.io](https://socket.io/)
 
 #### Used building blocks
 

@@ -1,0 +1,23 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: tweets
+spec:
+  type: bindings.twitter
+  metadata:
+  - name: consumerKey
+    secretKeyRef:
+      name: Twitter:ConsumerKey
+  - name: consumerSecret
+    secretKeyRef:
+      name: Twitter:ConsumerSecret
+  - name: accessToken
+    secretKeyRef:
+      name: Twitter:AccessToken
+  - name: accessSecret
+    secretKeyRef:
+      name: Twitter:AccessSecret
+  - name: query
+    value: "football" # common term for demo
+auth:
+    secretStore: pipeline-secrets

@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: processor
+  labels:
+    app: processor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: processor
+  template:
+    metadata:
+      labels:
+        app: processor
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "sentiment-processor"
+        dapr.io/app-port: "3000"
+    spec:
+      containers:
+      - name: processor
+        image: artursouza/twitter-sentiment-javademo-processor:latest
+        env:
+        - name: SECRET_STORE
+          value: "kubernetes"
+        - name: ENDPOINT_SECRET_KEY
+          value: "azure-cognitiveservices-endpoint"
+        - name: SUBSCRIPTION_KEY_SECRET_KEY
+          value: "azure-cognitiveservices-subscriptionkey"
+        - name: SECRET_STORE_NAMESPACE
+          value: "default"
+        ports:
+        - containerPort: 3000
+        imagePullPolicy: Always

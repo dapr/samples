@@ -77,11 +77,11 @@ Viewer app runs a static website from the [viewer/src/main/resources/static](vie
 
 ## Running
 
-First, run the processor app, using `sentiment_processor` as the app id:
+First, run the processor app, using `sentiment-processor` as the app id:
 ```sh
 cd processor
 mvn clean install
-dapr run --app-id sentiment_processor --components-path=./components/ --app-port=8081 -- java -jar target/app.jar
+dapr run --app-id sentiment-processor --components-path=./components/ --app-port=8081 -- java -jar target/app.jar
 ```
 
 In another terminal, run the provider app:

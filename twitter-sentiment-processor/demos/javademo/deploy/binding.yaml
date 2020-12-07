@@ -1,0 +1,28 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: tweet
+auth:
+    secretStore: kubernetes
+spec:
+  type: bindings.twitter
+  metadata:
+  - name: consumerKey
+    secretKeyRef:
+      name: twitter-consumerkey # twitter api consumer key, required
+      key: value
+  - name: consumerSecret
+    secretKeyRef:
+      name: twitter-consumersecret # twitter api consumer secret, required
+      key: value
+  - name: accessToken
+    secretKeyRef:
+      name: twitter-accesstoken # twitter api access token, required
+      key: value
+  - name: accessSecret
+    secretKeyRef:
+      name: twitter-accesssecret # twitter api access secret, required
+      key: value
+  - name: query
+    value: "cat" # your search query, required
+

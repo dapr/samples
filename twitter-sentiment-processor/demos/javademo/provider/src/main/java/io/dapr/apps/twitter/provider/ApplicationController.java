@@ -28,7 +28,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ApplicationController {
 
-    private static final String SENTIMENT_PROCESSOR_APP = "sentiment_processor";
+    private static final String SENTIMENT_PROCESSOR_APP = "sentiment-processor";
 
     private static final String STATE_STORE = "statestore";
 

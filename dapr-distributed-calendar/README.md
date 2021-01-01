@@ -1,5 +1,11 @@
 # dapr-distributed-calendar
 
+| Attribute | Details |
+|--------|--------|
+| Dapr runtime version | v0.11.3 |
+| Language | Javascript, Python, Go |
+| Environment | Local or Kubernetes |
+
 This is a sample application built using Dapr as a proof-of-concept. I have experimented with the state store, pubsub and output bindings features available with Dapr.
 I have used multiple languages for writing the different parts of this calendar app. This demonstrates the language-agnostic nature of Dapr and the flexibility that it bings to developing
 applications.
@@ -24,7 +30,7 @@ around with what Dapr had to offer.
 I wanted to explore Dapr an experience building a distributed application with it to understand what it brought to the table 
 in comparison to conventional applications. 
 
-I had built a SpringBoot app (LINK) on MVCS architecture before; it was a monolith application, all written in Java. 
+I had built a SpringBoot app on MVCS architecture before; it was a monolith application, all written in Java. 
 Building a roughly similar architecture as a distributed applicaiton would intuitively require some additional work pertaining to service discovery, inter-pod communication
 and network security. Things could get complicated if I needed additional checks, statestores or other controls which I would have to implement on my own.
 This, in addition to the actual application itself. 

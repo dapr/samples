@@ -21,7 +21,7 @@ This sample requires you to have the following installed on your machine:
 
 ## Step 1 - Setup Dapr (Slim Init)
 
-Follow [instructions](https://docs.dapr.io/getting-started/install-dapr/#install-dapr-in-self-hosted-mode) to download and install the Dapr CLI and initialize Dapr.
+Follow [instructions](https://docs.dapr.io/operations/hosting/self-hosted/self-hosted-no-docker) to download and install the Dapr CLI and initialize Dapr.
 
 ## Step 2 - Understand the Code
 

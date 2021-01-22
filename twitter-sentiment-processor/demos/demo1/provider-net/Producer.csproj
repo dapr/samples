@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="dapr.AspnetCore" Version="0.7.0-preview01" />
-    <PackageReference Include="Dapr.Client" Version="0.7.0-preview01" />
+    <PackageReference Include="dapr.AspnetCore" Version="1.0.0-rc02" />
+    <PackageReference Include="Dapr.Client" Version="1.0.0-rc02" />
   </ItemGroup>
 
 </Project>

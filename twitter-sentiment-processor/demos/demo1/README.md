@@ -1,19 +1,21 @@
-# Demo1
+# Demo 1
+
 Start the service in Dapr with explicit port so we can invoke it later:
 
+## dotnet version
+
 ```shell
-dapr run --app-id producer --app-port 5000 --port 3501 dotnet run
+dapr run --app-id producer --app-port 5000 --dapr-http-port 3500 -- dotnet run
 
 ```
 
-## node.js version 
+## Node.js version
 
-Inside of the `provider` directory  
+Inside of the `provider` directory
 
 ```shell
-dapr run node app.js \
-     --app-id provider \
-     --app-port 3001 \
-     --protocol http \
-     --port 3500
+dapr run --app-id provider \
+         --app-port 3001 \
+         --dapr-http-port 3500 \
+         -- node app.js
 ```

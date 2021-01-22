@@ -1,12 +1,12 @@
 # Twitter Sentiment Processor
 
->Note: this demo uses Dapr v1.0.0-rc02 and may break if different Dapr versions are used
+>Note: this demo uses Dapr v1.0.0-rc.2 and may break if different Dapr versions are used
 
 ## Sample info
 
 | Attribute | Details |
 |--------|--------|
-| Dapr runtime version | v1.0.0-rc02 |
+| Dapr runtime version | v1.0.0-rc.2 |
 | Language | Go, C# (.NET Core), Node.js |
 | Environment | Local or Kubernetes |
 
@@ -27,17 +27,17 @@ This demo illustrates the simplicity of [Dapr](https://github.com/dapr/dapr) on 
 
 ## Demo 1
 
-C# ASP.NET app (`provider`) using dapr Twitter input component to subscribe to Twitter search results. This app uses the default `statestore` to persist each tweet into the Redis backed `dapr` state store.
+C# .NET Core (`provider.net`) or Node.js (`provider`) app using dapr Twitter input component to subscribe to Twitter search results. This app uses the default `statestore` to persist each tweet into the Redis backed `dapr` state store.
 
-### Demo 1 Objectives
+### Demo 1 Objectives (Node.js)
 
 * Show idiomatic experience in Dapr allowing developers to be effective Day 1 (no Dapr libraries or attributes in user code)
 * Introduce the concept of components as a way to leverage existing capabilities
 
-### Demo 1 Requirements
+### Demo 1 Requirements (Node.js)
 
 * Docker
-* Node.js or dotnet core > 3.1 (instructions below are for Node.js though demo can be run using dotnet)
+* Node.js
 * [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
 
 Twitter credentials will have to be added to `components/twitter.yaml`:
@@ -59,7 +59,7 @@ Twitter credentials will have to be added to `components/twitter.yaml`:
           value: "dapr" # your search query, required
   ```
 
-### Run demo 1 (node.js)
+### Run Demo 1 (Node.js)
 
 Starting from the provider of demo 1 (`demos/demo1/provider`)
 
@@ -87,7 +87,37 @@ Starting from the provider of demo 1 (`demos/demo1/provider`)
 * Show dapr log to see the debug info
 * View Redis for persisted data
 
-### Run demo 1 (dotnet)
+### Demo 1 Objectives (dotnet)
+
+* Show idiomatic experience in Dapr allowing developers to be effective Day 1 (uses optional SDK)
+* Introduce the concept of components as a way to leverage existing capabilities
+
+### Demo 1 Requirements (dotnet)
+
+* Docker
+* [.NET Core 3.1](http://bit.ly/DownloadDotNetCore)
+* [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
+
+Twitter credentials will have to be added to `components/producer.yaml`:
+
+  ```yaml
+      spec:
+        type: bindings.twitter
+        # PLACE TWITTER CREDENTIALS HERE
+        metadata:
+        - name: consumerKey
+          value: "" # twitter api consumer key, required
+        - name: consumerSecret
+          value: "" # twitter api consumer secret, required
+        - name: accessToken
+          value: "" # twitter api access token, required
+        - name: accessSecret
+          value: "" # twitter api access secret, required
+        - name: query
+          value: "dapr" # your search query, required
+  ```
+
+### Run Demo 1 (dotnet)
 
 Starting from the provider.net of demo 1 (`demos/demo1/provider.net`)
 

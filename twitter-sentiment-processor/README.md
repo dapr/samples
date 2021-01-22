@@ -6,14 +6,14 @@
 | Attribute | Details |
 |--------|--------|
 | Dapr runtime version | v0.7.1 |
-| Language | Go, C# (.NET Core), Node.js | 
+| Language | Go, C# (.NET Core), Node.js |
 | Environment | Local or Kubernetes |
 
 ## Recordings
 View the [recorded session](https://mybuild.microsoft.com/sessions/3f296b9a-7fe8-479b-b098-a1bfc7783476?source=sessions) and the [demo recordings](https://www.youtube.com/playlist?list=PLcip_LgkYwzu2ABITS_3cSV_6AeLsX-d0)
 
 ## Overview
-This demo illustrates the simplicity of [Dapr](https://github.com/dapr/dapr) on Day 1 and it's flexibility of Dapr to adopt to complex of complex use-cases Day 2 by walking through 3 demos:
+This demo illustrates the simplicity of [Dapr](https://github.com/dapr/dapr) on Day 1 and it's flexibility of Dapr to adopt to complex use-cases on Day 2 by walking through 3 demos:
 
 * **Demo 1** - local development showing the speed with which developers can start and the use of Dapr components (Twitter and state)
 * **Demo 2** - expands on Demo 1 and adds service invocation using both, direct invocation and consumption of events across applications using PubSub
@@ -53,10 +53,10 @@ Twitter credentials will have to be added to `components/twitter.yaml`:
         - name: accessSecret
           value: "" # twitter api access secret, required
         - name: query
-          value: "dapr" # your search query, required 
+          value: "dapr" # your search query, required
   ```
 
-### Run demo 1 
+### Run demo 1
 
 Starting from the root of demo 1 (`demos/demo1`)
 
@@ -74,7 +74,7 @@ Starting from the root of demo 1 (`demos/demo1`)
 
 * Post a tweet with the word `dapr` (e.g. "watching a cool dapr demo #build2020")
 * Show dapr log to see the debug info
-* View Redis for persisted data 
+* View Redis for persisted data
 
 ## Demo 2
 
@@ -82,9 +82,9 @@ Demo 2 builds on demo 1. It illustrates interaction between multiple microservic
 
 ### Objectives
 
-* Builds on Demo 1, illustrate interaction between multiple microservices in Dapr 
-* Introduces service to service discovery/invocation 
-* Introduces eventing using Dapr pubsub component 
+* Builds on Demo 1, illustrate interaction between multiple microservices in Dapr
+* Introduces service to service discovery/invocation
+* Introduces eventing using Dapr pubsub component
 
 ### Requirements
 * Go
@@ -95,7 +95,7 @@ Demo 2 builds on demo 1. It illustrates interaction between multiple microservic
 
 Starting from the root of demo 2 (`demos/demo2`)
 
-[Start processor](https://github.com/azure-octo/build2020-dapr-demo/tree/master/demos/demo2/processor) so it's ready when `provider` starts 
+[Start processor](https://github.com/azure-octo/build2020-dapr-demo/tree/master/demos/demo2/processor) so it's ready when `provider` starts
 
 > Make sure you have the defined the `CS_TOKEN` environment variable holding your Azure Cognitive Services token [docs](https://docs.microsoft.com/en-us/azure/cognitive-services/authentication)
 
@@ -104,7 +104,7 @@ cd processor
 dapr run node app.js --app-id processor --app-port 3002 --protocol http --port 3500
 ```
 
-[Start viewer](https://github.com/azure-octo/build2020-dapr-demo/tree/master/demos/demo1/viewer) so it's ready when `provider` starts 
+[Start viewer](https://github.com/azure-octo/build2020-dapr-demo/tree/master/demos/demo1/viewer) so it's ready when `provider` starts
 
 ```shell
 cd viewer
@@ -116,7 +116,7 @@ Navigate to the viewer UI in browser (make sure WebSockets connection is opened)
 http://localhost:8083
 
 
-[Start provider](https://github.com/azure-octo/build2020-dapr-demo/tree/master/demos/demo2/provider) provider 
+[Start provider](https://github.com/azure-octo/build2020-dapr-demo/tree/master/demos/demo2/provider) provider
 
 > For demo purposes use a frequently tweeted about topic, like microsoft. You need to change that search term in the [demos/demo2/provider/components/twitter.yaml](demos/demo2/provider/components/twitter.yaml) file under `query` metadata element BEFORE you start provider
 
@@ -125,11 +125,11 @@ cd provider
 dapr run node app.js --app-id provider --app-port 3001 --protocol http
 ```
 
-Switch back to the UI to see the scored tweets 
+Switch back to the UI to see the scored tweets
 
 http://localhost:8083
 
-The UI should look something like this 
+The UI should look something like this
 
 ![](images/ui.png)
 
@@ -141,8 +141,8 @@ Demo 3 takes the local development work and illustrates how platform agnostic th
 
 ### Objectives
 
-* Show deployment of locally developed artifacts onto Kubernetes 
-* Illustrate the run-time portability and component pluggability 
+* Show deployment of locally developed artifacts onto Kubernetes
+* Illustrate the run-time portability and component pluggability
 
 ### Run demo 3
 
@@ -156,9 +156,9 @@ az account set --subscription <id or name>
 az configure --defaults location=<preferred location> group=<preferred resource group>
 ```
 
-> Note, this demo installs into the `default` namespace in your cluster. When installing into a different namespace, make sure to append the `-n <your namespace name>` to all commands below (secret, component, and deployment) 
+> Note, this demo installs into the `default` namespace in your cluster. When installing into a different namespace, make sure to append the `-n <your namespace name>` to all commands below (secret, component, and deployment)
 
-#### State Store  
+#### State Store
 
 To configure state component to use Azure Table Storage follow [these instructions](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-create?tabs=azure-portal). Once finished, you will need to configure the Kubernates secrets to hold the Azure Table Storage token:
 
@@ -174,9 +174,9 @@ Once the secret is configured, deploy the `dapr` state component from the `demos
 kubectl apply -f component/statestore.yaml
 ```
 
-#### PubSub Topic 
+#### PubSub Topic
 
-To configure pubsub component to use Azure Service Bus follow [these instructions](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-quickstart-topics-subscriptions-portal). Once finished, you will need to configure the Kubernates secret to hold Azure Service Bus connection string information. 
+To configure pubsub component to use Azure Service Bus follow [these instructions](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-quickstart-topics-subscriptions-portal). Once finished, you will need to configure the Kubernates secret to hold Azure Service Bus connection string information.
 
 
 ```shell
@@ -190,7 +190,7 @@ Once the secret is configured, deploy the `dapr` pubsub topic components from th
 kubectl apply -f component/pubsub.yaml
 ```
 
-#### Twitter Input Binding  
+#### Twitter Input Binding
 
 Finally, to use the Dapr Twitter input binding we need to configure the Twitter API secretes. You can get these by registering Twitter application and obtain this information [here](https://developer.twitter.com/en/apps/create).
 
@@ -209,9 +209,9 @@ kubectl apply -f component/twitter.yaml
 ```
 
 
-#### Deploy Demo 
+#### Deploy Demo
 
-Once the necessary components are created, you just need to create one more secret for the Cognitive Service token that is used in the `processor` service: 
+Once the necessary components are created, you just need to create one more secret for the Cognitive Service token that is used in the `processor` service:
 
 ```shell
 kubectl create secret generic demo-processor-secret \
@@ -226,7 +226,7 @@ kubectl apply -f provider.yaml \
               -f viewer.yaml
 ```
 
-You can check on the status of your deployment like this: 
+You can check on the status of your deployment like this:
 
 ```shell
 kubectl get pods -l demo=build2020
@@ -249,7 +249,7 @@ To expose the viewer application externally, create Kubernetes `service` using [
 kubectl apply -f service/viewer.yaml
 ```
 
-> Note, the provisioning of External IP may take little time. 
+> Note, the provisioning of External IP may take little time.
 
 To view the viewer application:
 
@@ -258,21 +258,21 @@ export VIEWER_IP=$(kubectl get svc viewer --output 'jsonpath={.status.loadBalanc
 open "http://${VIEWER_IP}/"
 ```
 
-> To change the Twitter topic query simply edit the [demos/demo3/component/twitter.yaml](demos/demo3/component/twitter.yaml), apply it, and `kubectl rollout restart deployment provider` to ensure the new configuration is applied. 
+> To change the Twitter topic query simply edit the [demos/demo3/component/twitter.yaml](demos/demo3/component/twitter.yaml), apply it, and `kubectl rollout restart deployment provider` to ensure the new configuration is applied.
 
-#### Observability 
+#### Observability
 
-You can view the scored tweets in Azure table storage 
+You can view the scored tweets in Azure table storage
 
 ![](images/state.png)
 
-Similarly you can monitor the pubsub topic throughout in Azure Service Bus 
+Similarly you can monitor the pubsub topic throughout in Azure Service Bus
 
 ![](images/pubsub.png)
 
-In addition to the state and pubsub, you can also observe Dapr metrics and logs for this demo. 
+In addition to the state and pubsub, you can also observe Dapr metrics and logs for this demo.
 
-The Dapr sidecar Grafana dashboard 
+The Dapr sidecar Grafana dashboard
 
 ![](images/metric.png)
 
@@ -280,13 +280,13 @@ And the Elastic backed Kibana dashboard for logs
 
 ![](images/log.png)
 
-For tracing first apply the tracing config 
+For tracing first apply the tracing config
 
 ```shell
 kubectl apply -f tracing/tracing.yaml
 ```
 
-And then, if you have not already have it, install Zipkin 
+And then, if you have not already have it, install Zipkin
 
 
 ```shell
@@ -300,17 +300,13 @@ And configure the Zipkin exporter
 kubectl apply -f tracing/zipkin .yaml
 ```
 
-You may have to restart the deployments 
+You may have to restart the deployments
 
 ```shell
 kubectl rollout restart deployment processor provider viewer
 ```
 
 
-At this point you should be able to access the Zipkin UI 
+At this point you should be able to access the Zipkin UI
 
 http://localhost:9411/zipkin/
-
-
-
-

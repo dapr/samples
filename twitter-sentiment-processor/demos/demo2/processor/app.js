@@ -1,9 +1,10 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const logger = require('./logger')
 require("isomorphic-fetch");
+const express = require("express");
+const logger = require("./logger");
+const bodyParser = require("body-parser");
 
 // express
+const port = 3002;
 const app = express();
 app.use(bodyParser.json());
 
@@ -15,7 +16,6 @@ const region = process.env.AZ_REGION || "westus2";
 const endpoint = process.env.CS_ENDPOINT || "";
 const apiURL = `${endpoint}text/analytics/v2.1/sentiment`;
 
-const port = 3002;
 
 app.get("/", (req, res) => {
   logger.debug("sentiment region: " + region);
@@ -86,8 +86,8 @@ if (apiToken == "" || endpoint == "") {
     "you must set CS_TOKEN and CS_ENDPOINT environment variables"
   );
 } else {
-   logger.debug("CS_TOKEN: " + apiToken);
-   logger.debug("CS_ENDPOINT: " + endpoint);
+  logger.debug("CS_TOKEN: " + apiToken);
+  logger.debug("CS_ENDPOINT: " + endpoint);
 }
 
 app.listen(port, () => logger.info(`Node App listening on port ${port}!`));

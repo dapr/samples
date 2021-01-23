@@ -15,11 +15,7 @@ const options = {
 };
 
 const logger = createLogger({
-  format: combine(
-     label({ label: 'PROCESSOR'}),
-     timestamp(),
-     daprFormat
-  ),
+  format: combine(label({ label: "PROCESSOR" }), timestamp(), daprFormat),
   levels: config.npm.levels,
   transports: [new transports.Console(options.console)],
   exitOnError: false,

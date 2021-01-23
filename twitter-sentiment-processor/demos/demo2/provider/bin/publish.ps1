@@ -1,10 +1,7 @@
-#!/bin/bash
+# Be sure and log into your docker hub account
 
-set -o errexit
-set -o pipefail
-
-RELEASE_VERSION=v0.3.3
-DOCKER_HUB_USER=darquewarrior
+$RELEASE_VERSION='v0.3.3'
+$DOCKER_HUB_USER='darquewarrior'
 
 docker build -t $DOCKER_HUB_USER/provider:$RELEASE_VERSION .
 

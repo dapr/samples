@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
-    "isomorphic-fetch": "^2.2.1"
+    "isomorphic-fetch": "^3.0.0",
+    "winston": "^3.3.3"
   }
 }

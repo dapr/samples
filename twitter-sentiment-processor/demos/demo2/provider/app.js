@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const logger = require('./logger')
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
@@ -31,13 +32,13 @@ var publishContent = function(obj) {
                 }
             }).then((_res) => {
                 if (!_res.ok) {
-                    console.log(_res.statusText);
+                    logger.debug(_res.statusText);
                     reject({message: "error publishing content"});
                 }else{
                     resolve(obj)
                 }
             }).catch((error) => {
-               console.log(error);
+               logger.error(error);
                 reject({message: error});
             });
         }
@@ -61,13 +62,13 @@ var saveContent = function(obj) {
                 }
             }).then((_res) => {
                if (!_res.ok) {
-                    console.log(_res.statusText);
+                    logger.debug(_res.statusText);
                     reject({message: "error saving content"});
                 }else{
                     resolve(obj)
                 }
             }).catch((error) => {
-                console.log(error);
+                logger.error(error);
                 reject({message: error});
             });
         }
@@ -86,17 +87,17 @@ var scoreSentiment = function(obj) {
                 }
             }).then((_res) => {
                if (!_res.ok) {
-                   console.log(_res.statusText);
+                   logger.debug(_res.statusText);
                     reject({message: "error invoking service"});
                 }else{
                     return _res.json();
                 }
             }).then((_res) => {
-                console.log(_res);
+                logger.debug("_res: " + JSON.stringify(_res));
                 obj.sentiment = _res.score;
                 resolve(obj)
             }).catch((error) => {
-                console.log(error);
+                logger.debug(error);
                 reject({message: error});
             });
         }
@@ -105,7 +106,7 @@ var scoreSentiment = function(obj) {
 
 // tweets handler
 app.post("/tweets", (req, res) => {
-    console.log("/tweets invoked...");
+    logger.debug("/tweets invoked...");
     const tweet = req.body;
     if (!tweet) {
         res.status(400).send({error: "invalid content"});
@@ -128,14 +129,14 @@ app.post("/tweets", (req, res) => {
         .then(saveContent)
         .then(publishContent)
         .then(function(rez) {
-            console.log(rez);
+            logger.debug("rez: " + JSON.stringify(rez));
             res.status(200).send({});
         })
         .catch(function (error) {
-            console.log(error.message);
+            logger.error(error.message);
             res.status(500).send(error);
         });
 });
 
 
-app.listen(port, () => console.log(`Port: ${port}!`));
+app.listen(port, () => logger.info(`Port: ${port}!`));

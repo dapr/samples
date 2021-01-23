@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const logger = require('./logger')
 require("isomorphic-fetch");
 
 // express
@@ -17,9 +18,9 @@ const apiURL = `${endpoint}text/analytics/v2.1/sentiment`;
 const port = 3002;
 
 app.get("/", (req, res) => {
-  console.log("sentiment region: " + region);
-  console.log("sentiment endpoint: " + endpoint);
-  console.log("sentiment apiURL: " + apiURL);
+  logger.debug("sentiment region: " + region);
+  logger.debug("sentiment endpoint: " + endpoint);
+  logger.debug("sentiment apiURL: " + apiURL);
   res.status(200).json({
     message: "hi, nothing to see here, try => POST /sentiment-score",
     region: region,
@@ -31,7 +32,7 @@ app.get("/", (req, res) => {
 // service
 app.post("/sentiment-score", (req, res) => {
   let body = req.body;
-  console.log("sentiment req: " + JSON.stringify(body));
+  logger.debug("sentiment req: " + JSON.stringify(body));
   let lang = body.lang;
   let text = body.text;
 
@@ -70,23 +71,23 @@ app.post("/sentiment-score", (req, res) => {
     })
     .then((_resp) => {
       const result = _resp.documents[0];
-      console.log(JSON.stringify(result));
+      logger.debug(JSON.stringify(result));
       res.status(200).send(result);
     })
     .catch((error) => {
-      console.log(error);
+      logger.error(error);
       res.status(500).send({ message: error });
     });
 });
 
 if (apiToken == "" || endpoint == "") {
-  console.error("you must set CS_TOKEN and CS_ENDPOINT environment variables");
+  logger.error("you must set CS_TOKEN and CS_ENDPOINT environment variables");
   throw new Error(
     "you must set CS_TOKEN and CS_ENDPOINT environment variables"
   );
 } else {
-   console.log("CS_TOKEN: " + apiToken);
-   console.log("CS_ENDPOINT: " + endpoint);
+   logger.debug("CS_TOKEN: " + apiToken);
+   logger.debug("CS_ENDPOINT: " + endpoint);
 }
 
-app.listen(port, () => console.log(`Node App listening on port ${port}!`));
+app.listen(port, () => logger.info(`Node App listening on port ${port}!`));

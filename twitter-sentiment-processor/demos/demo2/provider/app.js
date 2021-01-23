@@ -3,19 +3,19 @@ const bodyParser = require('body-parser');
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
-// express 
+// express
 const app = express();
 app.use(bodyParser.json());
 const port = 3001;
 
-// dapr 
+// dapr
 const daprPort = process.env.DAPR_HTTP_PORT || "3500";
 const serviceEndpoint = `http://localhost:${daprPort}/v1.0/invoke/processor/method/sentiment-score`;
 const stateEndpoint = `http://localhost:${daprPort}/v1.0/state/tweet-store`;
-const pubEndpoint = `http://localhost:${daprPort}/v1.0/publish/processed`;
+const pubEndpoint = `http://localhost:${daprPort}/v1.0/publish/processed/processed`;
 
 
-// publish scored tweets 
+// publish scored tweets
 var publishContent = function(obj) {
     return new Promise(
         function(resolve, reject) {
@@ -26,8 +26,8 @@ var publishContent = function(obj) {
             fetch(pubEndpoint, {
                 method: "POST",
                 body: JSON.stringify(obj),
-                headers: { 
-                    "Content-Type": "application/json" 
+                headers: {
+                    "Content-Type": "application/json"
                 }
             }).then((_res) => {
                 if (!_res.ok) {
@@ -37,14 +37,14 @@ var publishContent = function(obj) {
                     resolve(obj)
                 }
             }).catch((error) => {
-                console.log(error);
+               console.log(error);
                 reject({message: error});
             });
         }
     );
 };
 
-// store state 
+// store state
 var saveContent = function(obj) {
     return new Promise(
         function(resolve, reject) {
@@ -56,11 +56,11 @@ var saveContent = function(obj) {
             fetch(stateEndpoint, {
                 method: "POST",
                 body: JSON.stringify(state),
-                headers: { 
-                    "Content-Type": "application/json" 
+                headers: {
+                    "Content-Type": "application/json"
                 }
             }).then((_res) => {
-                if (!_res.ok) {
+               if (!_res.ok) {
                     console.log(_res.statusText);
                     reject({message: "error saving content"});
                 }else{
@@ -81,12 +81,12 @@ var scoreSentiment = function(obj) {
             fetch(serviceEndpoint, {
                 method: "POST",
                 body: JSON.stringify({lang: obj.lang, text: obj.content}),
-                headers: { 
+                headers: {
                     "Content-Type": "application/json"
                 }
             }).then((_res) => {
-                if (!_res.ok) {
-                    console.log(_res.statusText);
+               if (!_res.ok) {
+                   console.log(_res.statusText);
                     reject({message: "error invoking service"});
                 }else{
                     return _res.json();
@@ -103,7 +103,7 @@ var scoreSentiment = function(obj) {
     );
 };
 
-// tweets handler 
+// tweets handler
 app.post("/tweets", (req, res) => {
     console.log("/tweets invoked...");
     const tweet = req.body;
@@ -112,7 +112,7 @@ app.post("/tweets", (req, res) => {
         return;
     }
 
-    // let ctx 
+    // let ctx
 
     let obj = {
         id: tweet.id_str,
@@ -121,7 +121,7 @@ app.post("/tweets", (req, res) => {
         content: tweet.full_text || tweet.text, // if extended then use it
         lang: tweet.lang,
         published: tweet.created_at,
-        sentiment: 0.5 // default to neutral sentiment 
+        sentiment: 0.5 // default to neutral sentiment
     };
 
     scoreSentiment(obj)

@@ -1,6 +1,1 @@
-#!/bin/bash
-
-set -o errexit
-set -o pipefail
-
 dapr run --app-id provider --app-port 3001 -- node app.js

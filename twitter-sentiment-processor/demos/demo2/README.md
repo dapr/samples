@@ -1,8 +1,4 @@
-# Demo2
-
-
-## provider 
-
+# Demo 2
 
 ## processor
 
@@ -14,7 +10,7 @@ dapr run node app.js \
          --app-id processor \
          --app-port 3000 \
          --protocol http \
-         --port 3500
+         --dapr-http-port 3500
 ```
 
 Invoke it from curl or another service will look like this:
@@ -25,3 +21,6 @@ curl -d '{"lang":"en", "text":"I am so happy this worked"}' \
      "http://localhost:3500/v1.0/invoke/processor/method/sentiment-score"
 ```
 
+## provider
+
+## viewer

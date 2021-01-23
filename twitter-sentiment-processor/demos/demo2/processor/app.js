@@ -2,29 +2,39 @@ const express = require('express');
 const bodyParser = require('body-parser');
 require('isomorphic-fetch');
 
-// express 
+// express
 const app = express();
 app.use(bodyParser.json());
 
-// cognitive API 
+// cognitive API
+// The KEY 1 value from Azure Portal, Keys and Endpoint section
 const apiToken = process.env.CS_TOKEN || "";
 const region = process.env.AZ_REGION || "westus2";
-const endpoint = `${region}.api.cognitive.microsoft.com`;
-const apiURL = `https://${endpoint}/text/analytics/v2.1/sentiment`;
+// The Endpoint value from Azure Portal, Keys and Endpoint section
+const endpoint = process.env.CS_ENDPOINT
+const apiURL = `${endpoint}text/analytics/v2.1/sentiment`;
 
 const port = 3002;
 
 app.get("/", (req, res) => {
-    res.status(200).send({message: "hi, nothing to see here, try => POST /sentiment-score"});
+    console.log("sentiment region: " + region)
+    console.log("sentiment endpoint: " + endpoint)
+    console.log("sentiment apiURL: " + apiURL)
+    res.status(200).json({
+       message: "hi, nothing to see here, try => POST /sentiment-score",
+       region: region,
+       endpoint: endpoint,
+       apiURL: apiURL
+      });
 });
 
-// service 
+// service
 app.post("/sentiment-score", (req, res) => {
     let body = req.body;
     console.log("sentiment req: " + JSON.stringify(body));
     let lang = body.lang;
     let text = body.text;
-    
+
     if (!text || !text.trim()) {
         res.status(400).send({error: "text required"});
         return;

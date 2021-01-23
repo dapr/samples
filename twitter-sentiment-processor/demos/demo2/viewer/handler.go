@@ -10,27 +10,29 @@ import (
 
 const (
 	// SupportedCloudEventVersion indicates the version of CloudEvents suppored by this handler
-	SupportedCloudEventVersion = "0.3"
+	SupportedCloudEventVersion = "1.0"
 
 	//SupportedCloudEventContentTye indicates the content type supported by this handlers
 	SupportedCloudEventContentTye = "application/json"
 )
 
 type subscription struct {
-	Topic string `json:"Topic"`
-	Route string `json:"Route"`
+	PubSubName string `json:"pubsubname"`
+	Topic      string `json:"topic"`
+	Route      string `json:"route"`
 }
 
 func subscribeHandler(c *gin.Context) {
-	
+
 	topics := []subscription{
 		subscription{
-			Topic: sourceTopic,
-			Route: "/" + sourceTopic,
+			PubSubName: sourceTopic,
+			Topic:      sourceTopic,
+			Route:      "/" + sourceTopic,
 		},
 	}
-	
-	logger.Printf("subscription tipics: %v", topics)
+
+	logger.Printf("subscription topics: %v", topics)
 	c.JSON(http.StatusOK, topics)
 }
 

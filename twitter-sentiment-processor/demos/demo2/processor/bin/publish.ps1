@@ -7,4 +7,6 @@ docker build -t $DOCKER_HUB_USER/processor:$RELEASE_VERSION .
 
 docker push $DOCKER_HUB_USER/processor:$RELEASE_VERSION
 
-# docker run -it -p 3002:3002 -d $DOCKER_HUB_USER/processor:$RELEASE_VERSION
+# $CS_TOKEN=''
+# $CS_ENDPOINT=''
+# docker run --name tweet_processor -it -p 3002:3002 -e CS_ENDPOINT=$CS_ENDPOINT -e CS_TOKEN=$CS_TOKEN -d $DOCKER_HUB_USER/processor:$RELEASE_VERSION

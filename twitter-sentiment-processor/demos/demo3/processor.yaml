@@ -16,14 +16,14 @@ spec:
         demo: build2020
       annotations:
         dapr.io/enabled: "true"
-        dapr.io/id: "processor"
-        dapr.io/port: "3002"
+        dapr.io/app-id: "processor"
+        dapr.io/app-port: "3002"
         dapr.io/log-as-json: "true"
         dapr.io/config: "tracing"
     spec:
       containers:
-      - name: user-container
-        image: mchmarny/processor:v0.3.3
+      - name: processor
+        image: darquewarrior/processor:v0.3.3
         imagePullPolicy: Always
         ports:
         - containerPort: 3002
@@ -32,6 +32,8 @@ spec:
           value: "3002"
         - name: DAPR_HTTP_PORT
           value: "3500"
+        - name: CS_ENDPOINT
+          value: "https://daprtest.cognitiveservices.azure.com/"
         - name: CS_TOKEN
           valueFrom:
             secretKeyRef:

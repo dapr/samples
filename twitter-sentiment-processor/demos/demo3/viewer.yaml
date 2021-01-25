@@ -13,17 +13,17 @@ spec:
     metadata:
       labels:
         app: viewer
-        demo: build2020
+        demo: daprTweet
       annotations:
         dapr.io/enabled: "true"
-        dapr.io/id: "viewer"
-        dapr.io/port: "8083"
+        dapr.io/app-id: "viewer"
+        dapr.io/app-port: "8083"
         dapr.io/log-as-json: "true"
         dapr.io/config: "tracing"
     spec:
       containers:
-      - name: user-container
-        image: mchmarny/viewer:v0.3.3
+      - name: viewer
+        image: darquewarrior/viewer:v0.3.3
         imagePullPolicy: Always
         ports:
         - containerPort: 8083
@@ -32,3 +32,16 @@ spec:
           value: "8083"
         - name: DAPR_HTTP_PORT
           value: "3500"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: viewer
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8083
+  selector:
+    app: viewer
+  type: LoadBalancer

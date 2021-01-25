@@ -4,6 +4,7 @@ metadata:
   name: statestore
 spec:
   type: state.redis
+  version: v1
   metadata:
   - name: "redisHost"
     value: "REPLACE_HOST"
@@ -16,6 +17,7 @@ metadata:
   name: messagebus
 spec:
   type: pubsub.redis
+  version: v1
   metadata:
   - name: "redisHost"
     value: "REPLACE_HOST"

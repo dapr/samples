@@ -90,6 +90,7 @@ metadata:
   namespace: kube-events
 spec:
   type: bindings.kubernetes
+  version: v1
   metadata:
   - name: namespace
     value: kube-events
@@ -250,6 +251,7 @@ metadata:
   namespace: kube-events
 spec:
   type: bindings.kubernetes
+  version: v1
   metadata:
   - name: namespace
     value: kube-events

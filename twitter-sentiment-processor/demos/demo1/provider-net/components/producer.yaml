@@ -4,6 +4,7 @@ metadata:
   name: tweet
 spec:
   type: bindings.twitter
+  version: v1
   # PLACE TWITTER CREDS HERE
   metadata:
   - name: consumerKey
@@ -24,6 +25,7 @@ metadata:
   name: publishTweet
 spec:
   type: pubsub.redis
+  version: v1
   metadata:
   - name: redisHost
     value: localhost:6379
@@ -37,6 +39,7 @@ metadata:
   name: producerStateStore
 spec:
   type: state.redis
+  version: v1
   metadata:
   - name: redisHost
     value: localhost:6379

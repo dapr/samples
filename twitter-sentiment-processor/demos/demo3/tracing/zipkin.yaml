@@ -4,6 +4,7 @@ metadata:
   name: zipkin
 spec:
   type: exporters.zipkin
+  version: v1
   metadata:
   - name: enabled
     value: "true"

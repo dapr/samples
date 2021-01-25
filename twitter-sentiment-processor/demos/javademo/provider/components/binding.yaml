@@ -6,6 +6,7 @@ auth:
     secretStore: secretstore
 spec:
   type: bindings.twitter
+  version: v1
   metadata:
   - name: consumerKey
     secretKeyRef:

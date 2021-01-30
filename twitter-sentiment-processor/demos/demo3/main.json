@@ -140,7 +140,7 @@
                 "requiresSession": false,
                 "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
                 "deadLetteringOnMessageExpiration": false,
-                "maxDeliveryCount": 10,
+                "maxDeliveryCount": 1,
                 "enableBatchedOperations": false,
                 "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S"
               },
@@ -168,7 +168,6 @@
                     "count": "[parameters('agentCount')]",
                     "vmSize": "[parameters('agentVMSize')]",
                     "osType": "Linux",
-                    "storageProfile": "ManagedDisks",
                     "type": "VirtualMachineScaleSets",
                     "mode": "System",
                     "maxPods": 110,

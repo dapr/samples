@@ -95,7 +95,6 @@ resource aks 'Microsoft.ContainerService/managedClusters@2020-09-01' = {
         count: agentCount
         vmSize: agentVMSize
         osType: 'Linux'
-        storageProfile: 'ManagedDisks'
         type: 'VirtualMachineScaleSets'
         mode: 'System'
         maxPods: 110
@@ -129,7 +128,6 @@ resource aks 'Microsoft.ContainerService/managedClusters@2020-09-01' = {
 }
 
 output clusterName string = aksName
-output controlPlaneFQDN string = aks.properties.fqdn
 output storageAccountName string = stgName
 output cognitiveServiceKey string = listkeys(cognitiveServicesId, csApiVersion).key1
 output storageAccountKey string = listKeys(storageAccountId, stgApiVersion).keys[0].value

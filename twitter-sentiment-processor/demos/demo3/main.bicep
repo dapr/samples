@@ -11,13 +11,12 @@ resource rg 'Microsoft.Resources/resourceGroups@2020-06-01' = {
 module twitterDemo './twitterdemo.bicep' = {
   name: 'twitterDemo'
   scope: resourceGroup(rg.name)
-  params:{
+  params: {
     baseName: rgName
   }
 }
 
 output aksName string = twitterDemo.outputs.clusterName
-output aksFQDN string = twitterDemo.outputs.controlPlaneFQDN
 output storageAccountKey string = twitterDemo.outputs.storageAccountKey
 output storageAccountName string = twitterDemo.outputs.storageAccountName
 output serviceBusEndpoint string = twitterDemo.outputs.serviceBusEndpoint

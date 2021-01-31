@@ -1,0 +1,10 @@
+To end the demo run:
+helm uninstall {{ .Release.Name }}
+
+To start the demo again run:
+helm install {{ .Release.Name }} .\demochart -f .\demochart\mysecrets.yaml `
+   --set serviceBus.connectionString={{ .Values.serviceBus.connectionString | quote }} `
+   --set cognitiveService.token={{ .Values.cognitiveService.token | quote }} `
+   --set cognitiveService.endpoint={{ .Values.cognitiveService.endpoint | quote }} `
+   --set tableStorage.key={{ .Values.tableStorage.key | quote }} `
+   --set tableStorage.name={{ .Values.tableStorage.name | quote }}

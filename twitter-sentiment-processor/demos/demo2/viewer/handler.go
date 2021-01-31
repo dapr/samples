@@ -22,13 +22,15 @@ type subscription struct {
 	Route      string `json:"route"`
 }
 
+// Is called by dapr to see which topic this applications wants to subscribe to
+// Return a subscription object with the PubSubName (dapr component name), topic
+// to subscribe to, and the route to send the items to.
 func subscribeHandler(c *gin.Context) {
-
 	topics := []subscription{
-		subscription{
+		{
 			PubSubName: sourceTopic,
 			Topic:      sourceTopic,
-			Route:      "/" + sourceTopic,
+			Route:      "/" + topicRoute,
 		},
 	}
 
@@ -51,6 +53,7 @@ func rootHandler(c *gin.Context) {
 
 }
 
+// This is called each time a tweet is posted to this app.
 func eventHandler(c *gin.Context) {
 
 	e := ce.NewEvent()

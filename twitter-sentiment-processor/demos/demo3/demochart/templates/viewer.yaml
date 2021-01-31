@@ -13,25 +13,25 @@ spec:
     metadata:
       labels:
         app: viewer
-        demo: daprTweet
+        demo: {{ .Values.demoName }}
       annotations:
         dapr.io/enabled: "true"
         dapr.io/app-id: "viewer"
-        dapr.io/app-port: "8083"
+        dapr.io/app-port: {{ .Values.viewer.port | quote }}
         dapr.io/log-as-json: "true"
         dapr.io/config: "tracing"
     spec:
       containers:
       - name: viewer
-        image: darquewarrior/viewer:v0.3.3
+        image: {{ .Values.viewer.image }}
         imagePullPolicy: Always
         ports:
-        - containerPort: 8083
+        - containerPort: {{ .Values.viewer.port }}
         env:
         - name: PORT
-          value: "8083"
+          value: {{ .Values.viewer.port | quote }}
         - name: DAPR_HTTP_PORT
-          value: "3500"
+          value: {{ .Values.dapr.port | quote}}
 ---
 apiVersion: v1
 kind: Service
@@ -39,9 +39,9 @@ metadata:
   name: viewer
 spec:
   ports:
-  - port: 80
+  - port:  {{ .Values.viewer.externalPort }}
     protocol: TCP
-    targetPort: 8083
+    targetPort: {{ .Values.viewer.port }}
   selector:
     app: viewer
   type: LoadBalancer

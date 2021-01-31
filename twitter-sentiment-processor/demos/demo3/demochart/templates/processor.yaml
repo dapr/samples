@@ -13,27 +13,27 @@ spec:
     metadata:
       labels:
         app: processor
-        demo: build2020
+        demo: {{ .Values.demoName }}
       annotations:
         dapr.io/enabled: "true"
         dapr.io/app-id: "processor"
-        dapr.io/app-port: "3002"
+        dapr.io/app-port: {{ .Values.processor.port | quote }}
         dapr.io/log-as-json: "true"
         dapr.io/config: "tracing"
     spec:
       containers:
       - name: processor
-        image: darquewarrior/processor:v0.3.3
+        image: {{ .Values.processor.image }}
         imagePullPolicy: Always
         ports:
-        - containerPort: 3002
+        - containerPort: {{ .Values.processor.port }}
         env:
         - name: PORT
-          value: "3002"
+          value: {{ .Values.processor.port | quote }}
         - name: DAPR_HTTP_PORT
-          value: "3500"
+          value: {{ .Values.dapr.port | quote}}
         - name: CS_ENDPOINT
-          value: {{ .Values.cognitiveService.endpoint }}
+          value: {{ .Values.cognitiveService.endpoint | quote }}
         - name: CS_TOKEN
           valueFrom:
             secretKeyRef:

@@ -1,19 +1,44 @@
-# Demo1
-Start the service in Dapr with explicit port so we can invoke it later:
+# Demo 1
 
-```shell
-dapr run --app-id producer --app-port 5000 --port 3501 dotnet run
+Make sure you have populated the twitter.yaml file in the components
+folder with your twitter information.
+
+## dotnet version (run in provider.net folder)
+
+```powershell
+dapr run --app-id producer `
+         --app-port 5000 `
+         --dapr-http-port 3500 `
+         --components-path ../components `
+         -- dotnet run
 
 ```
 
-## node.js version 
+```bash
+dapr run --app-id producer \
+         --app-port 5000 \
+         --dapr-http-port 3500 \
+         --components-path ../components \
+         -- dotnet run
 
-Inside of the `provider` directory  
+```
 
-```shell
-dapr run node app.js \
-     --app-id provider \
-     --app-port 3001 \
-     --protocol http \
-     --port 3500
+## Node.js version (run in provider folder)
+
+Inside of the `provider` directory
+
+```powershell
+dapr run --app-id provider `
+         --app-port 3001 `
+         --dapr-http-port 3500 `
+         --components-path ../components `
+         -- node app.js
+```
+
+```bash
+dapr run --app-id provider \
+         --app-port 3001 \
+         --dapr-http-port 3500 \
+         --components-path ../components \
+         -- node app.js
 ```

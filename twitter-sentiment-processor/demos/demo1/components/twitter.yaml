@@ -5,7 +5,7 @@ metadata:
 spec:
   type: bindings.twitter
   metadata:
-    # PLACE TWITTER CREDS HERE
+    # PLACE TWITTER CREDENTIALS HERE
   - name: consumerKey
     value: ""
   - name: consumerSecret

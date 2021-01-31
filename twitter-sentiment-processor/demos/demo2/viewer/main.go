@@ -21,7 +21,11 @@ var (
 	// service
 	servicePort = env.MustGetEnvVar("PORT", "8083")
 
-	sourceTopic = env.MustGetEnvVar("VIEWER_SOURCE_TOPIC_NAME", "processed")
+	// The pub/sub topic to subscribe to
+	sourceTopic = env.MustGetEnvVar("VIEWER_SOURCE_TOPIC_NAME", "tweets")
+
+	// The route name to process the incoming tweets on
+	topicRoute = env.MustGetEnvVar("VIEWER_TOPIC_ROUTE_NAME", "processed")
 
 	broadcaster *melody.Melody
 )
@@ -53,7 +57,7 @@ func main() {
 	})
 
 	// topic route
-	viewerRoute := fmt.Sprintf("/%s", sourceTopic)
+	viewerRoute := fmt.Sprintf("/%s", topicRoute)
 	logger.Printf("viewer route: %s", viewerRoute)
 	r.POST(viewerRoute, eventHandler)
 
@@ -63,5 +67,4 @@ func main() {
 	if err := r.Run(hostPort); err != nil {
 		logger.Fatal(err)
 	}
-
 }

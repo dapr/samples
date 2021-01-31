@@ -22,4 +22,4 @@ spec:
       name: demo-twitter-secrets
       key: consumer-secret
   - name: query
-    value: "microsoft"
+    value: {{ .Values.twitter.query | quote }}

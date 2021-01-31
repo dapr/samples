@@ -1,7 +1,7 @@
 apiVersion: dapr.io/v1alpha1
 kind: Component
 metadata:
-  name: statestore
+  name: tweet-store
 spec:
   type: state.redis
   metadata:
@@ -9,5 +9,3 @@ spec:
     value: localhost:6379
   - name: redisPassword
     value: ""
-  - name: actorStateStore
-    value: "true"

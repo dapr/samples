@@ -1,3 +1,6 @@
+// This app is called by the Dapr each time a Tweet is received. In later
+// demos this calls a service to score the tweet. Now it just stores the
+// tweet in a state store.
 require("isomorphic-fetch");
 const logger = require("./logger");
 const express = require("express");
@@ -8,8 +11,10 @@ const port = 3001;
 const app = express();
 app.use(bodyParser.json());
 
-// dapr
+// Dapr
 const daprPort = process.env.DAPR_HTTP_PORT || "3500";
+
+// The Dapr endpoint for the state store component to store the tweets.
 const stateEndpoint = `http://localhost:${daprPort}/v1.0/state/tweet-store`;
 
 // store state

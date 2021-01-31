@@ -4,6 +4,5 @@ set -o errexit
 set -o pipefail
 
 go mod tidy
-go mod vendor
 
 dapr run --app-id viewer --app-port 8083 -- go run handler.go main.go

@@ -1,3 +1,5 @@
+// A structured logger
+// This provides a better logging experience than console.log
 const { createLogger, format, transports, config } = require("winston");
 const { combine, timestamp, label, printf } = format;
 

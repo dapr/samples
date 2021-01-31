@@ -1,3 +1,6 @@
+// This app is called by the provider to score the tweets using cognitive
+// services. When this app starts Dapr registers its name so other services
+// can use Dapr to call this service.
 require("isomorphic-fetch");
 const express = require("express");
 const logger = require("./logger");
@@ -8,38 +11,39 @@ const port = 3002;
 const app = express();
 app.use(bodyParser.json());
 
-// cognitive API
+// Cognitive Services API
 // The KEY 1 value from Azure Portal, Keys and Endpoint section
 const apiToken = process.env.CS_TOKEN || "";
-const region = process.env.AZ_REGION || "westus2";
+
 // The Endpoint value from Azure Portal, Keys and Endpoint section
 const endpoint = process.env.CS_ENDPOINT || "";
+
+// The full URL to the sentiment service
 const apiURL = `${endpoint}text/analytics/v2.1/sentiment`;
 
-
+// Root get that just returns the configured values.
 app.get("/", (req, res) => {
-  logger.debug("sentiment region: " + region);
   logger.debug("sentiment endpoint: " + endpoint);
   logger.debug("sentiment apiURL: " + apiURL);
   res.status(200).json({
     message: "hi, nothing to see here, try => POST /sentiment-score",
-    region: region,
     endpoint: endpoint,
     apiURL: apiURL,
   });
 });
 
-// service
+// This service provides this scoring method
 app.post("/sentiment-score", (req, res) => {
   let body = req.body;
-  logger.debug("sentiment req: " + JSON.stringify(body));
   let lang = body.lang;
   let text = body.text;
+  logger.debug("sentiment req: " + JSON.stringify(body));
 
   if (!text || !text.trim()) {
     res.status(400).send({ error: "text required" });
     return;
   }
+
   if (!lang || !lang.trim()) {
     lang = "en";
   }
@@ -54,6 +58,7 @@ app.post("/sentiment-score", (req, res) => {
     ],
   };
 
+  // Call cognitive service to score the tweet
   fetch(apiURL, {
     method: "POST",
     body: JSON.stringify(reqBody),
@@ -70,6 +75,7 @@ app.post("/sentiment-score", (req, res) => {
       return _res.json();
     })
     .then((_resp) => {
+       // Send the response back to the other service.
       const result = _resp.documents[0];
       logger.debug(JSON.stringify(result));
       res.status(200).send(result);
@@ -80,6 +86,7 @@ app.post("/sentiment-score", (req, res) => {
     });
 });
 
+// Make sure we have all the required information
 if (apiToken == "" || endpoint == "") {
   logger.error("you must set CS_TOKEN and CS_ENDPOINT environment variables");
   throw new Error(

@@ -1,3 +1,8 @@
+// This app is called by the Dapr each time a Tweet is received. In demo1 this
+// service just saved the tweets to the state store. Now we are going to call
+// another service via Dapr to score the tweet using direct invocation. Once
+// the tweet is processed it is posted to a pub/sub service to be read by
+// another service.
 require("isomorphic-fetch");
 require("es6-promise").polyfill();
 const logger = require("./logger");
@@ -9,10 +14,19 @@ const port = 3001;
 const app = express();
 app.use(bodyParser.json());
 
-// dapr
+// Dapr
 const daprPort = process.env.DAPR_HTTP_PORT || "3500";
+
+// The Dapr endpoint for the state store component to store the tweets.
 const stateEndpoint = `http://localhost:${daprPort}/v1.0/state/tweet-store`;
-const pubEndpoint = `http://localhost:${daprPort}/v1.0/publish/tweets/processed`;
+
+// The Dapr endpoint for the Pub/Sub component used to communicate with other
+// services in a loosely coupled way. Tweets is the name of the component and
+// processed is the name of the topic to which other services will subscribe.
+const pubEndpoint = `http://localhost:${daprPort}/v1.0/publish/tweets/tweets`;
+
+// The Dapr endpoint used to invoke the sentiment-score method on the processor service.
+// We are able to invoke the service using its appId processor
 const serviceEndpoint = `http://localhost:${daprPort}/v1.0/invoke/processor/method/sentiment-score`;
 
 // store state

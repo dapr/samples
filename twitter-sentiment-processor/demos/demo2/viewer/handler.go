@@ -66,7 +66,7 @@ func eventHandler(c *gin.Context) {
 		return
 	}
 
-	// logger.Printf("received event: %v", e.Context)
+	logger.Printf("received event: %v", e.Context)
 
 	eventVersion := e.Context.GetSpecVersion()
 	if eventVersion != SupportedCloudEventVersion {

@@ -9,6 +9,7 @@
    "author": "mark@chmarny.com",
    "license": "MIT",
    "dependencies": {
+      "es6-promise": "^4.2.8",
       "express": "^4.17.1",
       "isomorphic-fetch": "^3.0.0",
       "winston": "^3.3.3"

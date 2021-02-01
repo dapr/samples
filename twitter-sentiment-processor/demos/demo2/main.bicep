@@ -1,6 +1,6 @@
 targetScope = 'subscription'
 
-param rgName string = 'twitterdemo3'
+param rgName string = 'twitterDemo2'
 param location string = 'eastus'
 
 resource rg 'Microsoft.Resources/resourceGroups@2020-06-01' = {
@@ -8,17 +8,13 @@ resource rg 'Microsoft.Resources/resourceGroups@2020-06-01' = {
   location: location
 }
 
-module twitterDemo './twitterdemo3.bicep' = {
-  name: 'twitterdemo3'
+module twitterDemo './twitterDemo2.bicep' = {
+  name: 'twitterDemo2'
   scope: resourceGroup(rg.name)
   params:{
     baseName: rgName
   }
 }
 
-output aksName string = twitterDemo.outputs.clusterName
-output storageAccountKey string = twitterDemo.outputs.storageAccountKey
-output storageAccountName string = twitterDemo.outputs.storageAccountName
-output serviceBusEndpoint string = twitterDemo.outputs.serviceBusEndpoint
 output cognitiveServiceKey string = twitterDemo.outputs.cognitiveServiceKey
 output cognitiveServiceEndpoint string = twitterDemo.outputs.cognitiveServiceEndpoint

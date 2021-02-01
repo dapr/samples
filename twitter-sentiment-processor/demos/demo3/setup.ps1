@@ -17,14 +17,14 @@ param (
       HelpMessage = "The name of the resource group to be created. All resources will be place in the resource group and start with name."
    )]
    [string]
-   $rgName = "daprtweet",
+   $rgName = "twitterdemo3",
 
    [Parameter(
       Position = 1,
       HelpMessage = "The version of the dapr runtime version to deploy."
    )]
    [string]
-   $daprVersion = "1.0.0-rc.2"
+   $daprVersion = "1.0.0-rc.3"
 )
 
 # Deploy the infrastructure

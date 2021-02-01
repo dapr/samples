@@ -23,7 +23,7 @@ const stateEndpoint = `http://localhost:${daprPort}/v1.0/state/tweet-store`;
 // The Dapr endpoint for the Pub/Sub component used to communicate with other
 // services in a loosely coupled way. Tweets is the name of the component and
 // processed is the name of the topic to which other services will subscribe.
-const pubEndpoint = `http://localhost:${daprPort}/v1.0/publish/tweets/tweets`;
+const pubEndpoint = `http://localhost:${daprPort}/v1.0/publish/tweet-pubsub/scored`;
 
 // The Dapr endpoint used to invoke the sentiment-score method on the processor service.
 // We are able to invoke the service using its appId processor

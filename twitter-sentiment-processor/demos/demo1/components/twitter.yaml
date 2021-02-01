@@ -4,6 +4,7 @@ metadata:
   name: tweets
 spec:
   type: bindings.twitter
+  version: v1
   metadata:
     # PLACE TWITTER CREDENTIALS HERE
   - name: consumerKey

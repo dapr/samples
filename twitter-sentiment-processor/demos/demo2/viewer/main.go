@@ -8,7 +8,6 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mchmarny/gcputil/env"
 	"gopkg.in/olahol/melody.v1"
 )
 
@@ -18,14 +17,8 @@ var (
 	// AppVersion will be overritten during build
 	AppVersion = "v0.0.1-default"
 
-	// service
-	servicePort = env.MustGetEnvVar("PORT", "8083")
-
-	// The pub/sub topic to subscribe to
-	sourceTopic = env.MustGetEnvVar("VIEWER_SOURCE_TOPIC_NAME", "tweets")
-
 	// The route name to process the incoming tweets on
-	topicRoute = env.MustGetEnvVar("VIEWER_TOPIC_ROUTE_NAME", "processed")
+	topicRoute = "showOnWebSite"
 
 	broadcaster *melody.Melody
 )
@@ -62,7 +55,7 @@ func main() {
 	r.POST(viewerRoute, eventHandler)
 
 	// server
-	hostPort := net.JoinHostPort("0.0.0.0", servicePort)
+	hostPort := net.JoinHostPort("0.0.0.0", "8083")
 	logger.Printf("Server (%s) starting: %s \n", AppVersion, hostPort)
 	if err := r.Run(hostPort); err != nil {
 		logger.Fatal(err)

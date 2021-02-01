@@ -113,42 +113,6 @@
               "properties": {}
             },
             {
-              "type": "Microsoft.ServiceBus/namespaces/topics",
-              "apiVersion": "2017-04-01",
-              "name": "[format('{0}/tweets', variables('sbName'))]",
-              "properties": {
-                "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-                "maxSizeInMegabytes": 1024,
-                "requiresDuplicateDetection": false,
-                "duplicateDetectionHistoryTimeWindow": "PT10M",
-                "enableBatchedOperations": false,
-                "supportOrdering": false,
-                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
-                "enablePartitioning": false,
-                "enableExpress": false
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.ServiceBus/namespaces', variables('sbName'))]"
-              ]
-            },
-            {
-              "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
-              "apiVersion": "2017-04-01",
-              "name": "[format('{0}/processed', format('{0}/tweets', variables('sbName')))]",
-              "properties": {
-                "lockDuration": "PT1M",
-                "requiresSession": false,
-                "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-                "deadLetteringOnMessageExpiration": false,
-                "maxDeliveryCount": 1,
-                "enableBatchedOperations": false,
-                "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S"
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.ServiceBus/namespaces/topics', split(format('{0}/tweets', variables('sbName')), '/')[0], split(format('{0}/tweets', variables('sbName')), '/')[1])]"
-              ]
-            },
-            {
               "type": "Microsoft.ContainerService/managedClusters",
               "apiVersion": "2020-09-01",
               "name": "[variables('aksName')]",
@@ -205,10 +169,6 @@
               "type": "string",
               "value": "[variables('aksName')]"
             },
-            "controlPlaneFQDN": {
-              "type": "string",
-              "value": "[reference(resourceId('Microsoft.ContainerService/managedClusters', variables('aksName'))).fqdn]"
-            },
             "storageAccountName": {
               "type": "string",
               "value": "[variables('stgName')]"
@@ -241,10 +201,6 @@
     "aksName": {
       "type": "string",
       "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterDemo'), '2019-10-01').outputs.clusterName.value]"
-    },
-    "aksFQDN": {
-      "type": "string",
-      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterDemo'), '2019-10-01').outputs.controlPlaneFQDN.value]"
     },
     "storageAccountKey": {
       "type": "string",

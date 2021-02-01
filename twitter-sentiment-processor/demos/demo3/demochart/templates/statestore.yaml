@@ -4,6 +4,7 @@ metadata:
   name: tweet-store
 spec:
   type: state.azure.tablestorage
+  version: v1
   metadata:
   - name: accountName
     secretKeyRef:
@@ -15,4 +16,3 @@ spec:
       key: account-key
   - name: tableName
     value: DemoScoredTweets
-

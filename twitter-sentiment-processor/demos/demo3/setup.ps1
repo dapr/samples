@@ -51,6 +51,20 @@ az aks get-credentials --resource-group $rgName --name "$aksName"
 # Initialize Dapr
 dapr init --kubernetes --runtime-version $daprVersion
 
+# Confirm Dapr is running. If you run helm install to soon the Dapr side car
+# will not be injected.
+$status = dapr status --kubernetes
+
+# Once all the services are running they will all report True instead of False.
+# Keep checking the status until you don't find False
+$attempts = 1
+while ($($status | Select-String 'dapr-system  False').Matches.Length -ne 0) {
+   Write-Output "Dapr not ready retry in 30 seconds. Attempts: $attempts"
+   Start-Sleep -Seconds 30
+   $attempts++
+   $status = dapr status --kubernetes
+}
+
 # Install the demo into the cluster
 helm install demo3 .\demochart -f .\demochart\mysecrets.yaml `
    --set serviceBus.connectionString=$serviceBusEndpoint `

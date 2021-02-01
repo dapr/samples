@@ -1,6 +1,6 @@
 # Be sure and log into your docker hub account
 
-$RELEASE_VERSION='v0.3.3'
+$RELEASE_VERSION='v0.3.4'
 $DOCKER_HUB_USER='darquewarrior'
 
 docker build -t $DOCKER_HUB_USER/provider:$RELEASE_VERSION .

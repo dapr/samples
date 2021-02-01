@@ -1,4 +1,4 @@
-module github.com/mchmarny/dapr-pipeline/src/viewer
+module github.com/dapr/samples/twitter-sentiment-processor/demos/demo2/viewer
 
 go 1.14
 
@@ -8,7 +8,6 @@ require (
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
 	github.com/golang/protobuf v1.4.0 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
-	github.com/mchmarny/gcputil v0.3.3
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect

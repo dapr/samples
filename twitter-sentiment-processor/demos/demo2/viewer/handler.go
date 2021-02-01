@@ -28,8 +28,8 @@ type subscription struct {
 func subscribeHandler(c *gin.Context) {
 	topics := []subscription{
 		{
-			PubSubName: sourceTopic,
-			Topic:      sourceTopic,
+			PubSubName: "tweet-pubsub",
+			Topic:      "scored",
 			Route:      "/" + topicRoute,
 		},
 	}

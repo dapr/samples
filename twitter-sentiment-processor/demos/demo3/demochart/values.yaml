@@ -8,16 +8,19 @@ dapr:
 
 processor:
    port: 3002
-   image: "darquewarrior/processor:v0.3.3"
+   image: "darquewarrior/processor:v0.3.4"
 
 provider:
    port: 3001
-   image: "darquewarrior/provider:v0.3.3"
+   image: "darquewarrior/provider:v0.3.4"
 
 viewer:
    port: 8083
    externalPort: 80
-   image: "darquewarrior/viewer:v0.3.3"
+   image: "darquewarrior/viewer:v0.3.4"
 
 twitter:
    query: "microsoft"
+
+zipkin:
+   externalPort: 80

@@ -81,12 +81,12 @@ helm install demo3 .\demochart -f .\demochart\mysecrets.yaml `
    --set tableStorage.name=$storageAccountName
 
 # Make sure service is ready
-$service = $(k get services viewer --output json) | ConvertFrom-Json
+$service = $(kubectl get services viewer --output json) | ConvertFrom-Json
 
 while ($null -eq $service.status.loadBalancer.ingress) {
    Write-Output 'Services not ready retry in 30 seconds.'
    Start-Sleep -Seconds 30
-   $service = $(k get services viewer --output json) | ConvertFrom-Json
+   $service = $(kubectl get services viewer --output json) | ConvertFrom-Json
 }
 
 Write-Output "Your app is accesable from http://$($service.status.loadBalancer.ingress[0].ip)"

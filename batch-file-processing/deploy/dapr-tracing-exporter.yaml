@@ -4,6 +4,7 @@ metadata:
   name: native
 spec:
   type: exporters.native
+  version: v1
   metadata:
   - name: enabled
     value: "true"

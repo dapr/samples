@@ -4,7 +4,7 @@
   "parameters": {
     "rgName": {
       "type": "string",
-      "defaultValue": "daprIac"
+      "defaultValue": "twitterdemo3"
     },
     "location": {
       "type": "string",
@@ -22,7 +22,7 @@
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
-      "name": "twitterDemo",
+      "name": "twitterdemo3",
       "resourceGroup": "[parameters('rgName')]",
       "properties": {
         "expressionEvaluationOptions": {
@@ -66,7 +66,7 @@
           "variables": {
             "sbName": "[format('{0}sb', parameters('baseName'))]",
             "csName": "[format('{0}cs', parameters('baseName'))]",
-            "stgName": "[format('{0}stg', parameters('baseName'))]",
+            "stgName": "[toLower(format('{0}stg', parameters('baseName')))]",
             "aksName": "[format('{0}aks', parameters('baseName'))]",
             "dnsPrefix": "[format('{0}-dns', variables('aksName'))]",
             "sbApiVersion": "2017-04-01",
@@ -200,27 +200,27 @@
   "outputs": {
     "aksName": {
       "type": "string",
-      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterDemo'), '2019-10-01').outputs.clusterName.value]"
+      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterdemo3'), '2019-10-01').outputs.clusterName.value]"
     },
     "storageAccountKey": {
       "type": "string",
-      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterDemo'), '2019-10-01').outputs.storageAccountKey.value]"
+      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterdemo3'), '2019-10-01').outputs.storageAccountKey.value]"
     },
     "storageAccountName": {
       "type": "string",
-      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterDemo'), '2019-10-01').outputs.storageAccountName.value]"
+      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterdemo3'), '2019-10-01').outputs.storageAccountName.value]"
     },
     "serviceBusEndpoint": {
       "type": "string",
-      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterDemo'), '2019-10-01').outputs.serviceBusEndpoint.value]"
+      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterdemo3'), '2019-10-01').outputs.serviceBusEndpoint.value]"
     },
     "cognitiveServiceKey": {
       "type": "string",
-      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterDemo'), '2019-10-01').outputs.cognitiveServiceKey.value]"
+      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterdemo3'), '2019-10-01').outputs.cognitiveServiceKey.value]"
     },
     "cognitiveServiceEndpoint": {
       "type": "string",
-      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterDemo'), '2019-10-01').outputs.cognitiveServiceEndpoint.value]"
+      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterdemo3'), '2019-10-01').outputs.cognitiveServiceEndpoint.value]"
     }
   }
 }

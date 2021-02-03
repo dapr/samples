@@ -7,12 +7,12 @@ param servicePrincipalClientId string = 'msi'
 
 var sbName = '${baseName}sb'
 var csName = '${baseName}cs'
-var stgName = '${baseName}stg'
 var aksName = '${baseName}aks'
 var dnsPrefix = '${aksName}-dns'
 var sbApiVersion = '2017-04-01'
 var csApiVersion = '2017-04-18'
 var stgApiVersion = '2019-06-01'
+var stgName = toLower('${baseName}stg')
 var defaultSASKeyName = 'RootManageSharedAccessKey'
 var storageAccountId = resourceId('Microsoft.Storage/storageAccounts', stgName)
 var cognitiveServicesId = resourceId('Microsoft.CognitiveServices/accounts/', csName)

@@ -4,7 +4,7 @@
 # in deployment. The only requirement is to populate the mysecrets.yaml
 # file in the demochart folder with the twitter tokens, secrets and keys.
 # If you already have existing infrastructure do not use this file.
-# Simply fill in all the values of the mysecrets.yaml file and call heml
+# Simply fill in all the values of the mysecrets.yaml file and call helm
 # install passing in that file using the -f flag.
 # Requirements:
 # Helm 3+
@@ -84,7 +84,7 @@ helm install demo3 ./demochart -f ./demochart/mysecrets.yaml `
 $service = $(kubectl get services viewer --output json) | ConvertFrom-Json
 
 while ($null -eq $service.status.loadBalancer.ingress) {
-   Write-Output 'Services not ready retry in 30 seconds.'
+   Write-Output 'Waiting for IP address retry in 30 seconds.'
    Start-Sleep -Seconds 30
    $service = $(kubectl get services viewer --output json) | ConvertFrom-Json
 }

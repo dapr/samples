@@ -13,6 +13,15 @@
 # If you just run the command using ./setup.sh the resources in Azure will be
 # created but the environment variables will not be set.
 
+# This function uses grep to get the output value from the deployment when
+# passed the name.
+# grep (1) get the line with the value
+# grep (2) gets the last value with quotes
+# grep (3) gets the value no quotes
+function getOutput {
+   echo $(echo $deployment | grep -oE "$1[^}]+" | grep -oE '"[^"]+" ' | grep -oE '[^" ]+')
+}
+
 # The name of the resource group to be created. All resources will be place in
 # the resource group and start with name.
 rgName=$1
@@ -30,8 +39,8 @@ location=${location:-eastus}
 deployment=$(az deployment sub create --location $location --template-file ./main.json --parameters rgName=$rgName --output json)
 
 # Get all the outputs
-cognitiveServiceKey=$(echo $deployment | grep -oE 'cognitiveServiceKey[^}]+' | grep -oE '[a-zA-Z0-9]{32}')
-cognitiveServiceEndpoint=$(echo $deployment | grep -oE 'cognitiveServiceEndpoint[^}]+"' | grep -oE 'https://[^"]+')
+cognitiveServiceKey=$(getOutput 'cognitiveServiceKey')
+cognitiveServiceEndpoint=$(getOutput 'cognitiveServiceEndpoint')
 
 export CS_TOKEN=$cognitiveServiceKey
 export CS_ENDPOINT=$cognitiveServiceEndpoint

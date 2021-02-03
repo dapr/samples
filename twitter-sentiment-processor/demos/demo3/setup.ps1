@@ -35,7 +35,7 @@ param (
 )
 
 # Deploy the infrastructure
-$deployment = $(az deployment sub create --location $location --template-file .\main.json --parameters rgName=$rgName --output json) | ConvertFrom-Json
+$deployment = $(az deployment sub create --location $location --template-file ./main.json --parameters rgName=$rgName --output json) | ConvertFrom-Json
 
 # Get all the outputs
 $aksName = $deployment.properties.outputs.aksName.value
@@ -73,7 +73,7 @@ while ($($status | Select-String 'dapr-system  False').Matches.Length -ne 0) {
 }
 
 # Install the demo into the cluster
-helm install demo3 .\demochart -f .\demochart\mysecrets.yaml `
+helm install demo3 ./demochart -f ./demochart/mysecrets.yaml `
    --set serviceBus.connectionString=$serviceBusEndpoint `
    --set cognitiveService.token=$cognitiveServiceKey `
    --set cognitiveService.endpoint=$cognitiveServiceEndpoint `

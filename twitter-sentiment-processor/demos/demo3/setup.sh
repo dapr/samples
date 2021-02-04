@@ -12,13 +12,8 @@
 # Helm 3+
 # Azure CLI (log in)
 
-# This function uses grep to get the output value from the deployment when
-# passed the name.
-# grep (1) get the line with the value
-# grep (2) gets the last value with quotes
-# grep (3) gets the value no quotes
 function getOutput {
-   echo $(echo $deployment | grep -oE "$1[^}]+" | grep -oE '"[^"]+" ' | grep -oE '[^" ]+')
+   echo $(az deployment sub show --name $rgName --query "properties.outputs.$1.value" --output tsv)
 }
 
 # The name of the resource group to be created. All resources will be place in
@@ -35,8 +30,7 @@ location=$3
 location=${location:-eastus}
 
 # # Deploy the infrastructure
-# deployment=$(az deployment sub create --location $location --template-file ./main.json --parameters rgName=$rgName --output json)
-deployment=$(az deployment sub show -n main)
+az deployment sub create --name $rgName --location $location --template-file ./iac/main.json --parameters rgName=$rgName --output none
 
 # Get all the outputs
 aksName=$(getOutput 'aksName')

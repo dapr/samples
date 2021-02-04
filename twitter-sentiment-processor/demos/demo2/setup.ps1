@@ -31,7 +31,7 @@ param (
 )
 
 # Deploy the infrastructure
-$deployment = $(az deployment sub create --location $location --template-file ./main.json --parameters rgName=$rgName --output json) | ConvertFrom-Json
+$deployment = $(az deployment sub create --location $location --template-file ./iac/main.json --parameters rgName=$rgName --output json) | ConvertFrom-Json
 
 # Get all the outputs
 $cognitiveServiceKey = $deployment.properties.outputs.cognitiveServiceKey.value

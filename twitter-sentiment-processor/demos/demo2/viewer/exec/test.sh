@@ -1,9 +1,0 @@
-#!/bin/bash
-
-set -o errexit
-set -o pipefail
-
-go mod tidy
-
-go test -v -count=1 -race ./...
-# go test -v -count=1 -run TestScoring ./...

@@ -5,40 +5,32 @@ folder with your twitter information.
 
 ## dotnet version (run in provider.net folder)
 
-```powershell
-dapr run --app-id producer `
-         --app-port 5000 `
-         --dapr-http-port 3500 `
-         --components-path ../components `
-         -- dotnet run
+Inside of the `provider.net` directory
 
+PowerShell
+
+```powershell
+.\run.ps1
 ```
 
-```bash
-dapr run --app-id producer \
-         --app-port 5000 \
-         --dapr-http-port 3500 \
-         --components-path ../components \
-         -- dotnet run
+Bash
 
+```bash
+./run.sh
 ```
 
 ## Node.js version (run in provider folder)
 
 Inside of the `provider` directory
 
+PowerShell
+
 ```powershell
-dapr run --app-id provider `
-         --app-port 3001 `
-         --dapr-http-port 3500 `
-         --components-path ../components `
-         -- node app.js
+.\run.ps1
 ```
 
+Bash
+
 ```bash
-dapr run --app-id provider \
-         --app-port 3001 \
-         --dapr-http-port 3500 \
-         --components-path ../components \
-         -- node app.js
+./run.sh
 ```

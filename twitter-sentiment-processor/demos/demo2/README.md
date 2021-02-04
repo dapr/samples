@@ -1,24 +1,37 @@
 # Demo 2
 
-## processor
+This demo requires a cognitive services endpoint in Azure. You can create one manually or use the setup.sh or setup.ps1 files. The use of source is important when using Bash
+so the environment variables are properly exported.
 
-Start the service in Dapr with explicit port so we can invoke it later:
+Bash
 
-```shell
-dapr run node app.js \
-         --log-level debug \
-         --app-id processor \
-         --app-port 3000 \
-         --protocol http \
-         --dapr-http-port 3500
+```bash
+source setup.sh
 ```
 
-Invoke it from curl or another service will look like this:
+PowerShell
+
+```powershell
+.\setup.ps1
+```
+
+## processor
+
+The processor requires two environment variables to be set:
+
+- CS_TOKEN
+- CS_ENDPOINT
+
+If you use the setup.sh or setup.ps1 files these values were populated for you. If not be sure and set them before you run the processor.
 
 ```shell
-curl -d '{"lang":"en", "text":"I am so happy this worked"}' \
-     -H "Content-type: application/json" \
-     "http://localhost:3500/v1.0/invoke/processor/method/sentiment-score"
+dapr run --app-id processor --app-port 3002 --components-path ../components -- node app.js
+```
+
+You can also run the ./exec/run files from the processor folder.
+
+```shell
+./exec/run.sh
 ```
 
 ## provider

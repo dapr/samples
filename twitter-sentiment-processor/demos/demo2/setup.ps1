@@ -9,24 +9,25 @@
 param (
    [Parameter(
       Position = 0,
-      HelpMessage = "The name of the resource group to be created. All resources will be place in the resource group and start with name."
+      Mandatory = $true,
+      HelpMessage = "The name of the resource group to be created. All resources will be place in the resource group and start with this name."
    )]
    [string]
-   $rgName = "twitterDemo2",
+   $rgName,
 
    [Parameter(
       Position = 1,
-      HelpMessage = "The version of the dapr runtime version to deploy."
-   )]
-   [string]
-   $daprVersion = "1.0.0-rc.3",
-
-   [Parameter(
-      Position = 2,
       HelpMessage = "The location to store the meta data for the deployment."
    )]
    [string]
-   $location = "eastus"
+   $location = "eastus",
+
+   [Parameter(
+      Position = 2,
+      HelpMessage = "The version of the dapr runtime version to deploy."
+   )]
+   [string]
+   $daprVersion = "1.0.0-rc.3"
 )
 
 # Deploy the infrastructure

@@ -126,7 +126,7 @@ You can also use a [Redis extension](https://marketplace.visualstudio.com/items?
 
 ## Demo 2
 
-Demo 2 builds on demo 1 adding service-to-service invocation between multiple microservices in Dapr (`processor` being invoked by `provider`) and adds the concept of PubSub, where each scored tweet is published onto a topic. This demo also includes a Go viewer app (`viewer`) which subscribes to a PubSub `tweet-pubsub` topic and streams scored tweets over WebSockets to a SPA in JavaScript for display.
+Demo 2 builds on demo 1 adding service-to-service invocation between multiple microservices in Dapr (`processor` being invoked by `provider`). The use of the state store is replaced with PubSub, where each scored tweet is published onto a topic where it will be read by the viewer app. This demo also includes a Go viewer app (`viewer`) which subscribes to a PubSub `tweet-pubsub` topic and streams scored tweets over WebSockets to a SPA in JavaScript for display.
 
 ### Demo 2 Objectives
 

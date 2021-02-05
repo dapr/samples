@@ -70,7 +70,7 @@ status=$(dapr status --kubernetes)
 attempts=1
 while true ; do
    if $(echo $status | grep -q 'dapr-system False'); then
-      echo "Dapr not ready retry in 30 seconds. Attempts: $attempts"
+      printf "Dapr not ready retry in 30 seconds. Attempts: %d" $attempts
       sleep 30s
       attempts=$(($attempts + 1))
       status=$(dapr status --kubernetes)
@@ -88,9 +88,9 @@ helm upgrade --install demo3 ./demochart -f ./demochart/mysecrets.yaml \
    --set tableStorage.name=$storageAccountName
 
 # Make sure services are ready
-echo "\nGetting IP addresses. Please wait..."
+printf "\nGetting IP addresses. Please wait...\n"
 viewerIp=$(getIp 'viewer')
 zipkinIp=$(getIp 'publiczipkin')
 
-echo "\nYour app is accesable from http://$viewerIp"
-echo "Zipkin is accesable from http://$zipkinIp"
+printf "\nYour app is accesable from http://%s\n" $viewerIp
+printf "Zipkin is accesable from http://%s\n" $zipkinIp

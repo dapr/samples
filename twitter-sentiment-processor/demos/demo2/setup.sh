@@ -22,12 +22,8 @@ function getOutput {
 rgName=$1
 rgName=${rgName:-twitterDemo2}
 
-# The version of the dapr runtime version to deploy.
-daprVersion=$2
-daprVersion=${daprVersion:-1.0.0-rc.3}
-
 # The location to store the meta data for the deployment.
-location=$3
+location=$2
 location=${location:-eastus}
 
 # Deploy the infrastructure
@@ -40,4 +36,4 @@ cognitiveServiceEndpoint=$(getOutput 'cognitiveServiceEndpoint')
 export CS_TOKEN=$cognitiveServiceKey
 export CS_ENDPOINT=$cognitiveServiceEndpoint
 
-echo "You can now run the processor from this terminal."
+printf "You can now run the processor from this terminal."

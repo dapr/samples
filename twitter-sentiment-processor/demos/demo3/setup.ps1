@@ -105,5 +105,5 @@ Write-Output "`nGetting IP addresses. Please wait..."
 $viewerIp = Get-IP -serviceName viewer
 $zipkinIp = Get-IP -serviceName publiczipkin
 
-Write-Output "`nYour app is accesable from http://$viewerIp"
-Write-Output "Zipkin is accesable from http://$zipkinIp`n"
+Write-Output "`nYour app is accessible from http://$viewerIp"
+Write-Output "Zipkin is accessible from http://$zipkinIp`n"

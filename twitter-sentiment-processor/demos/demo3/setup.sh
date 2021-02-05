@@ -92,5 +92,5 @@ printf "\nGetting IP addresses. Please wait...\n"
 viewerIp=$(getIp 'viewer')
 zipkinIp=$(getIp 'publiczipkin')
 
-printf "\nYour app is accesable from http://%s\n" $viewerIp
-printf "Zipkin is accesable from http://%s\n\n" $zipkinIp
+printf "\nYour app is accessible from http://%s\n" $viewerIp
+printf "Zipkin is accessible from http://%s\n\n" $zipkinIp

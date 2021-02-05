@@ -20,14 +20,7 @@ param (
       HelpMessage = "The location to store the meta data for the deployment."
    )]
    [string]
-   $location = "eastus",
-
-   [Parameter(
-      Position = 2,
-      HelpMessage = "The version of the dapr runtime version to deploy."
-   )]
-   [string]
-   $daprVersion = "1.0.0-rc.3"
+   $location = "eastus"
 )
 
 # Deploy the infrastructure

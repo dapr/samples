@@ -17,15 +17,14 @@ function getOutput {
 }
 
 function getIp {
-   ip=$(kubectl get services $1 -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+   ip=$(kubectl get services $1 --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
    while true ; do
-      if ip; then
+      if [ ip ]; then
          break
       else
-         echo "Waiting for $1 IP address retry in 30 seconds."
          sleep 30s
-         ip=$(kubectl get services $1 -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+         ip=$(kubectl get services $1 --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
       fi
    done
 
@@ -81,15 +80,17 @@ while true ; do
 done
 
 # Install the demo into the cluster
-helm install demo3 ./demochart -f ./demochart/mysecrets.yaml \
+helm upgrade --install demo3 ./demochart -f ./demochart/mysecrets.yaml \
    --set serviceBus.connectionString=$serviceBusEndpoint \
    --set cognitiveService.token=$cognitiveServiceKey \
    --set cognitiveService.endpoint=$cognitiveServiceEndpoint \
    --set tableStorage.key=$storageAccountKey \
    --set tableStorage.name=$storageAccountName
 
+# Make sure services are ready
+echo "\nGetting IP addresses. Please wait..."
 viewerIp=$(getIp 'viewer')
 zipkinIp=$(getIp 'publiczipkin')
 
-echo "Your app is accesable from http://$viewerIp"
+echo "\nYour app is accesable from http://$viewerIp"
 echo "Zipkin is accesable from http://$zipkinIp"

@@ -10,6 +10,7 @@
 # Helm 3+
 # PowerShell Core 7 (runs on macOS, Linux and Windows)
 # Azure CLI (log in, runs on macOS, Linux and Windows)
+
 [CmdletBinding()]
 param (
    [Parameter(
@@ -34,6 +35,23 @@ param (
    [string]
    $daprVersion = "1.0.0-rc.3"
 )
+function Get-IP {
+   [CmdletBinding()]
+   param (
+      [string]
+      $serviceName
+   )
+
+   # Make sure service is ready
+   $ip = $(kubectl get services $serviceName --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
+
+   while ($null -eq $ip) {
+      Start-Sleep -Seconds 30
+      $ip = $(kubectl get services $serviceName --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
+   }
+
+   Write-Output $ip
+}
 
 # Deploy the infrastructure
 $deployment = $(az deployment sub create --location $location --template-file ./iac/main.json --parameters rgName=$rgName --output json) | ConvertFrom-Json
@@ -74,7 +92,7 @@ while ($($status | Select-String 'dapr-system  False').Matches.Length -ne 0) {
 }
 
 # Install the demo into the cluster
-helm install demo3 ./demochart -f ./demochart/mysecrets.yaml `
+helm upgrade --install demo3 ./demochart -f ./demochart/mysecrets.yaml `
    --set serviceBus.connectionString=$serviceBusEndpoint `
    --set cognitiveService.token=$cognitiveServiceKey `
    --set cognitiveService.endpoint=$cognitiveServiceEndpoint `
@@ -82,13 +100,10 @@ helm install demo3 ./demochart -f ./demochart/mysecrets.yaml `
    --set tableStorage.name=$storageAccountName `
    --set onWindows=True
 
-# Make sure service is ready
-$service = $(kubectl get services viewer --output json) | ConvertFrom-Json
+# Make sure services are ready
+Write-Output "`nGetting IP addresses. Please wait..."
+$viewerIp = Get-IP -serviceName viewer
+$zipkinIp = Get-IP -serviceName publiczipkin
 
-while ($null -eq $service.status.loadBalancer.ingress) {
-   Write-Output 'Waiting for IP address retry in 30 seconds.'
-   Start-Sleep -Seconds 30
-   $service = $(kubectl get services viewer --output json) | ConvertFrom-Json
-}
-
-Write-Output "Your app is accesable from http://$($service.status.loadBalancer.ingress[0].ip)"
+Write-Output "`nYour app is accesable from http://$viewerIp"
+Write-Output "Zipkin is accesable from http://$zipkinIp"

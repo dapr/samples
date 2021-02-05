@@ -98,7 +98,7 @@ helm upgrade --install demo3 ./demochart -f ./demochart/mysecrets.yaml `
    --set cognitiveService.endpoint=$cognitiveServiceEndpoint `
    --set tableStorage.key=$storageAccountKey `
    --set tableStorage.name=$storageAccountName `
-   --set onWindows=True
+   --set usingPowerShell=True
 
 # Make sure services are ready
 Write-Output "`nGetting IP addresses. Please wait..."
@@ -106,4 +106,4 @@ $viewerIp = Get-IP -serviceName viewer
 $zipkinIp = Get-IP -serviceName publiczipkin
 
 Write-Output "`nYour app is accesable from http://$viewerIp"
-Write-Output "Zipkin is accesable from http://$zipkinIp"
+Write-Output "Zipkin is accesable from http://$zipkinIp`n"

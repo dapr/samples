@@ -20,7 +20,7 @@ function getIp {
    ip=$(kubectl get services $1 --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
    while true ; do
-      if [ ip ]; then
+      if [ $ip ]; then
          break
       else
          sleep 30s
@@ -70,7 +70,7 @@ status=$(dapr status --kubernetes)
 attempts=1
 while true ; do
    if $(echo $status | grep -q 'dapr-system False'); then
-      printf "Dapr not ready retry in 30 seconds. Attempts: %d" $attempts
+      printf "Dapr not ready retry in 30 seconds. Attempts: %d\n" $attempts
       sleep 30s
       attempts=$(($attempts + 1))
       status=$(dapr status --kubernetes)
@@ -93,4 +93,4 @@ viewerIp=$(getIp 'viewer')
 zipkinIp=$(getIp 'publiczipkin')
 
 printf "\nYour app is accesable from http://%s\n" $viewerIp
-printf "Zipkin is accesable from http://%s\n" $zipkinIp
+printf "Zipkin is accesable from http://%s\n\n" $zipkinIp

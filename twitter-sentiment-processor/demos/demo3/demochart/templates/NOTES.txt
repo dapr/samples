@@ -3,11 +3,11 @@ To end the demo run:
 helm uninstall {{ .Release.Name }}
 
 {{- /*
-   Determine if you are on Windows or not and set the correct line continuation
-   delimiter.
+   Determine if you are using PowerShell or not and set the correct line 
+   continuation delimiter.
 */ -}}
 {{- $delimiter := "\\" }}
-{{- if .Values.onWindows }}
+{{- if .Values.usingPowerShell }}
 {{- $delimiter = "`" }}
 {{- end}}
 

@@ -29,18 +29,10 @@
           "scope": "inner"
         },
         "mode": "Incremental",
-        "parameters": {
-          "baseName": {
-            "value": "[parameters('rgName')]"
-          }
-        },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
           "parameters": {
-            "baseName": {
-              "type": "string"
-            },
             "agentCount": {
               "type": "int",
               "defaultValue": 3
@@ -64,15 +56,15 @@
           },
           "functions": [],
           "variables": {
-            "sbName": "[format('{0}sb', parameters('baseName'))]",
-            "csName": "[format('{0}cs', parameters('baseName'))]",
-            "stgName": "[toLower(format('{0}stg', parameters('baseName')))]",
-            "aksName": "[format('{0}aks', parameters('baseName'))]",
-            "dnsPrefix": "[format('{0}-dns', variables('aksName'))]",
             "sbApiVersion": "2017-04-01",
             "csApiVersion": "2017-04-18",
             "stgApiVersion": "2019-06-01",
             "defaultSASKeyName": "RootManageSharedAccessKey",
+            "sbName": "[concat('sb', uniqueString(resourceGroup().id))]",
+            "csName": "[concat('cs', uniqueString(resourceGroup().id))]",
+            "aksName": "[concat('aks', uniqueString(resourceGroup().id))]",
+            "dnsPrefix": "[format('{0}-dns', variables('aksName'))]",
+            "stgName": "[toLower(concat('stg', uniqueString(resourceGroup().id)))]",
             "storageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', variables('stgName'))]",
             "cognitiveServicesId": "[resourceId('Microsoft.CognitiveServices/accounts/', variables('csName'))]",
             "authRuleResourceId": "[resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', variables('sbName'), variables('defaultSASKeyName'))]"

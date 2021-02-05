@@ -9,11 +9,10 @@
 param (
    [Parameter(
       Position = 0,
-      Mandatory = $true,
       HelpMessage = "The name of the resource group to be created. All resources will be place in the resource group and start with this name."
    )]
    [string]
-   $rgName,
+   $rgName = "twitterDemo2",
 
    [Parameter(
       Position = 1,

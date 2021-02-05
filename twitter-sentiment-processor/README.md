@@ -163,19 +163,19 @@ Set the desired subscription.
 
  Now we can deploy the required infrastructure by running `setup.sh` for Bash or `setup.ps1` for PowerShell. When calling `setup.sh` you must use the `source` command so the environment variables are properly set (this is not required for the PowerShell version). These scripts will run an Azure Resource Manager template deployment and set the required CS_TOKEN and CS_ENDPOINT environment variables for the `processor` application. The scripts take two arguments.
 
-1. resource group name (required): This will be the resource group created in Azure. Each resource will begin with this name. This is the only mandatory value.
+1. resource group name: This will be the resource group created in Azure. If you do not provide a value `twitterDemo2` will be used.
 1. location: This is the location to deploy all your resources. If you do not provide a value `eastus` will be used.
 
 Bash
 
   ```bash
-  source ./setup.sh <required resource group name>
+  source ./setup.sh
   ```
 
 PowerShell
 
 ```powershell
-./setup.ps1 -rgName <required resource group name>
+./setup.ps1
 ```
 
 The results should look similar to this:
@@ -283,20 +283,20 @@ Set the desired subscription.
 
  Now we can deploy the required infrastructure by running `setup.sh` for Bash or `setup.ps1` for PowerShell. Unlike with demo 2 you **do not** have to use the `source` command to run the Bash script as no environment variables are set. These scripts will run an Azure Resource Manager template deployment and a Helm install to deploy the entire demo. The scripts take three arguments.
 
-1. resource group name (required): This will be the resource group created in Azure. Each resource will begin with this name. This is the only mandatory value.
+1. resource group name: This will be the resource group created in Azure. If you do not provide a value `twitterDemo3` will be used.
 1. location: This is the location to deploy all your resources. If you do not provide a value `eastus` will be used.
 1. runtime version: This is the runtime version of Dapr to deploy to the cluster. If you do not provide a value `1.0.0-rc.3` will be used.
 
 Bash
 
   ```bash
-  ./setup.sh <required resource group name>
+  ./setup.sh
   ```
 
 PowerShell
 
 ```powershell
-./setup.ps1 -rgName <required resource group name>
+./setup.ps1
 ```
 
 The results should look similar to this:

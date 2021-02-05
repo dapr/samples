@@ -29,18 +29,10 @@
           "scope": "inner"
         },
         "mode": "Incremental",
-        "parameters": {
-          "baseName": {
-            "value": "[parameters('rgName')]"
-          }
-        },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
           "parameters": {
-            "baseName": {
-              "type": "string"
-            },
             "location": {
               "type": "string",
               "defaultValue": "eastus2"
@@ -48,8 +40,8 @@
           },
           "functions": [],
           "variables": {
-            "csName": "[format('{0}cs', parameters('baseName'))]",
             "csApiVersion": "2017-04-18",
+            "csName": "[concat('cs', uniqueString(resourceGroup().id))]",
             "cognitiveServicesId": "[resourceId('Microsoft.CognitiveServices/accounts/', variables('csName'))]"
           },
           "resources": [

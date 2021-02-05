@@ -11,9 +11,6 @@ resource rg 'Microsoft.Resources/resourceGroups@2020-06-01' = {
 module twitterDemo './twitterdemo3.bicep' = {
   name: 'twitterdemo3'
   scope: resourceGroup(rg.name)
-  params:{
-    baseName: rgName
-  }
 }
 
 output aksName string = twitterDemo.outputs.clusterName

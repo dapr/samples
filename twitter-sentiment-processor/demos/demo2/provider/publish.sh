@@ -3,9 +3,14 @@
 set -o errexit
 set -o pipefail
 
-$RELEASE_VERSION='v1.0.0-rc.3'
-DOCKER_HUB_USER=darquewarrior
+# The name of the docker up user to push images to.
+dockerHubUser=$1
+dockerHubUser=${dockerHubUser:-darquewarrior}
 
-docker build -t $DOCKER_HUB_USER/provider:$RELEASE_VERSION .
+# The version of the dapr runtime version to use as image tag.
+daprVersion=$2
+daprVersion=${daprVersion:-1.0.0-rc.3}
 
-docker push $DOCKER_HUB_USER/provider:$RELEASE_VERSION
+docker build -t $dockerHubUser/provider:$daprVersion .
+
+docker push $dockerHubUser/provider:$daprVersion

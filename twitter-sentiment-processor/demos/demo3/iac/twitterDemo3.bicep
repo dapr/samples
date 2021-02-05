@@ -1,19 +1,18 @@
-param baseName string
 param agentCount int = 3
 param osDiskSizeGB int = 128
 param location string = 'eastus2'
 param agentVMSize string = 'Standard_A2_v2'
 param servicePrincipalClientId string = 'msi'
 
-var sbName = '${baseName}sb'
-var csName = '${baseName}cs'
-var aksName = '${baseName}aks'
-var dnsPrefix = '${aksName}-dns'
 var sbApiVersion = '2017-04-01'
 var csApiVersion = '2017-04-18'
 var stgApiVersion = '2019-06-01'
-var stgName = toLower('${baseName}stg')
 var defaultSASKeyName = 'RootManageSharedAccessKey'
+var sbName = concat('sb', uniqueString(resourceGroup().id))
+var csName = concat('cs', uniqueString(resourceGroup().id))
+var aksName = concat('aks', uniqueString(resourceGroup().id))
+var dnsPrefix = '${aksName}-dns'
+var stgName = toLower(concat('stg', uniqueString(resourceGroup().id)))
 var storageAccountId = resourceId('Microsoft.Storage/storageAccounts', stgName)
 var cognitiveServicesId = resourceId('Microsoft.CognitiveServices/accounts/', csName)
 var authRuleResourceId = resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', sbName, defaultSASKeyName)

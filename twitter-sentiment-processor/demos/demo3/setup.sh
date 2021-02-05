@@ -16,6 +16,22 @@ function getOutput {
    echo $(az deployment sub show --name $rgName --query "properties.outputs.$1.value" --output tsv)
 }
 
+function getIp {
+   ip=$(kubectl get services $1 -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+
+   while true ; do
+      if ip; then
+         break
+      else
+         echo "Waiting for $1 IP address retry in 30 seconds."
+         sleep 30s
+         ip=$(kubectl get services $1 -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+      fi
+   done
+
+   echo $ip
+}
+
 # The name of the resource group to be created. All resources will be place in
 # the resource group and start with name.
 rgName=$1
@@ -72,18 +88,8 @@ helm install demo3 ./demochart -f ./demochart/mysecrets.yaml \
    --set tableStorage.key=$storageAccountKey \
    --set tableStorage.name=$storageAccountName
 
-service=$(kubectl get services viewer --output json)
+viewerIp=$(getIp 'viewer')
+zipkinIp=$(getIp 'publiczipkin')
 
-while true ; do
-   if $(echo $service | grep -qE 'ip[^0-9]+[0-9\.]+'); then
-      break
-   else
-      echo "Waiting for IP address retry in 30 seconds."
-      sleep 30s
-      service=$(kubectl get services viewer --output json)
-   fi
-done
-
-ip=$(echo $service | grep -oE 'ip[^0-9]+[0-9\.]+' | grep -oE '[0-9\.]+')
-
-echo "Your app is accesable from http://$ip"
+echo "Your app is accesable from http://$viewerIp"
+echo "Zipkin is accesable from http://$zipkinIp"

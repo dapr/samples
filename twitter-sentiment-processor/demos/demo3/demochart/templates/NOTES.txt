@@ -1,10 +1,21 @@
 To end the demo run:
+
 helm uninstall {{ .Release.Name }}
 
+{{- /*
+   Determine if you are on Windows or not and set the correct line continuation
+   delimiter.
+*/ -}}
+{{- $delimiter := "\\" }}
+{{- if .Values.onWindows }}
+{{- $delimiter = "`" }}
+{{- end}}
+
 To start the demo again run:
-helm install {{ .Release.Name }} .\demochart -f .\demochart\mysecrets.yaml `
-   --set serviceBus.connectionString={{ .Values.serviceBus.connectionString | quote }} `
-   --set cognitiveService.token={{ .Values.cognitiveService.token | quote }} `
-   --set cognitiveService.endpoint={{ .Values.cognitiveService.endpoint | quote }} `
-   --set tableStorage.key={{ .Values.tableStorage.key | quote }} `
+
+helm install {{ .Release.Name }} ./demochart -f ./demochart/mysecrets.yaml {{ $delimiter }}
+   --set serviceBus.connectionString={{ .Values.serviceBus.connectionString | quote }} {{ $delimiter }}
+   --set cognitiveService.token={{ .Values.cognitiveService.token | quote }} {{ $delimiter }}
+   --set cognitiveService.endpoint={{ .Values.cognitiveService.endpoint | quote }} {{ $delimiter }}
+   --set tableStorage.key={{ .Values.tableStorage.key | quote }} {{ $delimiter }}
    --set tableStorage.name={{ .Values.tableStorage.name | quote }}

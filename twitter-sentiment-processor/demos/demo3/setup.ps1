@@ -79,7 +79,8 @@ helm install demo3 ./demochart -f ./demochart/mysecrets.yaml `
    --set cognitiveService.token=$cognitiveServiceKey `
    --set cognitiveService.endpoint=$cognitiveServiceEndpoint `
    --set tableStorage.key=$storageAccountKey `
-   --set tableStorage.name=$storageAccountName
+   --set tableStorage.name=$storageAccountName `
+   --set onWindows=True
 
 # Make sure service is ready
 $service = $(kubectl get services viewer --output json) | ConvertFrom-Json

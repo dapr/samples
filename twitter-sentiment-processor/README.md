@@ -135,6 +135,7 @@ All the applications at this stage run locally.
 * Builds on Demo 1, illustrate interaction between multiple microservices in Dapr
 * Introduces service to service discovery/invocation
 * Introduces eventing using Dapr PubSub component
+* Introduces monitoring using Zipkin
 
 ### Demo 2 Requirements
 
@@ -148,7 +149,7 @@ All the applications at this stage run locally.
 
 ### Run demo 2
 
-Starting from the root of demo 2 (`demos/demo2`) make sure you are login to Azure.
+Starting from the root of demo 2 (`demos/demo2`) make sure you are logged into Azure.
 
   ```bash
   az login
@@ -175,6 +176,12 @@ PowerShell
 
 ```powershell
 ./setup.ps1 -rgName <required resource group name>
+```
+
+The results should look similar to this:
+
+```bash
+You can now run the processor from this terminal.
 ```
 
 Start `processor` so it's ready when `provider` starts
@@ -214,7 +221,7 @@ The UI should look something like this
 
 ![Tweets in web page](images/ui.png)
 
-This demo also shows monitoring via Zipkin. You can video the trace data of a tweet being processed by visiting [http://localhost:9411](http://localhost:9411). Click `Run Query` to see the captured traces.
+This demo also shows monitoring via Zipkin. You can view the trace data of a tweet being processed by visiting [http://localhost:9411](http://localhost:9411). Click `Run Query` to see the captured traces.
 
 ![Zipkin traces](images/zipkin.png)
 
@@ -242,7 +249,7 @@ Demo 3 takes the local development work and moves it to Kubernetes in Azure and 
 
 > Assumes the use of pre-built images for [provider](https://hub.docker.com/repository/docker/darquewarrior/provider), [processor](https://hub.docker.com/repository/docker/darquewarrior/processor), and [viewer](https://hub.docker.com/repository/docker/darquewarrior/viewer)
 
-Twitter credentials will have to be added to `demochart/mysecrets.yaml`:
+Twitter credentials will have to be added to `demochart/mysecrets.yaml` the other fills can be left blank if using the setup scripts below. If you manually deploy your infrastructure you will need to update all the values:
 
   ```yaml
     serviceBus:
@@ -262,7 +269,7 @@ Twitter credentials will have to be added to `demochart/mysecrets.yaml`:
         secret: "<enter value here>"
   ```
 
-Starting from the root of demo 3 (`demos/demo3`) make sure you are login to Azure.
+Starting from the root of demo 3 (`demos/demo3`) make sure you are logged into Azure.
 
   ```bash
   az login
@@ -278,7 +285,7 @@ Set the desired subscription.
 
 1. resource group name (required): This will be the resource group created in Azure. Each resource will begin with this name. This is the only mandatory value.
 1. location: This is the location to deploy all your resources. If you do not provide a value `eastus` will be used.
-1. runtime version: This is the runtime version of Dapr to deploy. If you do not provide a value `1.0.0-rc.3` will be used.
+1. runtime version: This is the runtime version of Dapr to deploy to the cluster. If you do not provide a value `1.0.0-rc.3` will be used.
 
 Bash
 
@@ -292,7 +299,7 @@ PowerShell
 ./setup.ps1 -rgName <required resource group name>
 ```
 
-The results should look similar to this
+The results should look similar to this:
 
 ```bash
 Getting IP addresses. Please wait...

@@ -15,11 +15,10 @@
 param (
    [Parameter(
       Position = 0,
-      Mandatory = $true,
       HelpMessage = "The name of the resource group to be created. All resources will be place in the resource group and start with name."
    )]
    [string]
-   $rgName,
+   $rgName = "twitterDemo3",
 
    [Parameter(
       Position = 1,
@@ -91,8 +90,13 @@ while ($($status | Select-String 'dapr-system  False').Matches.Length -ne 0) {
    $status = dapr status --kubernetes
 }
 
+# Copy the twitter component file from the demos/components folder to the
+# templates folder. Copy this file removes the need for the user to set
+# those values second time.
+Copy-Item -Path ../components/twitter.yaml -Destination ./demochart/templates/ -Force
+
 # Install the demo into the cluster
-helm upgrade --install demo3 ./demochart -f ./demochart/mysecrets.yaml `
+helm upgrade --install demo3 ./demochart `
    --set serviceBus.connectionString=$serviceBusEndpoint `
    --set cognitiveService.token=$cognitiveServiceKey `
    --set cognitiveService.endpoint=$cognitiveServiceEndpoint `

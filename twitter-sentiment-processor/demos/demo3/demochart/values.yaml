@@ -19,8 +19,5 @@ viewer:
    externalPort: 80
    image: "darquewarrior/viewer:1.0.0-rc.3"
 
-twitter:
-   query: "microsoft"
-
 zipkin:
    externalPort: 80

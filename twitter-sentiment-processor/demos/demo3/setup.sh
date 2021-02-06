@@ -79,8 +79,13 @@ while true ; do
    fi
 done
 
+# Copy the twitter component file from the demos/components folder to the
+# templates folder. Copy this file removes the need for the user to set
+# those values second time.
+cp -f ../components/twitter.yaml ./demochart/templates/
+
 # Install the demo into the cluster
-helm upgrade --install demo3 ./demochart -f ./demochart/mysecrets.yaml \
+helm upgrade --install demo3 ./demochart \
    --set serviceBus.connectionString=$serviceBusEndpoint \
    --set cognitiveService.token=$cognitiveServiceKey \
    --set cognitiveService.endpoint=$cognitiveServiceEndpoint \

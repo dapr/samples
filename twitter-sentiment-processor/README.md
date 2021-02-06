@@ -20,11 +20,7 @@ To simulate the transition from local development to the cloud this demo has thr
 
 ![Architecture Overview](images/overview.png)
 
-## Demo 1
-
-This demo contains two versions of the same application one C# .NET Core (`provider-net`) and Node.js (`provider`) using the dapr Twitter input binding component to subscribe to Twitter search results. This application uses the default Redis `statestore` to persist each tweet.
-
-Twitter credentials will have to be added to `components/twitter.yaml`:
+> All the demos rely on the Dapr Twitter input binding. For that binding to work you must add your [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started) to `components/twitter.yaml`:
 
   ```yaml
     apiVersion: dapr.io/v1alpha1
@@ -48,6 +44,10 @@ Twitter credentials will have to be added to `components/twitter.yaml`:
         - name: query
           value: "microsoft" # your search query, required
   ```
+
+## Demo 1
+
+This demo contains two versions of the same application one C# .NET Core (`provider-net`) and Node.js (`provider`) using the dapr Twitter input binding component to subscribe to Twitter search results. This application uses the default Redis `statestore` to persist each tweet.
 
 ### Demo 1 Objectives (Node.js)
 
@@ -83,7 +83,7 @@ Starting from the provider folder of demo 1 (`demos/demo1/provider`)
 
 This will launch Dapr and your application locally. Wait for tweets with the word `microsoft` to begin to arrive. In the terminal you will see logs from both Dapr and your application. As each tweet arrives you will see additional logging information appear.
 
-You can also use a [Redis extension](https://marketplace.visualstudio.com/items?itemName=cweijan.vscode-redis-client) of Visual Studio Code to view the data in Redis.
+You can use a Visual Studio Code [extension](https://marketplace.visualstudio.com/items?itemName=cweijan.vscode-mysql-client2) to view the data in Redis.
 
 ![Data in Redis](images/redis.png)
 
@@ -120,7 +120,7 @@ Starting from the provider-net folder of demo 1 (`demos/demo1/provider-net`)
 
 This will launch Dapr and your application locally. Wait for tweets with the word `microsoft` to begin to arrive. In the terminal you will see logs from both Dapr and your application. As each tweet arrives you will see additional logging information appear.
 
-You can also use a [Redis extension](https://marketplace.visualstudio.com/items?itemName=cweijan.vscode-redis-client) of Visual Studio Code to view the data in Redis.
+You can use a Visual Studio Code [extension](https://marketplace.visualstudio.com/items?itemName=cweijan.vscode-mysql-client2) to view the data in Redis.
 
 ![Data in Redis](images/redis.png)
 
@@ -186,8 +186,6 @@ You can now run the processor from this terminal.
 
 Start `processor` so it's ready when `provider` starts
 
-> If you manually deployed your infrastructure make sure you have the defined the `CS_TOKEN` and `CS_ENDPOINT` environment variables holding your Azure Cognitive Services token and endpoint [docs](https://docs.microsoft.com/azure/cognitive-services/authentication). If you used the setup scripts this was done for you.
-
 ```bash
 cd processor
 ./run.sh
@@ -248,26 +246,6 @@ Demo 3 takes the local development work and moves it to Kubernetes in Azure and 
 ### Run demo 3
 
 > Assumes the use of pre-built images for [provider](https://hub.docker.com/repository/docker/darquewarrior/provider), [processor](https://hub.docker.com/repository/docker/darquewarrior/processor), and [viewer](https://hub.docker.com/repository/docker/darquewarrior/viewer)
-
-Twitter credentials will have to be added to `demochart/mysecrets.yaml` the other fills can be left blank if using the setup scripts below. If you manually deploy your infrastructure you will need to update all the values:
-
-  ```yaml
-    serviceBus:
-       connectionString: "<enter value here>"
-    cognitiveService:
-       token: "<enter value here>"
-       endpoint: "<enter value here>"
-    tableStorage:
-      key: "<enter value here>"
-      name: "<enter value here>"
-    twitter:
-      access:
-        secret: "<enter value here>"
-        token: "<enter value here>"
-      consumer:
-        key: "<enter value here>"
-        secret: "<enter value here>"
-  ```
 
 Starting from the root of demo 3 (`demos/demo3`) make sure you are logged into Azure.
 

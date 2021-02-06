@@ -3,7 +3,7 @@ To end the demo run:
 helm uninstall {{ .Release.Name }}
 
 {{- /*
-   Determine if you are using PowerShell or not and set the correct line 
+   Determine if you are using PowerShell or not and set the correct line
    continuation delimiter.
 */ -}}
 {{- $delimiter := "\\" }}
@@ -13,7 +13,7 @@ helm uninstall {{ .Release.Name }}
 
 To start the demo again run:
 
-helm install {{ .Release.Name }} ./demochart -f ./demochart/mysecrets.yaml {{ $delimiter }}
+helm install {{ .Release.Name }} ./demochart {{ $delimiter }}
    --set serviceBus.connectionString={{ .Values.serviceBus.connectionString | quote }} {{ $delimiter }}
    --set cognitiveService.token={{ .Values.cognitiveService.token | quote }} {{ $delimiter }}
    --set cognitiveService.endpoint={{ .Values.cognitiveService.endpoint | quote }} {{ $delimiter }}

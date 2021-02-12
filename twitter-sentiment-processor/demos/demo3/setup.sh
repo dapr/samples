@@ -44,8 +44,17 @@ daprVersion=${daprVersion:-1.0.0-rc.3}
 location=$3
 location=${location:-eastus}
 
+# The version of k8s control plane
+k8sversion=$4
+k8sversion=${k8sversion:-1.19.6}
+
 # # Deploy the infrastructure
-az deployment sub create --name $rgName --location $location --template-file ./iac/main.json --parameters rgName=$rgName --output none
+az deployment sub create --name $rgName \
+   --location $location \
+   --template-file ./iac/main.json \
+   --parameters rgName=$rgName \
+   --parameter k8sversion=$k8sversion \
+   --output none
 
 # Get all the outputs
 aksName=$(getOutput 'aksName')

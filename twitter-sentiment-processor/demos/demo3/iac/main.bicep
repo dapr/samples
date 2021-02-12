@@ -1,16 +1,21 @@
 targetScope = 'subscription'
 
-param rgName string = 'twitterdemo3'
 param location string = 'eastus'
+param k8sversion string = '1.19.6'
+param rgName string = 'twitterdemo3'
 
 resource rg 'Microsoft.Resources/resourceGroups@2020-06-01' = {
   name: rgName
   location: location
 }
 
-module twitterDemo './twitterdemo3.bicep' = {
+module twitterDemo './twitterDemo3.bicep' = {
   name: 'twitterdemo3'
   scope: resourceGroup(rg.name)
+  params: {
+     location: location
+     k8sversion: k8sversion
+  }
 }
 
 output aksName string = twitterDemo.outputs.clusterName

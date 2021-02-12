@@ -2,13 +2,17 @@
   "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "rgName": {
-      "type": "string",
-      "defaultValue": "twitterdemo3"
-    },
     "location": {
       "type": "string",
       "defaultValue": "eastus"
+    },
+    "k8sversion": {
+      "type": "string",
+      "defaultValue": "1.19.3"
+    },
+    "rgName": {
+      "type": "string",
+      "defaultValue": "twitterdemo3"
     }
   },
   "functions": [],
@@ -29,6 +33,14 @@
           "scope": "inner"
         },
         "mode": "Incremental",
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "k8sversion": {
+            "value": "[parameters('k8sversion')]"
+          }
+        },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
@@ -44,6 +56,10 @@
             "location": {
               "type": "string",
               "defaultValue": "eastus2"
+            },
+            "k8sversion": {
+              "type": "string",
+              "defaultValue": "1.19.3"
             },
             "agentVMSize": {
               "type": "string",
@@ -114,7 +130,7 @@
                 "tier": "Free"
               },
               "properties": {
-                "kubernetesVersion": "1.19.3",
+                "kubernetesVersion": "[parameters('k8sversion')]",
                 "enableRBAC": true,
                 "dnsPrefix": "[variables('dnsPrefix')]",
                 "agentPoolProfiles": [

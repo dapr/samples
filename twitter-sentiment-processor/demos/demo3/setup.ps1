@@ -22,17 +22,24 @@ param (
 
    [Parameter(
       Position = 1,
+      HelpMessage = "The version of the dapr runtime version to deploy."
+   )]
+   [string]
+   $daprVersion = "1.0.0-rc.3",
+
+   [Parameter(
+      Position = 2,
       HelpMessage = "The location to store the meta data for the deployment."
    )]
    [string]
    $location = "eastus",
 
    [Parameter(
-      Position = 2,
-      HelpMessage = "The version of the dapr runtime version to deploy."
+      Position = 3,
+      HelpMessage = "The version of k8s control plane."
    )]
    [string]
-   $daprVersion = "1.0.0-rc.3"
+   $k8sVersion = "1.19.6",
 )
 function Get-IP {
    [CmdletBinding()]
@@ -53,7 +60,12 @@ function Get-IP {
 }
 
 # Deploy the infrastructure
-$deployment = $(az deployment sub create --location $location --template-file ./iac/main.json --parameters rgName=$rgName --output json) | ConvertFrom-Json
+$deployment = $(az deployment sub create --name $rgName `
+   --location $location `
+   --template-file ./iac/main.json `
+   --parameters rgName=$rgName `
+   --parameters k8sVersion=$k8sVersion `
+   --output json) | ConvertFrom-Json
 
 # Get all the outputs
 $aksName = $deployment.properties.outputs.aksName.value

@@ -1,6 +1,7 @@
 param agentCount int = 3
 param osDiskSizeGB int = 128
 param location string = 'eastus2'
+param k8sversion string = '1.19.6'
 param agentVMSize string = 'Standard_A2_v2'
 param servicePrincipalClientId string = 'msi'
 
@@ -56,7 +57,7 @@ resource aks 'Microsoft.ContainerService/managedClusters@2020-09-01' = {
     tier: 'Free'
   }
   properties: {
-    kubernetesVersion: '1.19.3'
+    kubernetesVersion: k8sversion
     enableRBAC: true
     dnsPrefix: dnsPrefix
     agentPoolProfiles: [

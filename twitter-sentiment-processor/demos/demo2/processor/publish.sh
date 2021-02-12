@@ -13,7 +13,7 @@ dockerHubUser=${dockerHubUser:-darquewarrior}
 
 # The version of the dapr runtime version to use as image tag.
 daprVersion=$2
-daprVersion=${daprVersion:-1.0.0-rc.3}
+daprVersion=${daprVersion:-1.0.0-rc.4}
 
 docker build -t $dockerHubUser/processor:$daprVersion .
 

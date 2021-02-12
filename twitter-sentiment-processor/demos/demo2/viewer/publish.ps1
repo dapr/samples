@@ -13,7 +13,7 @@ param (
       HelpMessage = "The version of the dapr runtime version to use as image tag."
    )]
    [string]
-   $daprVersion = "1.0.0-rc.3"
+   $daprVersion = "1.0.0-rc.4"
 )
 
 docker build --build-arg APP_VERSION=$daprVersion -t $dockerHubUser/viewer:$daprVersion .

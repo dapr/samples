@@ -12,11 +12,11 @@ To simulate the transition from local development to the cloud this demo has thr
 
 | Attribute | Details |
 |--------|--------|
-| Dapr runtime version | v1.0.0-rc.3 |
+| Dapr runtime version | v1.0.0-rc.4 |
 | Language | Go, C# (.NET Core), Node.js |
 | Environment | Local or Kubernetes |
 
->Note: this demo uses Dapr v1.0.0-rc.3 and may break if different Dapr versions are used
+>Note: this demo uses Dapr v1.0.0-rc.4 and may break if different Dapr versions are used
 
 ![Architecture Overview](images/overview.png)
 
@@ -60,7 +60,7 @@ The goal of this demo is to show how quickly you can get an application running 
 
 * Docker
 * Node.js
-* Dapr CLI v1.0.0-rc.3
+* Dapr CLI v1.0.0-rc.4
 * [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
 
 ### Run Demo 1 (Node.js)
@@ -72,7 +72,7 @@ Starting from the provider folder of demo 1 (`demos/demo1/provider`)
 * Initialize Dapr
 
   ```bash
-  dapr init --runtime-version '1.0.0-rc.3'
+  dapr init --runtime-version '1.0.0-rc.4'
   ```
 
 * Launch app locally using Dapr by running `run.sh` for Bash or `run.ps1` for PowerShell
@@ -98,7 +98,7 @@ This is the same application written in C# and leveraging the Dapr SDK. This hig
 
 * Docker
 * [.NET Core 3.1](http://bit.ly/DownloadDotNetCore)
-* Dapr CLI v1.0.0-rc.3
+* Dapr CLI v1.0.0-rc.4
 * [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
 
 ### Run Demo 1 (dotnet)
@@ -109,7 +109,7 @@ Starting from the provider-net folder of demo 1 (`demos/demo1/provider-net`)
 * Run
 
   ```powershell
-  dapr init --runtime-version '1.0.0-rc.3'
+  dapr init --runtime-version '1.0.0-rc.4'
   ```
 
 * Launch app locally using Dapr by running `run.sh` for Bash or `run.ps1` for PowerShell
@@ -142,7 +142,7 @@ All the applications at this stage run locally.
 * Go v1.4
 * Node.js
 * [Azure CLI v2.18.0](https://docs.microsoft.com/cli/azure/install-azure-cli)
-* Dapr CLI v1.0.0-rc.3
+* Dapr CLI v1.0.0-rc.4
 * [Azure Account](https://azure.microsoft.com/free/)
 * [Cognitive Services account](https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account)
 * [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
@@ -238,7 +238,7 @@ Demo 3 takes the local development work and moves it to Kubernetes in Azure and 
 * Node.js
 * [Helm v3](https://helm.sh/)
 * [Azure CLI v2.18.0](https://docs.microsoft.com/cli/azure/install-azure-cli)
-* Dapr CLI v1.0.0-rc.3
+* Dapr CLI v1.0.0-rc.4
 * [Azure Account](https://azure.microsoft.com/free/)
 * [Cognitive Services account](https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account)
 * [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
@@ -263,7 +263,7 @@ Set the desired subscription.
 
 1. resource group name: This will be the resource group created in Azure. If you do not provide a value `twitterDemo3` will be used.
 1. location: This is the location to deploy all your resources. If you do not provide a value `eastus` will be used.
-1. runtime version: This is the runtime version of Dapr to deploy to the cluster. If you do not provide a value `1.0.0-rc.3` will be used.
+1. runtime version: This is the runtime version of Dapr to deploy to the cluster. If you do not provide a value `1.0.0-rc.4` will be used.
 
 Bash
 

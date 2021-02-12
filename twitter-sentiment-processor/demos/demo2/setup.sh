@@ -36,4 +36,4 @@ cognitiveServiceEndpoint=$(getOutput 'cognitiveServiceEndpoint')
 export CS_TOKEN=$cognitiveServiceKey
 export CS_ENDPOINT=$cognitiveServiceEndpoint
 
-printf "You can now run the processor from this terminal."
+printf "You can now run the processor from this terminal.\n"

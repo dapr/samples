@@ -35,4 +35,4 @@ Write-Verbose "cognitiveServiceEndpoint = $cognitiveServiceEndpoint"
 $env:CS_TOKEN=$cognitiveServiceKey
 $env:CS_ENDPOINT=$cognitiveServiceEndpoint
 
-Write-Output "You can now run the processor from this terminal."
+Write-Output "You can now run the processor from this terminal.`n"

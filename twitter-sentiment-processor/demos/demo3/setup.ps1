@@ -39,7 +39,7 @@ param (
       HelpMessage = "The version of k8s control plane."
    )]
    [string]
-   $k8sVersion = "1.19.6",
+   $k8sVersion = "1.19.6"
 )
 function Get-IP {
    [CmdletBinding()]
@@ -64,7 +64,7 @@ $deployment = $(az deployment sub create --name $rgName `
    --location $location `
    --template-file ./iac/main.json `
    --parameters rgName=$rgName `
-   --parameters k8sVersion=$k8sVersion `
+   --parameters k8sversion=$k8sVersion `
    --output json) | ConvertFrom-Json
 
 # Get all the outputs

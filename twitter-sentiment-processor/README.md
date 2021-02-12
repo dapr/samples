@@ -13,7 +13,7 @@ To simulate the transition from local development to the cloud this demo has thr
 | Attribute | Details |
 |--------|--------|
 | Dapr runtime version | v1.0.0-rc.4 |
-| Language | Go, C# (.NET Core), Node.js |
+| Language | Go, C# (.NET Core 3.1), Node.js |
 | Environment | Local or Kubernetes |
 
 >Note: this demo uses Dapr v1.0.0-rc.4 and may break if different Dapr versions are used
@@ -100,6 +100,8 @@ This is the same application written in C# and leveraging the Dapr SDK. This hig
 * [.NET Core 3.1](http://bit.ly/DownloadDotNetCore)
 * Dapr CLI v1.0.0-rc.4
 * [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
+
+> Note .NET Core 3.1 is required. You can install along side .NET 5.0
 
 ### Run Demo 1 (dotnet)
 

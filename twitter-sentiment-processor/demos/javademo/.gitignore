@@ -1,0 +1,7 @@
+**/secrets.json
+**/.classpath
+**/.settings
+**/.DS_Store
+**/target
+**/.factorypath
+**/.project

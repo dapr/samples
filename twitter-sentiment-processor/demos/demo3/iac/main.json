@@ -1,0 +1,234 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "eastus"
+    },
+    "k8sversion": {
+      "type": "string",
+      "defaultValue": "1.19.3"
+    },
+    "rgName": {
+      "type": "string",
+      "defaultValue": "twitterdemo3"
+    }
+  },
+  "functions": [],
+  "resources": [
+    {
+      "type": "Microsoft.Resources/resourceGroups",
+      "apiVersion": "2020-06-01",
+      "name": "[parameters('rgName')]",
+      "location": "[parameters('location')]"
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "twitterdemo3",
+      "resourceGroup": "[parameters('rgName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "k8sversion": {
+            "value": "[parameters('k8sversion')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "agentCount": {
+              "type": "int",
+              "defaultValue": 3
+            },
+            "osDiskSizeGB": {
+              "type": "int",
+              "defaultValue": 128
+            },
+            "location": {
+              "type": "string",
+              "defaultValue": "eastus2"
+            },
+            "k8sversion": {
+              "type": "string",
+              "defaultValue": "1.19.3"
+            },
+            "agentVMSize": {
+              "type": "string",
+              "defaultValue": "Standard_A2_v2"
+            },
+            "servicePrincipalClientId": {
+              "type": "string",
+              "defaultValue": "msi"
+            }
+          },
+          "functions": [],
+          "variables": {
+            "sbApiVersion": "2017-04-01",
+            "csApiVersion": "2017-04-18",
+            "stgApiVersion": "2019-06-01",
+            "defaultSASKeyName": "RootManageSharedAccessKey",
+            "sbName": "[concat('sb', uniqueString(resourceGroup().id))]",
+            "csName": "[concat('cs', uniqueString(resourceGroup().id))]",
+            "aksName": "[concat('aks', uniqueString(resourceGroup().id))]",
+            "dnsPrefix": "[format('{0}-dns', variables('aksName'))]",
+            "stgName": "[toLower(concat('stg', uniqueString(resourceGroup().id)))]",
+            "storageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', variables('stgName'))]",
+            "cognitiveServicesId": "[resourceId('Microsoft.CognitiveServices/accounts/', variables('csName'))]",
+            "authRuleResourceId": "[resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', variables('sbName'), variables('defaultSASKeyName'))]"
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Storage/storageAccounts",
+              "apiVersion": "2019-06-01",
+              "name": "[variables('stgName')]",
+              "location": "[parameters('location')]",
+              "kind": "Storage",
+              "sku": {
+                "name": "Standard_LRS"
+              }
+            },
+            {
+              "type": "Microsoft.CognitiveServices/accounts",
+              "apiVersion": "2017-04-18",
+              "name": "[variables('csName')]",
+              "kind": "CognitiveServices",
+              "location": "[parameters('location')]",
+              "sku": {
+                "name": "S0"
+              },
+              "properties": {
+                "customSubDomainName": "[variables('csName')]"
+              }
+            },
+            {
+              "type": "Microsoft.ServiceBus/namespaces",
+              "apiVersion": "2017-04-01",
+              "name": "[variables('sbName')]",
+              "location": "[parameters('location')]",
+              "sku": {
+                "name": "Standard",
+                "tier": "Standard"
+              },
+              "properties": {}
+            },
+            {
+              "type": "Microsoft.ContainerService/managedClusters",
+              "apiVersion": "2020-09-01",
+              "name": "[variables('aksName')]",
+              "location": "[parameters('location')]",
+              "sku": {
+                "name": "Basic",
+                "tier": "Free"
+              },
+              "properties": {
+                "kubernetesVersion": "[parameters('k8sversion')]",
+                "enableRBAC": true,
+                "dnsPrefix": "[variables('dnsPrefix')]",
+                "agentPoolProfiles": [
+                  {
+                    "name": "agentpool",
+                    "osDiskSizeGB": "[parameters('osDiskSizeGB')]",
+                    "count": "[parameters('agentCount')]",
+                    "vmSize": "[parameters('agentVMSize')]",
+                    "osType": "Linux",
+                    "type": "VirtualMachineScaleSets",
+                    "mode": "System",
+                    "maxPods": 110,
+                    "availabilityZones": [
+                      "1"
+                    ]
+                  }
+                ],
+                "networkProfile": {
+                  "loadBalancerSku": "standard",
+                  "networkPlugin": "kubenet"
+                },
+                "apiServerAccessProfile": {
+                  "enablePrivateCluster": false
+                },
+                "addonProfiles": {
+                  "httpApplicationRouting": {
+                    "enabled": true
+                  },
+                  "azurePolicy": {
+                    "enabled": false
+                  }
+                },
+                "servicePrincipalProfile": {
+                  "clientId": "[parameters('servicePrincipalClientId')]"
+                }
+              },
+              "identity": {
+                "type": "SystemAssigned"
+              }
+            }
+          ],
+          "outputs": {
+            "clusterName": {
+              "type": "string",
+              "value": "[variables('aksName')]"
+            },
+            "storageAccountName": {
+              "type": "string",
+              "value": "[variables('stgName')]"
+            },
+            "cognitiveServiceKey": {
+              "type": "string",
+              "value": "[listkeys(variables('cognitiveServicesId'), variables('csApiVersion')).key1]"
+            },
+            "storageAccountKey": {
+              "type": "string",
+              "value": "[listKeys(variables('storageAccountId'), variables('stgApiVersion')).keys[0].value]"
+            },
+            "cognitiveServiceEndpoint": {
+              "type": "string",
+              "value": "[reference(variables('cognitiveServicesId'), variables('csApiVersion')).endpoint]"
+            },
+            "serviceBusEndpoint": {
+              "type": "string",
+              "value": "[listkeys(variables('authRuleResourceId'), variables('sbApiVersion')).primaryConnectionString]"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]"
+      ]
+    }
+  ],
+  "outputs": {
+    "aksName": {
+      "type": "string",
+      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterdemo3'), '2019-10-01').outputs.clusterName.value]"
+    },
+    "storageAccountKey": {
+      "type": "string",
+      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterdemo3'), '2019-10-01').outputs.storageAccountKey.value]"
+    },
+    "storageAccountName": {
+      "type": "string",
+      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterdemo3'), '2019-10-01').outputs.storageAccountName.value]"
+    },
+    "serviceBusEndpoint": {
+      "type": "string",
+      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterdemo3'), '2019-10-01').outputs.serviceBusEndpoint.value]"
+    },
+    "cognitiveServiceKey": {
+      "type": "string",
+      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterdemo3'), '2019-10-01').outputs.cognitiveServiceKey.value]"
+    },
+    "cognitiveServiceEndpoint": {
+      "type": "string",
+      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterdemo3'), '2019-10-01').outputs.cognitiveServiceEndpoint.value]"
+    }
+  }
+}

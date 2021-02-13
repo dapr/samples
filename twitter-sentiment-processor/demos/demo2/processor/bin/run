@@ -1,6 +1,0 @@
-#!/bin/bash
-
-set -o errexit
-set -o pipefail
-
-dapr run node app.js --app-id processor --app-port 3002 --protocol http --port 3500

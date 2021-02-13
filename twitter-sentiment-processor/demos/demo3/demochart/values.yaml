@@ -1,0 +1,23 @@
+# Default values for demochart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+demoName: "twitterSentimentProcessor"
+
+dapr:
+   port: 3500
+
+processor:
+   port: 3002
+   image: "darquewarrior/processor:1.0.0-rc.4"
+
+provider:
+   port: 3001
+   image: "darquewarrior/provider:1.0.0-rc.4"
+
+viewer:
+   port: 8083
+   externalPort: 80
+   image: "darquewarrior/viewer:1.0.0-rc.4"
+
+zipkin:
+   externalPort: 80

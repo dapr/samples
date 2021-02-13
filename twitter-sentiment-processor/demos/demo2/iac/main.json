@@ -1,0 +1,89 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "rgName": {
+      "type": "string",
+      "defaultValue": "twitterDemo2"
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "eastus"
+    }
+  },
+  "functions": [],
+  "resources": [
+    {
+      "type": "Microsoft.Resources/resourceGroups",
+      "apiVersion": "2020-06-01",
+      "name": "[parameters('rgName')]",
+      "location": "[parameters('location')]"
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "twitterDemo2",
+      "resourceGroup": "[parameters('rgName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "location": {
+              "type": "string",
+              "defaultValue": "eastus2"
+            }
+          },
+          "functions": [],
+          "variables": {
+            "csApiVersion": "2017-04-18",
+            "csName": "[concat('cs', uniqueString(resourceGroup().id))]",
+            "cognitiveServicesId": "[resourceId('Microsoft.CognitiveServices/accounts/', variables('csName'))]"
+          },
+          "resources": [
+            {
+              "type": "Microsoft.CognitiveServices/accounts",
+              "apiVersion": "2017-04-18",
+              "name": "[variables('csName')]",
+              "kind": "CognitiveServices",
+              "location": "[parameters('location')]",
+              "sku": {
+                "name": "S0"
+              },
+              "properties": {
+                "customSubDomainName": "[variables('csName')]"
+              }
+            }
+          ],
+          "outputs": {
+            "cognitiveServiceKey": {
+              "type": "string",
+              "value": "[listkeys(variables('cognitiveServicesId'), variables('csApiVersion')).key1]"
+            },
+            "cognitiveServiceEndpoint": {
+              "type": "string",
+              "value": "[reference(variables('cognitiveServicesId'), variables('csApiVersion')).endpoint]"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('rgName'))]"
+      ]
+    }
+  ],
+  "outputs": {
+    "cognitiveServiceKey": {
+      "type": "string",
+      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterDemo2'), '2019-10-01').outputs.cognitiveServiceKey.value]"
+    },
+    "cognitiveServiceEndpoint": {
+      "type": "string",
+      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rgName')), 'Microsoft.Resources/deployments', 'twitterDemo2'), '2019-10-01').outputs.cognitiveServiceEndpoint.value]"
+    }
+  }
+}

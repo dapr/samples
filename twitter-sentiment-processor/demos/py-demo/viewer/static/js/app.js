@@ -28,9 +28,10 @@ window.onload = function () {
             connDiv.innerText = "closed";
         });
 
-        sock.on('message', function (t) {
+        sock.on('message', function (m) {
             var scoreStr = "neutral";
-            var scoreAlt = "neutral: 0"
+            var scoreAlt = "neutral: 0";
+            t = JSON.parse(m);
 
             if (t.hasOwnProperty("sentiment")) { 
                 console.log(t.sentiment);

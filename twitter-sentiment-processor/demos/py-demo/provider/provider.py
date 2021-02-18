@@ -25,9 +25,9 @@ def binding(request: BindingRequest):
         tweet_data = json.dumps(m)
         d.save_state(STORE_NAME, m['id'], tweet_data)
 
-        resp = d.invoke_service(
-                id='tweet-processor',
-                method='sentiment-score',
+        resp = d.invoke_method(
+                'tweet-processor',
+                'sentiment-score',
                 data=tweet_data)
 
         m['sentiment'] = json.loads(resp.data)

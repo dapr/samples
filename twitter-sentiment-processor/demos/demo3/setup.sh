@@ -38,7 +38,7 @@ rgName=${rgName:-twitterDemo3}
 
 # The version of the dapr runtime version to deploy.
 daprVersion=$2
-daprVersion=${daprVersion:-1.0.0-rc.4}
+daprVersion=${daprVersion:-1.0.0}
 
 # The location to store the meta data for the deployment.
 location=$3

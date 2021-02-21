@@ -25,7 +25,7 @@ param (
       HelpMessage = "The version of the dapr runtime version to deploy."
    )]
    [string]
-   $daprVersion = "1.0.0-rc.4",
+   $daprVersion = "1.0.0",
 
    [Parameter(
       Position = 2,

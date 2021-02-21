@@ -4,6 +4,7 @@ metadata:
   name: demo-events
 spec:
   type: pubsub.redis
+  version: v1
   metadata:
   - name: redisHost
     value: redis-master.default.svc.cluster.local:6379

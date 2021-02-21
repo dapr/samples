@@ -1,48 +1,37 @@
 # Twitter Sentiment Processor
 
->Note: this demo uses Dapr v0.7.1 and may break if different Dapr versions are used
+This demo shows just how easy it is to setup a local development environment with [Dapr](https://dapr.io) and transition your work to the cloud.
+
+To simulate the transition from local development to the cloud this demo has three stages demos 1-3.
+
+* **Demo 1** - local development showing the speed with which developers can start and use the Dapr components (Twitter and state)
+* **Demo 2** - expands on Demo 1 adding monitoring and service invocation using both, direct invocation and consumption of events across applications using PubSub
+* **Demo 3** - deploys the application into Kubernetes and showcases the pluggability of components by switching the state to Azure Table Storage and PubSub to Azure Service Bus without making any code changes
 
 ## Sample info
+
 | Attribute | Details |
 |--------|--------|
-| Dapr runtime version | v0.7.1 |
-| Language | Go, C# (.NET Core), Node.js | 
+| Dapr runtime version | v1.0.0-rc.4 |
+| Language | Go, C# (.NET Core 3.1), Node.js |
 | Environment | Local or Kubernetes |
 
-## Recordings
-View the [recorded session](https://mybuild.microsoft.com/sessions/3f296b9a-7fe8-479b-b098-a1bfc7783476?source=sessions) and the [demo recordings](https://www.youtube.com/playlist?list=PLcip_LgkYwzu2ABITS_3cSV_6AeLsX-d0)
+>Note: this demo uses Dapr v1.0.0-rc.4 and may break if different Dapr versions are used
 
-## Overview
-This demo illustrates the simplicity of [Dapr](https://github.com/dapr/dapr) on Day 1 and it's flexibility of Dapr to adopt to complex of complex use-cases Day 2 by walking through 3 demos:
+![Architecture Overview](images/overview.png)
 
-* **Demo 1** - local development showing the speed with which developers can start and the use of Dapr components (Twitter and state)
-* **Demo 2** - expands on Demo 1 and adds service invocation using both, direct invocation and consumption of events across applications using PubSub
-* **Demo 3** - takes Demo 2 and illustrates how platform agnostic Dapr really is by containerizing these applications without any changes and deploying them onto Kubernetes. This demo also showcases the pluggability of components (state backed by Azure Table Storage, pubsub by Azure Service Bus)
-* **Java Demo** - Implements [a similar scenario in Java](javademo/README.md), using Dapr's Java SDK.
-
-![](images/overview.png)
-
-## Demo 1
-
-C# ASP.NET app (`provider`) using dapr Twitter input component to subscribe to Twitter search results. This app uses the default `statestore` to persist each tweet into the Redis backed `dapr` state store.
-
-### Objectives
-
-* Show idiomatic experience in Dapr allowing developers to be effective Day 1 (no Dapr libraries or attributes in user code)
-* Introduce the concept of components as a way to leverage existing capabilities
-
-### Requirements
-
-* Docker
-* Node.js or dotnet core > 3.1 (instructions below are for Node.js though demo can be run using dotnet)
-* [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
-
-Twitter credentials will have to be added to `components/twitter.yaml`:
+> All the demos rely on the Dapr Twitter input binding. For that binding to work you must add your [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started) to `components/twitter.yaml`:
 
   ```yaml
-      spec:
-        type: bindings.twitter
-        # PLACE TWITTER CREDS HERE
+    apiVersion: dapr.io/v1alpha1
+    kind: Component
+    metadata:
+      name: tweets
+    spec:
+      type: bindings.twitter
+      version: v1
+      metadata:
+        # PLACE TWITTER CREDENTIALS HERE
         metadata:
         - name: consumerKey
           value: "" # twitter api consumer key, required
@@ -53,264 +42,266 @@ Twitter credentials will have to be added to `components/twitter.yaml`:
         - name: accessSecret
           value: "" # twitter api access secret, required
         - name: query
-          value: "dapr" # your search query, required 
+          value: "microsoft" # your search query, required
   ```
 
-### Run demo 1 
+## Demo 1
 
-Starting from the root of demo 1 (`demos/demo1`)
+This demo contains two versions of the same application one C# .NET Core (`provider-net`) and Node.js (`provider`) using the dapr Twitter input binding component to subscribe to Twitter search results. This application uses the default Redis `statestore` to persist each tweet.
+
+### Demo 1 Objectives (Node.js)
+
+The goal of this demo is to show how quickly you can get an application running with Dapr.
+
+* Show idiomatic experience in Dapr allowing developers to be effective Day 1 (no Dapr libraries or attributes in user code)
+* Introduce the concept of components as a way to leverage existing capabilities (Twitter Binding and Redis state store)
+
+### Demo 1 Requirements (Node.js)
+
+* Docker
+* Node.js
+* Dapr CLI v1.0.0-rc.4
+* [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
+
+### Run Demo 1 (Node.js)
+
+Starting from the provider folder of demo 1 (`demos/demo1/provider`)
+
+* Install [Dapr CLI](https://docs.dapr.io/getting-started/install-dapr/#install-the-dapr-cli)
+
+* Initialize Dapr
+
+  ```bash
+  dapr init --runtime-version '1.0.0-rc.4'
+  ```
+
+* Launch app locally using Dapr by running `run.sh` for Bash or `run.ps1` for PowerShell
+
+  ```bash
+  ./run.sh
+  ```
+
+This will launch Dapr and your application locally. Wait for tweets with the word `microsoft` to begin to arrive. In the terminal you will see logs from both Dapr and your application. As each tweet arrives you will see additional logging information appear.
+
+You can use a Visual Studio Code [extension](https://marketplace.visualstudio.com/items?itemName=cweijan.vscode-mysql-client2) to view the data in Redis.
+
+![Data in Redis](images/redis.png)
+
+### Demo 1 Objectives (dotnet)
+
+This is the same application written in C# and leveraging the Dapr SDK. This highlights the flexibility to use Dapr with any language.
+
+* Show idiomatic experience in Dapr allowing developers to be effective Day 1 (uses optional SDK)
+* Introduce the concept of components as a way to leverage existing capabilities (Twitter Binding and Redis state store)
+
+### Demo 1 Requirements (dotnet)
+
+* Docker
+* [.NET Core 3.1](http://bit.ly/DownloadDotNetCore)
+* Dapr CLI v1.0.0-rc.4
+* [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
+
+> Note .NET Core 3.1 is required. You can install along side .NET 5.0
+
+### Run Demo 1 (dotnet)
+
+Starting from the provider-net folder of demo 1 (`demos/demo1/provider-net`)
 
 * Install [Dapr CLI](https://docs.dapr.io/getting-started/install-dapr/#install-the-dapr-cli)
 * Run
 
-  ```sh
-  dapr init
-  ```
-* Launch app locally using Dapr by running (example, running via dotnet)
-
-  ```sh
-  dapr run --app-id provider --app-port 5000 --port 3500 node app.js
+  ```powershell
+  dapr init --runtime-version '1.0.0-rc.4'
   ```
 
-* Post a tweet with the word `dapr` (e.g. "watching a cool dapr demo #build2020")
-* Show dapr log to see the debug info
-* View Redis for persisted data 
+* Launch app locally using Dapr by running `run.sh` for Bash or `run.ps1` for PowerShell
+
+  ```powershell
+  ./run.ps1
+  ```
+
+This will launch Dapr and your application locally. Wait for tweets with the word `microsoft` to begin to arrive. In the terminal you will see logs from both Dapr and your application. As each tweet arrives you will see additional logging information appear.
+
+You can use a Visual Studio Code [extension](https://marketplace.visualstudio.com/items?itemName=cweijan.vscode-mysql-client2) to view the data in Redis.
+
+![Data in Redis](images/redis.png)
 
 ## Demo 2
 
-Demo 2 builds on demo 1. It illustrates interaction between multiple microservices in Dapr (`processor` being invoked by `processor`) and adds the concept of pubsub, where each scored tweet in stead of being saved in state store is being published onto a topic. This demo also includes a Go viewer app (`viewer`) which subscribes to pubsub `processed-tweets` topic and streaming scored tweets over WebSockets to a SPA in JavaScript which displays streamed tweets.
+Demo 2 builds on demo 1 adding service-to-service invocation between multiple microservices in Dapr (`processor` being invoked by `provider`). The use of the state store is replaced with PubSub, where each scored tweet is published onto a topic where it will be read by the viewer app. This demo also includes a Go viewer app (`viewer`) which subscribes to a PubSub `tweet-pubsub` topic and streams scored tweets over WebSockets to a SPA in JavaScript for display.
 
-### Objectives
+### Demo 2 Objectives
 
-* Builds on Demo 1, illustrate interaction between multiple microservices in Dapr 
-* Introduces service to service discovery/invocation 
-* Introduces eventing using Dapr pubsub component 
+All the applications at this stage run locally.
 
-### Requirements
-* Go
-* [Azure Account](https://azure.microsoft.com/en-us/free/)
-* [Cognitive Services account](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account)
+* Builds on Demo 1, illustrate interaction between multiple microservices in Dapr
+* Introduces service to service discovery/invocation
+* Introduces eventing using Dapr PubSub component
+* Introduces monitoring using Zipkin
+
+### Demo 2 Requirements
+
+* Go v1.4
+* Node.js
+* [Azure CLI v2.18.0](https://docs.microsoft.com/cli/azure/install-azure-cli)
+* Dapr CLI v1.0.0-rc.4
+* [Azure Account](https://azure.microsoft.com/free/)
+* [Cognitive Services account](https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account)
+* [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
 
 ### Run demo 2
 
-Starting from the root of demo 2 (`demos/demo2`)
+Starting from the root of demo 2 (`demos/demo2`) make sure you are logged into Azure.
 
-[Start processor](https://github.com/azure-octo/build2020-dapr-demo/tree/master/demos/demo2/processor) so it's ready when `provider` starts 
+  ```bash
+  az login
+  ```
 
-> Make sure you have the defined the `CS_TOKEN` environment variable holding your Azure Cognitive Services token [docs](https://docs.microsoft.com/en-us/azure/cognitive-services/authentication)
+Set the desired subscription.
 
-```shell
-cd processor
-dapr run node app.js --app-id processor --app-port 3002 --protocol http --port 3500
+  ```bash
+  az account set --subscription <id or name>
+  ```
+
+ Now we can deploy the required infrastructure by running `setup.sh` for Bash or `setup.ps1` for PowerShell. When calling `setup.sh` you must use the `source` command so the environment variables are properly set (this is not required for the PowerShell version). These scripts will run an Azure Resource Manager template deployment and set the required CS_TOKEN and CS_ENDPOINT environment variables for the `processor` application. The scripts take two arguments.
+
+1. resource group name: This will be the resource group created in Azure. If you do not provide a value `twitterDemo2` will be used.
+1. location: This is the location to deploy all your resources. If you do not provide a value `eastus` will be used.
+
+Bash
+
+  ```bash
+  source ./setup.sh
+  ```
+
+PowerShell
+
+```powershell
+./setup.ps1
 ```
 
-[Start viewer](https://github.com/azure-octo/build2020-dapr-demo/tree/master/demos/demo1/viewer) so it's ready when `provider` starts 
+The results should look similar to this:
 
-```shell
+```bash
+You can now run the processor from this terminal.
+```
+
+Start `processor` so it's ready when `provider` starts
+
+```bash
+cd processor
+./run.sh
+```
+
+Start `viewer` so it's ready when `provider` starts
+
+```bash
 cd viewer
-dapr run go run handler.go main.go --app-id viewer --app-port 8083 --protocol http
+./run.sh
 ```
 
 Navigate to the viewer UI in browser (make sure WebSockets connection is opened)
 
-http://localhost:8083
+[http://localhost:8083](http://localhost:8083)
 
+Start `provider`
 
-[Start provider](https://github.com/azure-octo/build2020-dapr-demo/tree/master/demos/demo2/provider) provider 
+> For demo purposes use a frequently tweeted about topic, like microsoft (the default value). You may change the search term in the [demos/components/twitter.yaml](demos/components/twitter.yaml) file under `query` metadata element **BEFORE** you start provider
 
-> For demo purposes use a frequently tweeted about topic, like microsoft. You need to change that search term in the [demos/demo2/provider/components/twitter.yaml](demos/demo2/provider/components/twitter.yaml) file under `query` metadata element BEFORE you start provider
-
-```shell
+```bash
 cd provider
-dapr run node app.js --app-id provider --app-port 3001 --protocol http
+./run.sh
 ```
 
-Switch back to the UI to see the scored tweets 
+Switch back to the UI to see the scored tweets
 
-http://localhost:8083
+[http://localhost:8083](http://localhost:8083)
 
-The UI should look something like this 
+The UI should look something like this
 
-![](images/ui.png)
+![Tweets in web page](images/ui.png)
+
+This demo also shows monitoring via Zipkin. You can view the trace data of a tweet being processed by visiting [http://localhost:9411](http://localhost:9411). Click `Run Query` to see the captured traces.
+
+![Zipkin traces](images/zipkin.png)
 
 ## Demo 3
 
-Demo 3 takes the local development work and illustrates how platform agnostic the developer experience really is in Dapr by deploying all the previously developed code onto Kubernetes.
+Demo 3 takes the local development work and moves it to Kubernetes in Azure and all the components are configured to point to Azure based resources. The required Docker images have already been uploaded to Docker Hub for you.
 
-> Note, this demo requires Dapr v0.7
+### Demo 3 Objectives
 
-### Objectives
+* Show deployment of locally developed artifacts onto Kubernetes
+* Illustrate the run-time portability and component pluggability
 
-* Show deployment of locally developed artifacts onto Kubernetes 
-* Illustrate the run-time portability and component pluggability 
+### Demo 3 Requirements
+
+* Go v1.4
+* Node.js
+* [Helm v3](https://helm.sh/)
+* [Azure CLI v2.18.0](https://docs.microsoft.com/cli/azure/install-azure-cli)
+* Dapr CLI v1.0.0-rc.4
+* [Azure Account](https://azure.microsoft.com/free/)
+* [Cognitive Services account](https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account)
+* [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
 
 ### Run demo 3
 
-> Assumes the use of pre-built images for [provider](https://hub.docker.com/repository/docker/mchmarny/provider), [processor](https://hub.docker.com/repository/docker/mchmarny/processor), and [viewer](https://hub.docker.com/repository/docker/mchmarny/viewer)
+> Assumes the use of pre-built images for [provider](https://hub.docker.com/repository/docker/darquewarrior/provider), [processor](https://hub.docker.com/repository/docker/darquewarrior/processor), and [viewer](https://hub.docker.com/repository/docker/darquewarrior/viewer)
 
+Starting from the root of demo 3 (`demos/demo3`) make sure you are logged into Azure.
 
-This instructions assume [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) has been configured and that the following CLI defaults have been set:
+  ```bash
+  az login
+  ```
 
-```shell
-az account set --subscription <id or name>
-az configure --defaults location=<preferred location> group=<preferred resource group>
+Set the desired subscription.
+
+  ```bash
+  az account set --subscription <id or name>
+  ```
+
+ Now we can deploy the required infrastructure by running `setup.sh` for Bash or `setup.ps1` for PowerShell. Unlike with demo 2 you **do not** have to use the `source` command to run the Bash script as no environment variables are set. These scripts will run an Azure Resource Manager template deployment and a Helm install to deploy the entire demo. The scripts take three arguments.
+
+1. resource group name: This will be the resource group created in Azure. If you do not provide a value `twitterDemo3` will be used.
+1. location: This is the location to deploy all your resources. If you do not provide a value `eastus` will be used.
+1. runtime version: This is the runtime version of Dapr to deploy to the cluster. If you do not provide a value `1.0.0-rc.4` will be used.
+
+Bash
+
+  ```bash
+  ./setup.sh
+  ```
+
+PowerShell
+
+```powershell
+./setup.ps1
 ```
 
-> Note, this demo installs into the `default` namespace in your cluster. When installing into a different namespace, make sure to append the `-n <your namespace name>` to all commands below (secret, component, and deployment) 
+The results should look similar to this:
 
-#### State Store  
+```bash
+Getting IP addresses. Please wait...
 
-To configure state component to use Azure Table Storage follow [these instructions](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-create?tabs=azure-portal). Once finished, you will need to configure the Kubernates secrets to hold the Azure Table Storage token:
-
-```shell
-kubectl create secret generic demo-state-secret \
-  --from-literal=account-name="" \
-  --from-literal=account-key=""
+Your app is accessible from http://52.167.250.162
+Zipkin is accessible from http://52.247.23.115
 ```
 
-Once the secret is configured, deploy the `dapr` state component from the `demos/demo3` directory:
+#### Observability
 
-```shell
-kubectl apply -f component/statestore.yaml
-```
+You can view the scored tweets in Azure table storage
 
-#### PubSub Topic 
+![Azure Portal showing state in Azure table storage](images/state.png)
 
-To configure pubsub component to use Azure Service Bus follow [these instructions](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-quickstart-topics-subscriptions-portal). Once finished, you will need to configure the Kubernates secret to hold Azure Service Bus connection string information. 
+Similarly you can monitor the PubSub topic throughout in Azure Service Bus
 
+![Azure Portal showing PubSub in Azure Service Bus](images/pubsub.png)
 
-```shell
-kubectl create secret generic demo-bus-secret \
-  --from-literal=connection-string=""
-```
+In addition to the state and PubSub, you can also observe application traces in Zipkin.
 
-Once the secret is configured, deploy the `dapr` pubsub topic components from the `demos/demo3` directory:
+![Zipkin traces](images/zipkin.png)
 
-```shell
-kubectl apply -f component/pubsub.yaml
-```
+## Recordings
 
-#### Twitter Input Binding  
-
-Finally, to use the Dapr Twitter input binding we need to configure the Twitter API secretes. You can get these by registering Twitter application and obtain this information [here](https://developer.twitter.com/en/apps/create).
-
-```shell
-kubectl create secret generic demo-twitter-secrets \
-  --from-literal=access-secret="" \
-  --from-literal=access-token="" \
-  --from-literal=consumer-key="" \
-  --from-literal=consumer-secret=""
-```
-
-Once the secret is configured you can deploy the Twitter binding:
-
-```shell
-kubectl apply -f component/twitter.yaml
-```
-
-
-#### Deploy Demo 
-
-Once the necessary components are created, you just need to create one more secret for the Cognitive Service token that is used in the `processor` service: 
-
-```shell
-kubectl create secret generic demo-processor-secret \
-  --from-literal=token=""
-```
-
-And now you can deploy the entire pipeline (`provider`, `processor`, `viewer`) with a single command:
-
-```shell
-kubectl apply -f provider.yaml \
-              -f processor.yaml \
-              -f viewer.yaml
-```
-
-You can check on the status of your deployment like this: 
-
-```shell
-kubectl get pods -l demo=build2020
-```
-
-The results should look similar to this (make sure each pod has READY status 2/2)
-
-```shell
-NAME                        READY   STATUS    RESTARTS   AGE
-processor-89666d54b-hkd5t   2/2     Running   0          18s
-provider-85cfbf5456-lc85g   2/2     Running   0          18s
-viewer-76448d65fb-bm2dc     2/2     Running   0          18s
-```
-
-#### Exposing viewer UI
-
-To expose the viewer application externally, create Kubernetes `service` using [route.yaml](./viewer-route.yaml)
-
-```shell
-kubectl apply -f service/viewer.yaml
-```
-
-> Note, the provisioning of External IP may take little time. 
-
-To view the viewer application:
-
-```shell
-export VIEWER_IP=$(kubectl get svc viewer --output 'jsonpath={.status.loadBalancer.ingress[0].ip}')
-open "http://${VIEWER_IP}/"
-```
-
-> To change the Twitter topic query simply edit the [demos/demo3/component/twitter.yaml](demos/demo3/component/twitter.yaml), apply it, and `kubectl rollout restart deployment provider` to ensure the new configuration is applied. 
-
-#### Observability 
-
-You can view the scored tweets in Azure table storage 
-
-![](images/state.png)
-
-Similarly you can monitor the pubsub topic throughout in Azure Service Bus 
-
-![](images/pubsub.png)
-
-In addition to the state and pubsub, you can also observe Dapr metrics and logs for this demo. 
-
-The Dapr sidecar Grafana dashboard 
-
-![](images/metric.png)
-
-And the Elastic backed Kibana dashboard for logs
-
-![](images/log.png)
-
-For tracing first apply the tracing config 
-
-```shell
-kubectl apply -f tracing/tracing.yaml
-```
-
-And then, if you have not already have it, install Zipkin 
-
-
-```shell
-kubectl create deployment zipkin --image openzipkin/zipkin
-kubectl expose deployment zipkin --type ClusterIP --port 9411
-```
-
-And configure the Zipkin exporter
-
-```shell
-kubectl apply -f tracing/zipkin .yaml
-```
-
-You may have to restart the deployments 
-
-```shell
-kubectl rollout restart deployment processor provider viewer
-```
-
-
-At this point you should be able to access the Zipkin UI 
-
-http://localhost:9411/zipkin/
-
-
-
-
+View the [recorded session](https://mybuild.microsoft.com/sessions/3f296b9a-7fe8-479b-b098-a1bfc7783476?source=sessions) and the [demo recordings](https://www.youtube.com/playlist?list=PLcip_LgkYwzu2ABITS_3cSV_6AeLsX-d0)

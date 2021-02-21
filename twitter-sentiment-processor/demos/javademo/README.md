@@ -7,7 +7,7 @@
 |--------|--------|
 | Dapr runtime version | v0.11.3 |
 | Dapr Java SDK version | v0.9.2 |
-| Language | Java | 
+| Language | Java |
 | Environment | Local |
 
 ## Overview
@@ -49,7 +49,7 @@ Endpoint and Key for Azure's Text Analytics will have to set in a new file `proc
 }
 ```
 
-## Undersanding the Pipeline
+## Understanding the Pipeline
 
 All the applications described here uses Spring Boot.
 
@@ -78,6 +78,7 @@ Viewer app runs a static website from the [viewer/src/main/resources/static](vie
 ## Running
 
 First, run the processor app, using `sentiment-processor` as the app id:
+
 ```sh
 cd processor
 mvn clean install
@@ -85,6 +86,7 @@ dapr run --app-id sentiment-processor --components-path=./components/ --app-port
 ```
 
 In another terminal, run the provider app:
+
 ```sh
 cd provider
 mvn clean install
@@ -92,6 +94,7 @@ dapr run --components-path=./components/ --app-port=8080 -- java -jar target/app
 ```
 
 Finally, open another terminal and run the web UI app:
+
 ```sh
 cd viewer
 mvn clean install

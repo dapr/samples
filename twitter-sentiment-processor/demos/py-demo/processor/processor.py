@@ -5,7 +5,7 @@ import logging
 from azure.ai.textanalytics import TextAnalyticsClient
 from azure.core.credentials import AzureKeyCredential
 from dapr.clients import DaprClient
-from dapr.ext.grpc import App, InvokeServiceRequest, InvokeServiceResponse
+from dapr.ext.grpc import App, InvokeMethodRequest, InvokeMethodResponse
 
 LANG_DEFAULT = 'en'
 SECRET_STORE_NAME = 'pipeline-secrets'
@@ -23,7 +23,7 @@ analytics_key = ''
 app = App()
 
 @app.method(name='sentiment-score')
-def sentiment(request: InvokeServiceRequest) -> InvokeServiceResponse:
+def sentiment(request: InvokeMethodRequest) -> InvokeMethodResponse:
     req = json.loads(request.data)
     logging.info(req)
     lang = req.get('lang') or LANG_DEFAULT
@@ -32,7 +32,7 @@ def sentiment(request: InvokeServiceRequest) -> InvokeServiceResponse:
 
     logging.info(score)
 
-    return InvokeServiceResponse(json.dumps(score), 'application/json')
+    return InvokeMethodResponse(json.dumps(score), 'application/json')
 
 
 def get_analytics_client(endpoint: str, key: str):

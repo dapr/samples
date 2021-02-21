@@ -1,0 +1,21 @@
+To end the demo run:
+
+helm uninstall {{ .Release.Name }}
+
+{{- /*
+   Determine if you are using PowerShell or not and set the correct line
+   continuation delimiter.
+*/ -}}
+{{- $delimiter := "\\" }}
+{{- if .Values.usingPowerShell }}
+{{- $delimiter = "`" }}
+{{- end}}
+
+To start the demo again run:
+
+helm install {{ .Release.Name }} ./demochart {{ $delimiter }}
+   --set serviceBus.connectionString={{ .Values.serviceBus.connectionString | quote }} {{ $delimiter }}
+   --set cognitiveService.token={{ .Values.cognitiveService.token | quote }} {{ $delimiter }}
+   --set cognitiveService.endpoint={{ .Values.cognitiveService.endpoint | quote }} {{ $delimiter }}
+   --set tableStorage.key={{ .Values.tableStorage.key | quote }} {{ $delimiter }}
+   --set tableStorage.name={{ .Values.tableStorage.name | quote }}

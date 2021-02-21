@@ -10,27 +10,31 @@ import (
 
 const (
 	// SupportedCloudEventVersion indicates the version of CloudEvents suppored by this handler
-	SupportedCloudEventVersion = "0.3"
+	SupportedCloudEventVersion = "1.0"
 
 	//SupportedCloudEventContentTye indicates the content type supported by this handlers
 	SupportedCloudEventContentTye = "application/json"
 )
 
 type subscription struct {
-	Topic string `json:"Topic"`
-	Route string `json:"Route"`
+	PubSubName string `json:"pubsubname"`
+	Topic      string `json:"topic"`
+	Route      string `json:"route"`
 }
 
+// Is called by dapr to see which topic this applications wants to subscribe to
+// Return a subscription object with the PubSubName (dapr component name), topic
+// to subscribe to, and the route to send the items to.
 func subscribeHandler(c *gin.Context) {
-	
 	topics := []subscription{
-		subscription{
-			Topic: sourceTopic,
-			Route: "/" + sourceTopic,
+		{
+			PubSubName: "tweet-pubsub",
+			Topic:      "scored",
+			Route:      "/" + topicRoute,
 		},
 	}
-	
-	logger.Printf("subscription tipics: %v", topics)
+
+	logger.Printf("subscription topics: %v", topics)
 	c.JSON(http.StatusOK, topics)
 }
 
@@ -49,6 +53,7 @@ func rootHandler(c *gin.Context) {
 
 }
 
+// This is called each time a tweet is posted to this app.
 func eventHandler(c *gin.Context) {
 
 	e := ce.NewEvent()
@@ -61,7 +66,7 @@ func eventHandler(c *gin.Context) {
 		return
 	}
 
-	// logger.Printf("received event: %v", e.Context)
+	logger.Printf("received event: %v", e.Context)
 
 	eventVersion := e.Context.GetSpecVersion()
 	if eventVersion != SupportedCloudEventVersion {

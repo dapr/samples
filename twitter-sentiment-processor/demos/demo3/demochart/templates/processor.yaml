@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: processor
+  labels:
+    app: processor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: processor
+  template:
+    metadata:
+      labels:
+        app: processor
+        demo: {{ .Values.demoName }}
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "processor"
+        dapr.io/app-port: {{ .Values.processor.port | quote }}
+        dapr.io/log-as-json: "true"
+        dapr.io/config: "tracing"
+    spec:
+      containers:
+      - name: processor
+        image: {{ .Values.processor.image }}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: {{ .Values.processor.port }}
+        env:
+        - name: PORT
+          value: {{ .Values.processor.port | quote }}
+        - name: DAPR_HTTP_PORT
+          value: {{ .Values.dapr.port | quote}}
+        - name: CS_ENDPOINT
+          value: {{ .Values.cognitiveService.endpoint | quote }}
+        - name: CS_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: demo-processor-secret
+              key: token

@@ -4,8 +4,8 @@
 
 | Attribute | Details |
 |--------|--------|
-| Dapr runtime version | v0.11.3+ |
-| Dapr Python SDK | v0.8.0a0+ |
+| Dapr runtime version | v1.0.0+ |
+| Dapr Python SDK | v1.0.0+ |
 | Language | Python |
 | Environment | Local |
 

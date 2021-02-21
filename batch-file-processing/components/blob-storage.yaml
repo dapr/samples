@@ -5,6 +5,7 @@ metadata:
   namespace: default
 spec:
   type: bindings.azure.blobstorage
+  version: v1
   metadata:
   - name: storageAccount
     value: <storage_account_name>

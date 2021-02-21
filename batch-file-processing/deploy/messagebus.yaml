@@ -4,6 +4,7 @@ metadata:
   name: messagebus
 spec:
   type: pubsub.azure.servicebus
+  version: v1
   metadata:
   - name: connectionString
     value: <namespace_connection_string> # Required.

@@ -18,21 +18,21 @@ param (
       HelpMessage = "The name of the resource group to be created. All resources will be place in the resource group and start with name."
    )]
    [string]
-   $rgName = "twitterDemo3",
+   $rgName = "twitterDemo",
 
    [Parameter(
       Position = 1,
-      HelpMessage = "The version of the dapr runtime version to deploy."
-   )]
-   [string]
-   $daprVersion = "1.0.0",
-
-   [Parameter(
-      Position = 2,
       HelpMessage = "The location to store the meta data for the deployment."
    )]
    [string]
    $location = "eastus",
+
+   [Parameter(
+      Position = 2,
+      HelpMessage = "The version of the dapr runtime version to deploy."
+   )]
+   [string]
+   $daprVersion = "1.0.0",
 
    [Parameter(
       Position = 3,

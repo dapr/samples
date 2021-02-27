@@ -20,7 +20,7 @@ function getOutput {
 # The name of the resource group to be created. All resources will be place in
 # the resource group and start with name.
 rgName=$1
-rgName=${rgName:-twitterDemo2}
+rgName=${rgName:-twitterDemo}
 
 # The location to store the meta data for the deployment.
 location=$2

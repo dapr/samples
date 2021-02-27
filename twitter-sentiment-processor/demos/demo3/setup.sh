@@ -34,7 +34,7 @@ function getIp {
 # The name of the resource group to be created. All resources will be place in
 # the resource group and start with name.
 rgName=$1
-rgName=${rgName:-twitterDemo3}
+rgName=${rgName:-twitterDemo}
 
 # The version of the dapr runtime version to deploy.
 daprVersion=$2

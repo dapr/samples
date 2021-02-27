@@ -14,7 +14,7 @@ param (
       HelpMessage = "The version of the dapr runtime version to use as image tag."
    )]
    [string]
-   $daprVersion = "1.0.0-rc.4"
+   $daprVersion = "1.0.0"
 )
 
 docker build -t $dockerHubUser/processor:$daprVersion .

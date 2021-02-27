@@ -63,6 +63,7 @@ function Get-IP {
 $deployment = $(az deployment sub create --name $rgName `
    --location $location `
    --template-file ./iac/main.json `
+   --parameters location=$location `
    --parameters rgName=$rgName `
    --parameters k8sversion=$k8sVersion `
    --output json) | ConvertFrom-Json

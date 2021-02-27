@@ -53,6 +53,7 @@ az deployment sub create --name $rgName \
    --location $location \
    --template-file ./iac/main.json \
    --parameters rgName=$rgName \
+   --parameters location=$location \
    --parameter k8sversion=$k8sversion \
    --output none
 

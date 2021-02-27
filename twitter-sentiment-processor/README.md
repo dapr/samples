@@ -12,11 +12,11 @@ To simulate the transition from local development to the cloud this demo has thr
 
 | Attribute | Details |
 |--------|--------|
-| Dapr runtime version | v1.0.0-rc.4 |
+| Dapr runtime version | v1.0.0 |
 | Language | Go, C# (.NET Core 3.1), Node.js |
 | Environment | Local or Kubernetes |
 
->Note: this demo uses Dapr v1.0.0-rc.4 and may break if different Dapr versions are used
+>Note: this demo uses Dapr v1.0.0 and may break if different Dapr versions are used
 
 ![Architecture Overview](images/overview.png)
 

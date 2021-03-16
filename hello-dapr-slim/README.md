@@ -80,17 +80,17 @@ First, POST the message by using Dapr cli in a new command line terminal:
 
 Windows Command Prompt
 ```sh
-dapr invoke --app-id nodeapp --method neworder --payload "{\"data\": { \"orderId\": \"41\" } }"
+dapr invoke --verb POST --app-id nodeapp --method neworder --data "{\"data\": { \"orderId\": \"41\" } }"
 ```
 
 Windows PowerShell
 ```sh
-dapr invoke --app-id nodeapp --method neworder --payload '{\"data\": { \"orderId\": \"41\" } }'
+dapr invoke --verb POST --app-id nodeapp --method neworder --data '{\"data\": { \"orderId\": \"41\" } }'
 ```
 
 Linux or MacOS
 ```sh
-dapr invoke --app-id nodeapp --method neworder --payload '{"data": { "orderId": "41" } }'
+dapr invoke --verb POST --app-id nodeapp --method neworder --data '{"data": { "orderId": "41" } }'
 ```
 
 Now, you can also do this using `curl` with:

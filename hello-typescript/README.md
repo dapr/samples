@@ -127,22 +127,22 @@ First, POST the message by using Dapr cli in a new command line terminal:
 
 Windows Command Prompt
 ```sh
-dapr invokePost --app-id nodeapp --method neworder --payload "{\"data\": { \"orderId\": \"41\" } }"
+dapr invoke --verb POST --app-id nodeapp --method neworder --data "{\"data\": { \"orderId\": \"41\" } }"
 ```
 
 Windows PowerShell
 ```sh
-dapr invokePost --app-id nodeapp --method neworder --payload '{\"data\": { \"orderId\": \"41\" } }'
+dapr invoke --verb POST --app-id nodeapp --method neworder --data '{\"data\": { \"orderId\": \"41\" } }'
 ```
 
 Linux or MacOS
 ```sh
-dapr invokePost --app-id nodeapp --method neworder --payload '{"data": { "orderId": "41" } }'
+dapr invoke --verb POST --app-id nodeapp --method neworder --data '{"data": { "orderId": "41" } }'
 ```
 
 Next, GET the content of the persisted order:
 ```sh
-dapr invokeGet --app-id nodeapp --method order
+dapr invoke --verb GET --app-id nodeapp --method order
 ```
 
 And the response should be:

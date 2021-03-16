@@ -16,7 +16,7 @@ If you are new to Dapr, you may want to review following resources first:
 
 | Sample | Details |
 |------|-------|
-| [Twitter Sentiment Processor](./twitter-sentiment-processor) | Code sample used to demo Dapr during Micorosft's Build 2020 conference showing a polyglot distributed application which performs sentiment processing for tweets |
+| [Twitter Sentiment Processor](./twitter-sentiment-processor) | Code sample used to demo Dapr during Microsoft's Build 2020 conference showing a polyglot distributed application which performs sentiment processing for tweets |
 | [Hello world slim (no Docker dependency)](./hello-dapr-slim) | This sample is a version of the [hello-world](https://github.com/dapr/quickstarts/tree/master/hello-world) quickstart sample showing how to install initialize and use Dapr without having Docker in your local environment |
 | [Hello TypeScript](./hello-typescript) | This sample is a version of the [hello-world](https://github.com/dapr/quickstarts/tree/master/hello-world) quickstart sample showing how to use Dapr in a TypeScript project. |
 | [Docker compose sample](./hello-docker-compose) | Demonstrates how to get Dapr running locally with Docker Compose |

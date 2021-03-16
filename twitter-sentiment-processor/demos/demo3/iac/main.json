@@ -8,11 +8,11 @@
     },
     "k8sversion": {
       "type": "string",
-      "defaultValue": "1.19.3"
+      "defaultValue": "1.19.6"
     },
     "rgName": {
       "type": "string",
-      "defaultValue": "twitterdemo3"
+      "defaultValue": "twitterdemo"
     }
   },
   "functions": [],
@@ -59,7 +59,7 @@
             },
             "k8sversion": {
               "type": "string",
-              "defaultValue": "1.19.3"
+              "defaultValue": "1.19.6"
             },
             "agentVMSize": {
               "type": "string",

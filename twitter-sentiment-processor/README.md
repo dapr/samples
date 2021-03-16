@@ -12,11 +12,11 @@ To simulate the transition from local development to the cloud this demo has thr
 
 | Attribute | Details |
 |--------|--------|
-| Dapr runtime version | v1.0.0-rc.4 |
+| Dapr runtime version | v1.0.0 |
 | Language | Go, C# (.NET Core 3.1), Node.js |
 | Environment | Local or Kubernetes |
 
->Note: this demo uses Dapr v1.0.0-rc.4 and may break if different Dapr versions are used
+>Note: this demo uses Dapr v1.0.0 and may break if different Dapr versions are used
 
 ![Architecture Overview](images/overview.png)
 
@@ -60,7 +60,7 @@ The goal of this demo is to show how quickly you can get an application running 
 
 * Docker
 * Node.js
-* Dapr CLI v1.0.0-rc.4
+* Dapr CLI v1.0.0
 * [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
 
 ### Run Demo 1 (Node.js)
@@ -72,7 +72,7 @@ Starting from the provider folder of demo 1 (`demos/demo1/provider`)
 * Initialize Dapr
 
   ```bash
-  dapr init --runtime-version '1.0.0-rc.4'
+  dapr init --runtime-version '1.0.0'
   ```
 
 * Launch app locally using Dapr by running `run.sh` for Bash or `run.ps1` for PowerShell
@@ -81,7 +81,7 @@ Starting from the provider folder of demo 1 (`demos/demo1/provider`)
   ./run.sh
   ```
 
-This will launch Dapr and your application locally. Wait for tweets with the word `microsoft` to begin to arrive. In the terminal you will see logs from both Dapr and your application. As each tweet arrives you will see additional logging information appear.
+This will issue the `dapr run` command to launch Dapr and your application locally. Wait for tweets with the word `microsoft` to begin to arrive. In the terminal you will see logs from both Dapr and your application. As each tweet arrives you will see additional logging information appear.
 
 You can use a Visual Studio Code [extension](https://marketplace.visualstudio.com/items?itemName=cweijan.vscode-mysql-client2) to view the data in Redis.
 
@@ -98,7 +98,7 @@ This is the same application written in C# and leveraging the Dapr SDK. This hig
 
 * Docker
 * [.NET Core 3.1](http://bit.ly/DownloadDotNetCore)
-* Dapr CLI v1.0.0-rc.4
+* Dapr CLI v1.0.0
 * [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
 
 > Note .NET Core 3.1 is required. You can install along side .NET 5.0
@@ -111,7 +111,7 @@ Starting from the provider-net folder of demo 1 (`demos/demo1/provider-net`)
 * Run
 
   ```powershell
-  dapr init --runtime-version '1.0.0-rc.4'
+  dapr init --runtime-version '1.0.0'
   ```
 
 * Launch app locally using Dapr by running `run.sh` for Bash or `run.ps1` for PowerShell
@@ -144,7 +144,7 @@ All the applications at this stage run locally.
 * Go v1.4
 * Node.js
 * [Azure CLI v2.18.0](https://docs.microsoft.com/cli/azure/install-azure-cli)
-* Dapr CLI v1.0.0-rc.4
+* Dapr CLI v1.0.0
 * [Azure Account](https://azure.microsoft.com/free/)
 * [Cognitive Services account](https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account)
 * [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
@@ -163,21 +163,21 @@ Set the desired subscription.
   az account set --subscription <id or name>
   ```
 
- Now we can deploy the required infrastructure by running `setup.sh` for Bash or `setup.ps1` for PowerShell. When calling `setup.sh` you must use the `source` command so the environment variables are properly set (this is not required for the PowerShell version). These scripts will run an Azure Resource Manager template deployment and set the required CS_TOKEN and CS_ENDPOINT environment variables for the `processor` application. The scripts take two arguments.
+ Now we can deploy the required infrastructure by running `setup.sh` for Bash or `setup.ps1` for PowerShell. When calling `setup.sh` you must use the `source` command so the environment variables are properly set (this is not required for the PowerShell version). These scripts will run an Azure Resource Manager template deployment that will deploy a  Cognitive Services account and set the required CS_TOKEN and CS_ENDPOINT environment variables for the `processor` application. The scripts take two arguments.
 
-1. resource group name: This will be the resource group created in Azure. If you do not provide a value `twitterDemo2` will be used.
+1. resource group name: This will be the resource group created in Azure. If you do not provide a value `twitterDemo` will be used.
 1. location: This is the location to deploy all your resources. If you do not provide a value `eastus` will be used.
 
 Bash
 
   ```bash
-  source ./setup.sh
+  source ./setup.sh myDemo westus2
   ```
 
 PowerShell
 
 ```powershell
-./setup.ps1
+./setup.ps1 myDemo westus2
 ```
 
 The results should look similar to this:
@@ -240,7 +240,7 @@ Demo 3 takes the local development work and moves it to Kubernetes in Azure and 
 * Node.js
 * [Helm v3](https://helm.sh/)
 * [Azure CLI v2.18.0](https://docs.microsoft.com/cli/azure/install-azure-cli)
-* Dapr CLI v1.0.0-rc.4
+* Dapr CLI v1.0.0
 * [Azure Account](https://azure.microsoft.com/free/)
 * [Cognitive Services account](https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account)
 * [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
@@ -263,20 +263,21 @@ Set the desired subscription.
 
  Now we can deploy the required infrastructure by running `setup.sh` for Bash or `setup.ps1` for PowerShell. Unlike with demo 2 you **do not** have to use the `source` command to run the Bash script as no environment variables are set. These scripts will run an Azure Resource Manager template deployment and a Helm install to deploy the entire demo. The scripts take three arguments.
 
-1. resource group name: This will be the resource group created in Azure. If you do not provide a value `twitterDemo3` will be used.
+1. resource group name: This will be the resource group created in Azure. If you do not provide a value `twitterDemo` will be used.
 1. location: This is the location to deploy all your resources. If you do not provide a value `eastus` will be used.
-1. runtime version: This is the runtime version of Dapr to deploy to the cluster. If you do not provide a value `1.0.0-rc.4` will be used.
+1. runtime version: This is the runtime version of Dapr to deploy to the cluster. If you do not provide a value `1.0.0` will be used.
+1. kubernetes version: This is the version of Kubernetes control plane. If you do not provide a value `1.19.6` will be used.
 
 Bash
 
   ```bash
-  ./setup.sh
+  ./setup.sh myDemo westus2 '1.0.0' '1.19.6'
   ```
 
 PowerShell
 
 ```powershell
-./setup.ps1
+./setup.ps1 myDemo westus2 '1.0.0' '1.19.6'
 ```
 
 The results should look similar to this:
@@ -290,15 +291,15 @@ Zipkin is accessible from http://52.247.23.115
 
 #### Observability
 
-You can view the scored tweets in Azure table storage
+You can view the scored tweets in Azure table storage. From your resource group click on your storage account. From the left navigation select `Storage Explorer (preview)`. Expand `TABLES` and click `DemoScoredTweets`.
 
 ![Azure Portal showing state in Azure table storage](images/state.png)
 
-Similarly you can monitor the PubSub topic throughout in Azure Service Bus
+Similarly you can monitor the PubSub topic throughout in Azure Service Bus. From your resource group click on your service bus namespace. From the left navigation select `Topics`. Click the `scored` topic.
 
 ![Azure Portal showing PubSub in Azure Service Bus](images/pubsub.png)
 
-In addition to the state and PubSub, you can also observe application traces in Zipkin.
+In addition to the state and PubSub, you can also observe application traces in Zipkin. The URL to Zipkin is output at the end of the setup script.
 
 ![Zipkin traces](images/zipkin.png)
 

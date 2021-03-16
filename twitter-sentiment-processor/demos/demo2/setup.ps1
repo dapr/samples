@@ -12,7 +12,7 @@ param (
       HelpMessage = "The name of the resource group to be created. All resources will be place in the resource group and start with this name."
    )]
    [string]
-   $rgName = "twitterDemo2",
+   $rgName = "twitterDemo",
 
    [Parameter(
       Position = 1,
@@ -23,7 +23,12 @@ param (
 )
 
 # Deploy the infrastructure
-$deployment = $(az deployment sub create --location $location --template-file ./iac/main.json --parameters rgName=$rgName --output json) | ConvertFrom-Json
+$deployment = $(az deployment sub create --name $rgName `
+   --location $location `
+   --template-file ./iac/main.json `
+   --parameters rgName=$rgName `
+   --parameters location=$location `
+   --output json) | ConvertFrom-Json
 
 # Get all the outputs
 $cognitiveServiceKey = $deployment.properties.outputs.cognitiveServiceKey.value

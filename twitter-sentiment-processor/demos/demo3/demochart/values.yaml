@@ -8,16 +8,16 @@ dapr:
 
 processor:
    port: 3002
-   image: "darquewarrior/processor:1.0.0-rc.4"
+   image: "darquewarrior/processor:1.0.0"
 
 provider:
    port: 3001
-   image: "darquewarrior/provider:1.0.0-rc.4"
+   image: "darquewarrior/provider:1.0.0"
 
 viewer:
    port: 8083
    externalPort: 80
-   image: "darquewarrior/viewer:1.0.0-rc.4"
+   image: "darquewarrior/viewer:1.0.0"
 
 zipkin:
    externalPort: 80

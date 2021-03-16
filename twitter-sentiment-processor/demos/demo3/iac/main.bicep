@@ -2,7 +2,7 @@ targetScope = 'subscription'
 
 param location string = 'eastus'
 param k8sversion string = '1.19.6'
-param rgName string = 'twitterdemo3'
+param rgName string = 'twitterdemo'
 
 resource rg 'Microsoft.Resources/resourceGroups@2020-06-01' = {
   name: rgName

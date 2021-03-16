@@ -2,13 +2,13 @@
   "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "rgName": {
-      "type": "string",
-      "defaultValue": "twitterDemo2"
-    },
     "location": {
       "type": "string",
       "defaultValue": "eastus"
+    },
+    "rgName": {
+      "type": "string",
+      "defaultValue": "twitterDemo"
     }
   },
   "functions": [],
@@ -29,6 +29,11 @@
           "scope": "inner"
         },
         "mode": "Incremental",
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",

@@ -1,6 +1,10 @@
 name: Twitter Demo
 
-on: [push]
+on:
+  # Triggers the workflow on push
+  push:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 env:
   # The name of the resource group to be created. All resources will be place
@@ -38,4 +42,10 @@ jobs:
             --parameters rgName=${{ env.RG_NAME }} `
             --parameters k8sversion=${{ env.K8S_VERSION }} `
             --output json) | ConvertFrom-Json
+          # Get all the outputs
+          Write-Output "::set-output name=aksName::$($deployment.properties.outputs.aksName.value)"
+        working-directory: ./twitter-sentiment-processor/demos/demo3
+      - name: Test Outputs
+        shell: pwsh
+        run: Write-Host "${{ outputs.aksName }}"
         working-directory: ./twitter-sentiment-processor/demos/demo3

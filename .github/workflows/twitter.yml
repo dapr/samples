@@ -5,44 +5,44 @@ on: [push]
 env:
   # The name of the resource group to be created. All resources will be place
   # in the resource group and start with name.
-  RGNAME: "twitterDemo"
+  RG_NAME: "twitterDemo"
 
   # The location to store the meta data for the deployment.
   LOCATION: "eastus"
 
   #The version of the dapr runtime version to deploy.
-  DAPRVERSION: "1.0.0"
+  DAPR_VERSION: "1.0.0"
 
   # The version of k8s control plane.
-  K8SVERSION: "1.19.6"
+  K8S_VERSION: "1.19.6"
 
 jobs:
   infrastructure:
     name: iac
     runs-on: ubuntu-latest
     steps:
-    - name: Clone repo
-      uses: actions/checkout@v2
-    - name: Login to Azure CLI
-      shell: pwsh
-      run: |
-        az login `
-          --service-principal `
-          --username ${{ secrets.SERVICEPRINCIPAL }} `
-          --password ${{ secrets.CLIENTSECRET }} `
-          --tenant ${{ secrets.TENATID }} `
-          --output table
+      - name: Clone repo
+        uses: actions/checkout@v2
+      - name: Login to Azure CLI
+        shell: pwsh
+        run: |
+          az login `
+            --service-principal `
+            --username ${{ secrets.SERVICEPRINCIPAL }} `
+            --password ${{ secrets.CLIENTSECRET }} `
+            --tenant ${{ secrets.TENATID }} `
+            --output table
 
-        az account set `
-          --subscription ${{ secrets.SUBSCRIPTIONID }}
-    - name: Deploy infrastructure
-      shell: pwsh
-      run: |
-        $deployment = $(az deployment sub create --name ${RGNAME} `
-          --location ${LOCATION} `
-          --template-file ./iac/main.json `
-          --parameters location=${LOCATION} `
-          --parameters rgName=${RGNAME} `
-          --parameters k8sversion=${K8SVERSION} `
-          --output json) | ConvertFrom-Json
-      working-directory: ./twitter-sentiment-processor/demos/demo3
+          az account set `
+            --subscription ${{ secrets.SUBSCRIPTIONID }}
+      - name: Deploy infrastructure
+        shell: pwsh
+        run: |
+          $deployment = $(az deployment sub create --name ${{ env.RG_NAME }} `
+            --location ${{ env.LOCATION }} `
+            --template-file ./iac/main.json `
+            --parameters location=${{ env.LOCATION }} `
+            --parameters rgName=${{ env.RG_NAME }} `
+            --parameters k8sversion=${{ env.K8S_VERSION }} `
+            --output json) | ConvertFrom-Json
+        working-directory: ./twitter-sentiment-processor/demos/demo3

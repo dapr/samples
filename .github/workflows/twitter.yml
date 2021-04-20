@@ -28,18 +28,6 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      # - name: Login to Azure CLI
-      #   shell: pwsh
-      #   run: |
-      #     az login `
-      #       --service-principal `
-      #       --username ${{ secrets.SERVICEPRINCIPAL }} `
-      #       --password ${{ secrets.CLIENTSECRET }} `
-      #       --tenant ${{ secrets.TENATID }} `
-      #       --output table
-
-      #     az account set `
-      #       --subscription ${{ secrets.SUBSCRIPTIONID }}
       - name: Deploy infrastructure
         shell: pwsh
         run: |
@@ -51,6 +39,3 @@ jobs:
             --parameters k8sversion=${{ env.K8S_VERSION }} `
             --output json) | ConvertFrom-Json
         working-directory: ./twitter-sentiment-processor/demos/demo3
-      - name: Init Dapr
-        shell: pwsh
-        run:

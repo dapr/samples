@@ -5,16 +5,16 @@ on: [push]
 env:
   # The name of the resource group to be created. All resources will be place
   # in the resource group and start with name.
-  RG-Name: "twitterDemo"
+  RGNAME: "twitterDemo"
 
   # The location to store the meta data for the deployment.
-  Location: "eastus"
+  LOCATION: "eastus"
 
   #The version of the dapr runtime version to deploy.
   DAPRVERSION: "1.0.0"
 
   # The version of k8s control plane.
-  K8s-Version: "1.19.6"
+  K8SVERSION: "1.19.6"
 
 jobs:
   infrastructure:
@@ -38,11 +38,11 @@ jobs:
     - name: Deploy infrastructure
       shell: pwsh
       run: |
-        $deployment = $(az deployment sub create --name ${RG-Name} `
-          --location ${Location} `
+        $deployment = $(az deployment sub create --name ${RGNAME} `
+          --location ${LOCATION} `
           --template-file ./iac/main.json `
-          --parameters location=${Location} `
-          --parameters rgName=${RG-Name} `
-          --parameters k8sversion=${K8s-Version} `
+          --parameters location=${LOCATION} `
+          --parameters rgName=${RGNAME} `
+          --parameters k8sversion=${K8SVERSION} `
           --output json) | ConvertFrom-Json
       working-directory: ./twitter-sentiment-processor/demos/demo3

@@ -33,6 +33,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Deploy infrastructure
+        id: azure-deployment
         shell: pwsh
         run: |
           $deployment = $(az deployment sub create --name ${{ env.RG_NAME }} `
@@ -47,5 +48,5 @@ jobs:
         working-directory: ./twitter-sentiment-processor/demos/demo3
       - name: Test Outputs
         shell: pwsh
-        run: Write-Host "${{ outputs.aksName }}"
+        run: Write-Host "${{ steps.azure-deployment.outputs.aksName }}"
         working-directory: ./twitter-sentiment-processor/demos/demo3

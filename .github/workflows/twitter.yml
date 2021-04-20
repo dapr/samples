@@ -1,0 +1,23 @@
+name: Twitter Demo
+
+on: [push]
+
+jobs:
+  infrastructure:
+    name: iac
+    runs-on: ubuntu-latest
+    steps:
+    - name: Clone repo
+      uses: actions/checkout@v2
+    - name: Login to Azure CLI
+      shell: pwsh
+      run: |
+        az login `
+          --service-principal `
+          --username ${{ secrets.SERVICEPRINCIPAL }} `
+          --password ${{ secrets.CLIENTSECRET }} `
+          --tenant ${{ secrets.TENATID }} `
+          --output table
+
+        az account set `
+          --subscription ${{ secrets.SUBSCRIPTIONID }}

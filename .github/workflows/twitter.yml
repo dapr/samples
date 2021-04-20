@@ -11,7 +11,7 @@ env:
   Location: "eastus"
 
   #The version of the dapr runtime version to deploy.
-  Dapr-Version: "1.0.0"
+  DAPRVERSION: "1.0.0"
 
   # The version of k8s control plane.
   K8s-Version: "1.19.6"
@@ -42,7 +42,7 @@ jobs:
           --location ${Location} `
           --template-file ./iac/main.json `
           --parameters location=${Location} `
-          --parameters rgName=$rgName `
-          --parameters k8sversion=${K8sVersion} `
+          --parameters rgName=${RG-Name} `
+          --parameters k8sversion=${K8s-Version} `
           --output json) | ConvertFrom-Json
       working-directory: ./twitter-sentiment-processor/demos/demo3

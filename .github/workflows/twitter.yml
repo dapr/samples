@@ -28,6 +28,9 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v2
 
+      - name: Install Dapr
+        uses: darquewarrior/setup-dapr@v1
+
       - name: Login to Azure CLI
         uses: azure/login@v1
         with:
@@ -45,8 +48,20 @@ jobs:
             --output json) | ConvertFrom-Json
           # Get all the outputs
           Write-Output "::set-output name=aksName::$($deployment.properties.outputs.aksName.value)"
+          Write-Output "::set-output name=storageAccountKey::$($deployment.properties.outputs.storageAccountKey.value)"
+          Write-Output "::set-output name=serviceBusEndpoint::$($deployment.properties.outputs.serviceBusEndpoint.value)"
+          Write-Output "::set-output name=storageAccountName::$($deployment.properties.outputs.storageAccountName.value)"
+          Write-Output "::set-output name=cognitiveServiceKey::$($deployment.properties.outputs.cognitiveServiceKey.value)"
+          Write-Output "::set-output name=cognitiveServiceEndpoint::$($deployment.properties.outputs.cognitiveServiceEndpoint.value)"
         working-directory: ./twitter-sentiment-processor/demos/demo3
-      - name: Test Outputs
+      - name: Initialize Dapr
         shell: pwsh
-        run: Write-Host "${{ steps.azure-deployment.outputs.aksName }}"
+        run: |
+          Write-Host "${{ steps.azure-deployment.outputs.aksName }}"
+          # Get the credentials to use with dapr init and helm install
+          az aks get-credentials --resource-group ${{ env.RG_NAME }} --name "${{ steps.azure-deployment.outputs.aksName }}"
+
+          # Initialize Dapr
+          dapr init --kubernetes --wait --runtime-version $daprVersion
+
         working-directory: ./twitter-sentiment-processor/demos/demo3

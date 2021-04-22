@@ -64,4 +64,6 @@ jobs:
           # Initialize Dapr
           dapr init --kubernetes --wait --runtime-version ${{ env.DAPR_VERSION }}
 
+          dapr status --kubernetes
+
         working-directory: ./twitter-sentiment-processor/demos/demo3

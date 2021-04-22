@@ -21,8 +21,8 @@ env:
   K8S_VERSION: "1.19.6"
 
 jobs:
-  provider:
-    name: build provider image
+  buildImages:
+    name: build ${{ matrix.app }} image
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -42,4 +42,4 @@ jobs:
         with:
           push: true
           tags: darquewarrior/${{ matrix.app }}:${{ github.run_number }}
-          context: ./twitter-sentiment-processor/demos/demo2/${{ matrix.app }}/
+          context: twitter-sentiment-processor/demos/demo2/${{ matrix.app }}/

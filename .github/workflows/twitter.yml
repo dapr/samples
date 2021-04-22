@@ -42,4 +42,4 @@ jobs:
         with:
           push: true
           tags: darquewarrior/${{ matrix.app }}:${{ github.run_number }}
-          context: twitter-sentiment-processor/demos/demo2/${{ matrix.app }}/
+          context: /twitter-sentiment-processor/demos/demo2/${{ matrix.app }}/

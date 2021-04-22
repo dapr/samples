@@ -24,6 +24,9 @@ jobs:
   provider:
     name: build provider image
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [provider, processor, viewer]
     steps:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -38,5 +41,5 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: darquewarrior/provider:${{ github.run_number }}
-          context: ./twitter-sentiment-processor/demos/demo2/provider
+          tags: darquewarrior/${{ matrix.app }}:${{ github.run_number }}
+          context: ./twitter-sentiment-processor/demos/demo2/${{ matrix.app }}/

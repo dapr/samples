@@ -21,49 +21,22 @@ env:
   K8S_VERSION: "1.19.6"
 
 jobs:
-  infrastructure:
-    name: iac
+  provider:
+    name: build provider image
     runs-on: ubuntu-latest
     steps:
-      - name: Clone repo
-        uses: actions/checkout@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-      - name: Install Dapr
-        uses: darquewarrior/setup-dapr@v1
-
-      - name: Login to Azure CLI
-        uses: azure/login@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Deploy infrastructure
-        id: azure-deployment
-        shell: pwsh
-        run: |
-          $deployment = $(az deployment sub create --name ${{ env.RG_NAME }} `
-            --location ${{ env.LOCATION }} `
-            --template-file ./iac/main.json `
-            --parameters location=${{ env.LOCATION }} `
-            --parameters rgName=${{ env.RG_NAME }} `
-            --parameters k8sversion=${{ env.K8S_VERSION }} `
-            --output json) | ConvertFrom-Json
-          # Get all the outputs
-          Write-Output "::set-output name=aksName::$($deployment.properties.outputs.aksName.value)"
-          Write-Output "::set-output name=storageAccountKey::$($deployment.properties.outputs.storageAccountKey.value)"
-          Write-Output "::set-output name=serviceBusEndpoint::$($deployment.properties.outputs.serviceBusEndpoint.value)"
-          Write-Output "::set-output name=storageAccountName::$($deployment.properties.outputs.storageAccountName.value)"
-          Write-Output "::set-output name=cognitiveServiceKey::$($deployment.properties.outputs.cognitiveServiceKey.value)"
-          Write-Output "::set-output name=cognitiveServiceEndpoint::$($deployment.properties.outputs.cognitiveServiceEndpoint.value)"
-        working-directory: ./twitter-sentiment-processor/demos/demo3
-      - name: Initialize Dapr
-        shell: pwsh
-        run: |
-          Write-Host "${{ steps.azure-deployment.outputs.aksName }}"
-          # Get the credentials to use with dapr init and helm install
-          az aks get-credentials --resource-group ${{ env.RG_NAME }} --name "${{ steps.azure-deployment.outputs.aksName }}"
-
-          # Initialize Dapr
-          dapr init --kubernetes --wait --runtime-version ${{ env.DAPR_VERSION }}
-
-          dapr status --kubernetes
-
-        working-directory: ./twitter-sentiment-processor/demos/demo3
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: darquewarrior/provider:${{ github.run_number }}
+          context: ./twitter-sentiment-processor/demos/demo2/provider

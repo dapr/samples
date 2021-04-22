@@ -62,6 +62,6 @@ jobs:
           az aks get-credentials --resource-group ${{ env.RG_NAME }} --name "${{ steps.azure-deployment.outputs.aksName }}"
 
           # Initialize Dapr
-          dapr init --kubernetes --wait --runtime-version $daprVersion
+          dapr init --kubernetes --wait --runtime-version ${{ env.DAPR_VERSION }}
 
         working-directory: ./twitter-sentiment-processor/demos/demo3

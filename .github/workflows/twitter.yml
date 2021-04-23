@@ -80,9 +80,12 @@ jobs:
           # Get all the outputs
           Write-Output "::set-output name=aksName::$($deployment.properties.outputs.aksName.value)"
           Write-Output "::set-output name=storageAccountKey::$($deployment.properties.outputs.storageAccountKey.value)"
+          Write-Output "::add-mask::$($deployment.properties.outputs.storageAccountKey.value)"
           Write-Output "::set-output name=serviceBusEndpoint::$($deployment.properties.outputs.serviceBusEndpoint.value)"
+          Write-Output "::add-mask::$($deployment.properties.outputs.serviceBusEndpoint.value)"
           Write-Output "::set-output name=storageAccountName::$($deployment.properties.outputs.storageAccountName.value)"
           Write-Output "::set-output name=cognitiveServiceKey::$($deployment.properties.outputs.cognitiveServiceKey.value)"
+          Write-Output "::add-mask::$($deployment.properties.outputs.cognitiveServiceKey.value)"
           Write-Output "::set-output name=cognitiveServiceEndpoint::$($deployment.properties.outputs.cognitiveServiceEndpoint.value)"
         working-directory: ./twitter-sentiment-processor/demos/demo3
 
@@ -120,9 +123,6 @@ jobs:
     needs: [buildImages, deployInfrastructure]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
       - name: Download module
         uses: actions/download-artifact@v2
         with:

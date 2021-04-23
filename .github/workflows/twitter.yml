@@ -137,12 +137,10 @@ jobs:
       - name: Helm upgrade
         shell: pwsh
         run: |
-          Write-Output "::add-mask::${{ needs.deployInfrastructure.outputs.storageAccountKey }}"
-          Write-Output "::add-mask::${{ needs.deployInfrastructure.outputs.cognitiveServiceKey }}"
-          Write-Output "::add-mask::${{ needs.deployInfrastructure.outputs.serviceBusEndpoint }}"
-
           # Get the credentials to use with dapr init and helm install
-          az aks get-credentials --resource-group ${{ env.RG_NAME }} --name "${{ needs.deployInfrastructure.outputs.aksName }}"
+          az aks get-credentials `
+            --resource-group ${{ env.RG_NAME }} `
+            --name "${{ needs.deployInfrastructure.outputs.aksName }}"
 
           # Install the demo into the cluster
           helm upgrade --install demo3 ./chart `
@@ -157,3 +155,32 @@ jobs:
             --set cognitiveService.token='${{ needs.deployInfrastructure.outputs.cognitiveServiceKey }}' `
             --set serviceBus.connectionString='${{ needs.deployInfrastructure.outputs.serviceBusEndpoint }}' `
             --set cognitiveService.endpoint='${{ needs.deployInfrastructure.outputs.cognitiveServiceEndpoint }}'
+
+      - name: Get IPs
+        shell: pwsh
+        run: |
+          function Get-IP {
+            [CmdletBinding()]
+            param (
+                [string]
+                $serviceName
+            )
+
+            # Make sure service is ready
+            $ip = $(kubectl get services $serviceName --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
+
+            while ($null -eq $ip) {
+                Start-Sleep -Seconds 30
+                $ip = $(kubectl get services $serviceName --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
+            }
+
+            Write-Output $ip
+          }
+
+          # Make sure services are ready
+          Write-Output "`nGetting IP addresses. Please wait..."
+          $viewerIp = Get-IP -serviceName viewer
+          $zipkinIp = Get-IP -serviceName publiczipkin
+
+          Write-Output "`nYour app is accessible from http://$viewerIp"
+          Write-Output "Zipkin is accessible from http://$zipkinIp`n"

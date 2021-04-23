@@ -107,6 +107,13 @@ jobs:
         with:
           name: chart
           path: "./twitter-sentiment-processor/demos/demo3/demochart"
+    outputs:
+      aksName: ${{ steps.azure-deployment.outputs.aksName }}
+      storageAccountKey: ${{ steps.azure-deployment.outputs.storageAccountKey }}
+      storageAccountName: ${{ steps.azure-deployment.outputs.storageAccountName }}
+      serviceBusEndpoint: ${{ steps.azure-deployment.outputs.serviceBusEndpoint }}
+      cognitiveServiceKey: ${{ steps.azure-deployment.outputs.cognitiveServiceKey }}
+      cognitiveServiceEndpoint: ${{ steps.azure-deployment.outputs.cognitiveServiceEndpoint }}
 
   deployApp:
     name: deploy application
@@ -116,5 +123,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Download module
+        uses: actions/download-artifact@v2
+        with:
+          name: chart
+
       - name: Install helm
         uses: azure/setup-helm@v1
+
+      - name: Helm upgrade
+        shell: pwsh
+        run: |
+          # Get the credentials to use with dapr init and helm install
+          az aks get-credentials --resource-group ${{ env.RG_NAME }} --name "${{ needs.deployInfrastructure.outputs.aksName }}"
+
+          # Install the demo into the cluster
+          helm upgrade --install demo3 ./chart `
+            --set usingPowerShell=True `
+            --set twitter.consumerKey=${{ secrets.TWITTER_CONSUMERKEY }} `
+            --set twitter.accessToken=${{ secrets.TWITTER_ACCESSTOKEN }} `
+            --set twitter.accessSecret=${{ secrets.TWITTER_ACCESSSECRET }} `
+            --set twitter.consumerSecret=${{ secrets.TWITTER_CONSUMERSECRET }} `
+            --set tableStorage.key=${{ needs.deployInfrastructure.outputs.storageAccountKey }} `
+            --set tableStorage.name=${{ needs.deployInfrastructure.outputs.storageAccountName }} `
+            --set cognitiveService.token=${{ needs.deployInfrastructure.outputs.cognitiveServiceKey }} `
+            --set serviceBus.connectionString=${{ needs.deployInfrastructure.outputs.serviceBusEndpoint }} `
+            --set cognitiveService.endpoint=${{ needs.deployInfrastructure.outputs.cognitiveServiceEndpoint }}

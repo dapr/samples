@@ -154,4 +154,4 @@ jobs:
             --set tableStorage.name='${{ needs.deployInfrastructure.outputs.storageAccountName }}' `
             --set cognitiveService.token='${{ needs.deployInfrastructure.outputs.cognitiveServiceKey }}' `
             --set serviceBus.connectionString='${{ needs.deployInfrastructure.outputs.serviceBusEndpoint }}' `
-            --set cognitiveService.endpoint='${{ needs.deployInfrastructure.outputs.cognitiveServiceEndpoint '}}
+            --set cognitiveService.endpoint='${{ needs.deployInfrastructure.outputs.cognitiveServiceEndpoint }}'

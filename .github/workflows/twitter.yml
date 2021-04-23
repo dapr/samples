@@ -102,6 +102,18 @@ jobs:
           dapr status --kubernetes
         working-directory: ./twitter-sentiment-processor/demos/demo3
 
+      - name: Copy chart to staging folder
+        shell: pwsh
+        run: |
+          Copy-Item -Path "./demochart" -Destination "./staging/demochart" -Recurse -Force
+        working-directory: ./twitter-sentiment-processor/demos/demo3
+
+      - name: Publish Chart
+        uses: actions/upload-artifact@v2
+        with:
+          name: chart
+          path: "./staging/demochart"
+
   deployApp:
     name: deploy application
     needs: [buildImages, deployInfrastructure]

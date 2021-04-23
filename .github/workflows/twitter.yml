@@ -20,6 +20,11 @@ env:
   # The version of k8s control plane.
   K8S_VERSION: "1.19.6"
 
+  # App Languages
+  VIEWER_LANG: "go"
+  PROVIDER_LANG: "node"
+  PROCESSOR_LANG: "node"
+
 jobs:
   buildImages:
     name: build ${{ matrix.app }} image
@@ -28,14 +33,11 @@ jobs:
       matrix:
         include:
           - app: provider
-            lang: node
+            lang: ${{ env.PROVIDER_LANG }}
           - app: processor
-            lang: node
+            lang: ${{ env.PROCESSOR_LANG }}
           - app: viewer
-            lang: go
-    outputs:
-      ${{ matrix.app }}Lang: ${{ matrix.lang }}
-
+            lang: ${{ env.VIEWER_LANG }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2

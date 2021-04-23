@@ -146,12 +146,12 @@ jobs:
           # Install the demo into the cluster
           helm upgrade --install demo3 ./chart `
             --set usingPowerShell=True `
-            --set twitter.consumerKey=${{ secrets.TWITTER_CONSUMERKEY }} `
-            --set twitter.accessToken=${{ secrets.TWITTER_ACCESSTOKEN }} `
-            --set twitter.accessSecret=${{ secrets.TWITTER_ACCESSSECRET }} `
-            --set twitter.consumerSecret=${{ secrets.TWITTER_CONSUMERSECRET }} `
-            --set tableStorage.key=${{ needs.deployInfrastructure.outputs.storageAccountKey }} `
-            --set tableStorage.name=${{ needs.deployInfrastructure.outputs.storageAccountName }} `
-            --set cognitiveService.token=${{ needs.deployInfrastructure.outputs.cognitiveServiceKey }} `
-            --set serviceBus.connectionString=${{ needs.deployInfrastructure.outputs.serviceBusEndpoint }} `
-            --set cognitiveService.endpoint=${{ needs.deployInfrastructure.outputs.cognitiveServiceEndpoint }}
+            --set twitter.consumerKey='${{ secrets.TWITTER_CONSUMERKEY }}' `
+            --set twitter.accessToken='${{ secrets.TWITTER_ACCESSTOKEN }}' `
+            --set twitter.accessSecret='${{ secrets.TWITTER_ACCESSSECRET }}' `
+            --set twitter.consumerSecret='${{ secrets.TWITTER_CONSUMERSECRET }}' `
+            --set tableStorage.key='${{ needs.deployInfrastructure.outputs.storageAccountKey }}' `
+            --set tableStorage.name='${{ needs.deployInfrastructure.outputs.storageAccountName }}' `
+            --set cognitiveService.token='${{ needs.deployInfrastructure.outputs.cognitiveServiceKey }}' `
+            --set serviceBus.connectionString='${{ needs.deployInfrastructure.outputs.serviceBusEndpoint }}' `
+            --set cognitiveService.endpoint='${{ needs.deployInfrastructure.outputs.cognitiveServiceEndpoint '}}

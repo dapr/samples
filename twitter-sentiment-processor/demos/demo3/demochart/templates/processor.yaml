@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: processor
-        image: {{ .Values.processor.image }}
+        image: "{{ .Values.processor.image }}:{{.Values.image.tag}}"
         imagePullPolicy: Always
         ports:
         - containerPort: {{ .Values.processor.port }}

@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: provider
-        image: {{ .Values.provider.image }}
+        image: "{{ .Values.provider.image }}:{{.Values.image.tag}}"
         imagePullPolicy: Always
         ports:
         - containerPort: {{ .Values.provider.port }}

@@ -20,11 +20,6 @@ env:
   # The version of k8s control plane.
   K8S_VERSION: "1.19.6"
 
-  # App Languages
-  VIEWER_LANG: "go"
-  PROVIDER_LANG: "node"
-  PROCESSOR_LANG: "node"
-
 jobs:
   buildImages:
     name: build ${{ matrix.app }} image
@@ -33,11 +28,11 @@ jobs:
       matrix:
         include:
           - app: provider
-            lang: ${{ env.PROVIDER_LANG }}
+            lang: node
           - app: processor
-            lang: ${{ env.PROCESSOR_LANG }}
+            lang: node
           - app: viewer
-            lang: ${{ env.VIEWER_LANG }}
+            lang: go
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -155,6 +150,7 @@ jobs:
           # Install the demo into the cluster
           helm upgrade --install demo3 ./chart `
             --set usingPowerShell=True `
+            --set image.tag='${{ github.run_number }}' `
             --set twitter.consumerKey='${{ secrets.TWITTER_CONSUMERKEY }}' `
             --set twitter.accessToken='${{ secrets.TWITTER_ACCESSTOKEN }}' `
             --set twitter.accessSecret='${{ secrets.TWITTER_ACCESSSECRET }}' `

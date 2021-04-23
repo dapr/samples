@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: viewer
-        image: {{ .Values.viewer.image }}
+        image: "{{ .Values.viewer.image }}:{{.Values.image.tag}}"
         imagePullPolicy: Always
         ports:
         - containerPort: {{ .Values.viewer.port }}

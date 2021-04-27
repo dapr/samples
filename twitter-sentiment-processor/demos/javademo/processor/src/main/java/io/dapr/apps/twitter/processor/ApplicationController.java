@@ -43,7 +43,7 @@ public class ApplicationController {
 
     private static final JsonFactory JSON_FACTORY = new JsonFactory();
 
-    private static final String PATH = "/text/analytics/v3.0/sentiment";
+    private static final String PATH = "/text/analytics/v2.1/sentiment";
 
     @Autowired
     @Qualifier("endpoint")

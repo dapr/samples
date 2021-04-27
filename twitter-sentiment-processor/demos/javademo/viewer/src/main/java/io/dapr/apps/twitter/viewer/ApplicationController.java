@@ -33,7 +33,7 @@ public class ApplicationController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public void tweet(@RequestBody byte[] payload) throws IOException {
-        CloudEvent event = CloudEvent.deserialize(payload);
+        var event = CloudEvent.deserialize(payload);
         log.info("Received cloud event: " + event.getData());
         WebSocketPubSub.INSTANCE.send(event.getData());
     }

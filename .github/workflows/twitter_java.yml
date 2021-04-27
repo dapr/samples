@@ -1,4 +1,4 @@
-name: Twitter Demo
+name: Twitter Demo Java
 
 on:
   # Triggers the workflow on push
@@ -28,11 +28,11 @@ jobs:
       matrix:
         include:
           - app: provider
-            lang: node
+            lang: java
           - app: processor
-            lang: node
+            lang: java
           - app: viewer
-            lang: go
+            lang: java
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -52,7 +52,16 @@ jobs:
         with:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.lang }}${{ matrix.app }}:${{ github.run_number }}
-          context: ./twitter-sentiment-processor/demos/demo2/${{ matrix.app }}/
+          context: ./twitter-sentiment-processor/demos/javademo/${{ matrix.app }}/
+
+      - name: Output matrix values
+        id: ${{ matrix.app }}
+        shell: pwsh
+        run: |
+          # Get all the outputs
+          Write-Output "::set-output name=image::${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.lang }}${{ matrix.app }}"
+    outputs:
+      image: ${{ steps.${{ matrix.app }}.outputs.image }}
 
   deployInfrastructure:
     name: deploy infrastructure
@@ -97,7 +106,11 @@ jobs:
           az aks get-credentials --resource-group ${{ env.RG_NAME }} --name "${{ steps.azure-deployment.outputs.aksName }}"
 
           # Initialize Dapr
+          # Dapr init is very noisy in the logs so group these lines so
+          # it can be collapsed.
+          Write-Output "::group::Initialize Dapr"
           dapr init --kubernetes --wait --runtime-version ${{ env.DAPR_VERSION }}
+          Write-Output "::endgroup::"
 
           dapr status --kubernetes
         working-directory: ./twitter-sentiment-processor/demos/demo3
@@ -146,6 +159,9 @@ jobs:
           helm upgrade --install demo3 ./chart `
             --set usingPowerShell=True `
             --set image.tag='${{ github.run_number }}' `
+            --set processor.image='${{ github.run_number }}' `
+            --set provider.image='${{ github.run_number }}' `
+            --set viewer.image='${{ github.run_number }}' `
             --set twitter.consumerKey='${{ secrets.TWITTER_CONSUMERKEY }}' `
             --set twitter.accessToken='${{ secrets.TWITTER_ACCESSTOKEN }}' `
             --set twitter.accessSecret='${{ secrets.TWITTER_ACCESSSECRET }}' `

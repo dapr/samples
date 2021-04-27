@@ -55,7 +55,6 @@ jobs:
           context: ./twitter-sentiment-processor/demos/javademo/${{ matrix.app }}/
 
       - name: Output matrix values
-        id: ${{ matrix.app }}
         shell: pwsh
         run: |
           # Get all the outputs

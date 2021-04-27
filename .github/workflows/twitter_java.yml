@@ -56,11 +56,12 @@ jobs:
 
       - name: Output matrix values
         shell: pwsh
+        id: values
         run: |
           # Get all the outputs
           Write-Output "::set-output name=image::${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.lang }}${{ matrix.app }}"
     outputs:
-      image: ${{ steps.${{ matrix.app }}.outputs.image }}
+      image: ${{ steps.values.outputs.image }}
 
   deployInfrastructure:
     name: deploy infrastructure

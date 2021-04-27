@@ -27,15 +27,15 @@ import reactor.core.publisher.Mono;
 public class ApplicationController {
 
     private static final String PUBSUB = "messagebus";
-  
+
     @Topic(name = "tweets", pubsubName = PUBSUB)
     @PostMapping(value = "/tweets")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public void tweet(@RequestBody byte[] payload) throws IOException {
         CloudEvent event = CloudEvent.deserialize(payload);
-        log.info("Received cloud event: " + event.getData());
-        WebSocketPubSub.INSTANCE.send(event.getData());
+        log.info("Received cloud event: " + event.getData().toString());
+        WebSocketPubSub.INSTANCE.send(event.getData().toString());
     }
 
     @GetMapping(path = "/health")

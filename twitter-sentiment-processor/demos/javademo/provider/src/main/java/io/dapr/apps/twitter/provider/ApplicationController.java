@@ -44,8 +44,8 @@ public class ApplicationController {
     @ResponseBody
     public Mono<Void> tweet(@RequestBody Tweet tweet) {
         log.info(String.format("Tweet received %s in %s: %s", tweet.getId(), tweet.getLanguage(), tweet.getText()));
-        return daprClient
-                .InvokeMethod(SENTIMENT_PROCESSOR_APP, "sentiment", tweet, HttpExtension.POST, Sentiment.class)
+        return daprClient.invokeMethod(SENTIMENT_PROCESSOR_APP, "sentiment", tweet, HttpExtension.POST, Sentiment.class)
+                .block()
                 .map(sentiment -> AnalyzedTweet.builder()
                   .id(tweet.getId())
                   .tweet(tweet)

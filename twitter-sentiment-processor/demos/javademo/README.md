@@ -1,12 +1,13 @@
 # Twitter Sentiment Processor
 
->Note: this demo uses Dapr v0.11.3 and may break if different Dapr versions are used
+>Note: this demo uses Dapr v1.0.0 and may break if different Dapr versions are used
 
 ## Sample info
+
 | Attribute | Details |
 |--------|--------|
-| Dapr runtime version | v0.11.3 |
-| Dapr Java SDK version | v0.9.2 |
+| Dapr runtime version | v1.0.0 |
+| Dapr Java SDK version | v1.0.2 |
 | Language | Java |
 | Environment | Local |
 
@@ -20,8 +21,8 @@ This demo is an implementation of the Twitter Processing Pipeline demo in Java, 
 
 * Java 11 or above.
 * Apache Maven 3.6 or above.
-* [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
-* Endpoint and Key for [Azure's Text Analytics](https://azure.microsoft.com/en-us/services/cognitive-services/text-analytics/) in Azure Cognitive Services.
+* [Twitter API credentials](https://developer.twitter.com/docs/basics/getting-started)
+* Endpoint and Key for [Azure's Text Analytics](https://azure.microsoft.com/services/cognitive-services/text-analytics/) in Azure Cognitive Services.
 
 Twitter credentials will have to set in a new file `provider/secrets.json`:
 
@@ -73,7 +74,7 @@ The controller is implemented in [ApplicationController.java](processor/src/main
 
 ### Viewer
 
-Viewer app runs a static website from the [viewer/src/main/resources/static](viewer/src/main/resources/static) folder. The website stablishes a Web Socket connection to the `/ws/` endpoint. The server side for the Web Socket is handled by [SocketTextHandler.java](viewer/src/main/java/io/dapr/apps/twitter/viewer/SocketTextHandler.java). The PubSub subscription is handled by [ApplicationController.java](viewer/src/main/java/io/dapr/apps/twitter/processor/ApplicationController.java), using a singleton instance of [WebSocketPubSub.java](viewer/src/main/java/io/dapr/apps/twitter/processor/WebSocketPubSub.java) to send the topic's message to all active Web Sockets.
+Viewer app runs a static website from the [viewer/src/main/resources/static](viewer/src/main/resources/static) folder. The website establishes a Web Socket connection to the `/ws/` endpoint. The server side for the Web Socket is handled by [SocketTextHandler.java](viewer/src/main/java/io/dapr/apps/twitter/viewer/SocketTextHandler.java). The PubSub subscription is handled by [ApplicationController.java](viewer/src/main/java/io/dapr/apps/twitter/processor/ApplicationController.java), using a singleton instance of [WebSocketPubSub.java](viewer/src/main/java/io/dapr/apps/twitter/processor/WebSocketPubSub.java) to send the topic's message to all active Web Sockets.
 
 ## Running
 

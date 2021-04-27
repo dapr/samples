@@ -21,41 +21,39 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 public class DaprConfig {
 
-  private static final String SECRET_STORE =
-    Optional.ofNullable(System.getenv("SECRET_STORE")).orElse("secretstore");
+   private static final String SECRET_STORE = Optional.ofNullable(System.getenv("SECRET_STORE")).orElse("secretstore");
 
-  private static final String ENDPOINT_SECRET_KEY =
-    Optional.ofNullable(System.getenv("ENDPOINT_SECRET_KEY")).orElse("Azure:CognitiveServices:Endpoint");
+   private static final String ENDPOINT_SECRET_KEY = Optional.ofNullable(System.getenv("ENDPOINT_SECRET_KEY"))
+         .orElse("Azure:CognitiveServices:Endpoint");
 
-  private static final String SUBSCRIPTION_KEY_SECRET_KEY =
-    Optional.ofNullable(System.getenv("SUBSCRIPTION_KEY_SECRET_KEY")).orElse("Azure:CognitiveServices:SubscriptionKey");
+   private static final String SUBSCRIPTION_KEY_SECRET_KEY = Optional
+         .ofNullable(System.getenv("SUBSCRIPTION_KEY_SECRET_KEY")).orElse("Azure:CognitiveServices:SubscriptionKey");
 
-  private static final String SECRET_STORE_NAMESPACE = System.getenv("SECRET_STORE_NAMESPACE");
+   private static final String SECRET_STORE_NAMESPACE = System.getenv("SECRET_STORE_NAMESPACE");
 
-  private static final DaprClientBuilder BUILDER = new DaprClientBuilder();
+   private static final DaprClientBuilder BUILDER = new DaprClientBuilder();
 
-  @Bean(name = "endpoint")
-  public String fetchEndpoint() {
-    return fetchSecret(ENDPOINT_SECRET_KEY);
-  }
+   @Bean(name = "endpoint")
+   public String fetchEndpoint() {
+      return fetchSecret(ENDPOINT_SECRET_KEY);
+   }
 
-  @Bean(name = "subscriptionKey")
-  public String fetchSubscriptionKey() {
-    return fetchSecret(SUBSCRIPTION_KEY_SECRET_KEY);
-  }
+   @Bean(name = "subscriptionKey")
+   public String fetchSubscriptionKey() {
+      return fetchSecret(SUBSCRIPTION_KEY_SECRET_KEY);
+   }
 
-  private static String fetchSecret(String secret) {
-    GetSecretRequestBuilder builder = new GetSecretRequestBuilder(SECRET_STORE, secret);
-    if (SECRET_STORE_NAMESPACE != null) {
-      builder.withMetadata(Map.of("namespace", SECRET_STORE_NAMESPACE));
-    }
+   private static String fetchSecret(String secret) {
+      GetSecretRequestBuilder builder = new GetSecretRequestBuilder(SECRET_STORE, secret);
+      if (SECRET_STORE_NAMESPACE != null) {
+         builder.withMetadata(Map.of("namespace", SECRET_STORE_NAMESPACE));
+      }
 
-    return buildDaprClient().getSecret(builder.build()).block().getObject().values().iterator().next();
-  }
+      return buildDaprClient().getSecret(builder.build()).block().get(secret);
+   }
 
-  private static DaprClient buildDaprClient() {
-    log.info("Creating a new Dapr Client");
-    return BUILDER.build();
-  }
-
+   private static DaprClient buildDaprClient() {
+      log.info("Creating a new Dapr Client");
+      return BUILDER.build();
+   }
 }

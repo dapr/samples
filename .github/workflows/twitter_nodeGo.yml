@@ -1,10 +1,6 @@
 name: Twitter Demo Node and Go
 
-on:
-  # Triggers the workflow on push
-  # push:
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+on: workflow_dispatch
 
 env:
   # The name of the resource group to be created. All resources will be place
@@ -12,7 +8,7 @@ env:
   RG_NAME: "twitterDemo"
 
   # The location to store the meta data for the deployment.
-  LOCATION: "eastus"
+  LOCATION: "eastus2"
 
   #The version of the dapr runtime version to deploy.
   DAPR_VERSION: "1.0.0"

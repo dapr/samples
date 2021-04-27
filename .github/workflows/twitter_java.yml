@@ -1,10 +1,6 @@
 name: Twitter Demo Java
 
-on:
-  # Triggers the workflow on push
-  push:
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+on: [push, workflow_dispatch]
 
 env:
   # The name of the resource group to be created. All resources will be place
@@ -19,6 +15,9 @@ env:
 
   # The version of k8s control plane.
   K8S_VERSION: "1.19.6"
+
+  # Docker
+  DOCKERHUB_USERNAME: "darquewarrior"
 
 jobs:
   buildImages:
@@ -43,7 +42,7 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: ${{ env.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push
@@ -51,7 +50,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.lang }}${{ matrix.app }}:${{ github.run_number }}
+          tags: ${{ env.DOCKERHUB_USERNAME }}/${{ matrix.lang }}${{ matrix.app }}:${{ github.run_number }}
           context: ./twitter-sentiment-processor/demos/javademo/${{ matrix.app }}/
 
       - name: Output matrix values
@@ -59,7 +58,7 @@ jobs:
         id: values
         run: |
           # Get all the outputs
-          Write-Output "::set-output name=image::${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.lang }}${{ matrix.app }}"
+          Write-Output "::set-output name=image::${{ env.DOCKERHUB_USERNAME }}/${{ matrix.lang }}${{ matrix.app }}"
     outputs:
       image: ${{ steps.values.outputs.image }}
 
@@ -158,6 +157,9 @@ jobs:
           # Install the demo into the cluster
           helm upgrade --install demo3 ./chart `
             --set usingPowerShell=True `
+            --set viewer.port='3000' `
+            --set provider.port='3000' `
+            --set processor.port='3000' `
             --set image.tag='${{ github.run_number }}' `
             --set processor.image='${{ github.run_number }}' `
             --set provider.image='${{ github.run_number }}' `

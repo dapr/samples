@@ -6,26 +6,44 @@ package io.dapr.apps.twitter.provider.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.FieldDefaults;
-
-@Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class TwitterUser {
 
     @JsonProperty("name")
-    String name;
+    private String name;
 
     @JsonProperty("screen_name")
-    String screenName;
+    private String screenName;
 
     @JsonProperty("profile_image_url_https")
-    String picture;
+    private String picture;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getScreenName() {
+        return screenName;
+    }
+
+    public void setScreenName(String screenName) {
+        this.screenName = screenName;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    @Override
+    public String toString() {
+        return "TwitterUser [name=" + name + ", picture=" + picture + ", screenName=" + screenName + "]";
+    }
+
 }

@@ -6,23 +6,33 @@ package io.dapr.apps.twitter.provider.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.FieldDefaults;
-
-@Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class Sentiment {
 
     @JsonProperty("sentiment")
-    String sentiment;
+    private String sentiment;
 
     @JsonProperty("confidence")
-    float confidence;
+    private float confidence;
+
+    public String getSentiment() {
+        return sentiment;
+    }
+
+    public void setSentiment(String sentiment) {
+        this.sentiment = sentiment;
+    }
+
+    public float getConfidence() {
+        return confidence;
+    }
+
+    public void setConfidence(float confidence) {
+        this.confidence = confidence;
+    }
+
+    @Override
+    public String toString() {
+        return "Sentiment [confidence=" + confidence + ", sentiment=" + sentiment + "]";
+    }
+
 }

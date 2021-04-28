@@ -8,13 +8,13 @@ env:
   RG_NAME: "twitterDemo"
 
   # The location to store the meta data for the deployment.
-  LOCATION: "eastus2"
+  LOCATION: "eastus"
 
   #The version of the dapr runtime version to deploy.
   DAPR_VERSION: "1.0.0"
 
   # The version of k8s control plane.
-  K8S_VERSION: "1.19.6"
+  K8S_VERSION: "1.19.9"
 
 jobs:
   buildImages:

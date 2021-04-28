@@ -39,73 +39,64 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ApplicationController {
 
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    private static final JsonFactory JSON_FACTORY = new JsonFactory();
+   private static final JsonFactory JSON_FACTORY = new JsonFactory();
 
-    private static final String PATH = "/text/analytics/v2.1/sentiment";
+   private static final String PATH = "/text/analytics/v2.1/sentiment";
 
-    @Autowired
-    @Qualifier("endpoint")
-    private final String endpoint;
+   @Autowired
+   @Qualifier("endpoint")
+   private final String endpoint;
 
-    @Qualifier("subscriptionKey")
-    private final String subscriptionKey;
+   @Qualifier("subscriptionKey")
+   private final String subscriptionKey;
 
-    @PostMapping(value = "/sentiment")
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public Sentiment tweet(@RequestBody Text text) throws IOException {
-        log.info(String.format("Text received in %s: %s", text.getLanguage(), text.getText()));
+   @PostMapping(value = "/sentiment")
+   @ResponseStatus(HttpStatus.OK)
+   @ResponseBody
+   public Sentiment tweet(@RequestBody Text text) throws IOException {
+      log.info(String.format("Text received in %s: %s", text.getLanguage(), text.getText()));
 
-        assert(endpoint != null);
-        assert(subscriptionKey != null);
+      assert (endpoint != null);
+      assert (subscriptionKey != null);
 
-        URL url = new URL(endpoint+PATH);
-        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("Content-Type", "text/json");
-        connection.setRequestProperty("Ocp-Apim-Subscription-Key", subscriptionKey);
-        connection.setDoOutput(true);
+      URL url = new URL(endpoint + PATH);
+      HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+      connection.setRequestMethod("POST");
+      connection.setRequestProperty("Content-Type", "text/json");
+      connection.setRequestProperty("Ocp-Apim-Subscription-Key", subscriptionKey);
+      connection.setDoOutput(true);
 
-        writeRequest(text, connection.getOutputStream());
+      writeRequest(text, connection.getOutputStream());
 
-        JsonNode node = OBJECT_MAPPER.readTree(connection.getInputStream());
-        String sentiment = Optional.ofNullable(node)
-          .map(n -> n.get("documents"))
-          .map(n -> n.get(0))
-          .map(n -> n.get("sentiment"))
-          .map(n -> n.asText())
-          .orElse("unknown");
-        float score = Optional.ofNullable(node)
-          .map(n -> n.get("documents"))
-          .map(n -> n.get(0))
-          .map(n -> n.get("confidenceScores"))
-          .map(n -> n.get(sentiment))
-          .map(n -> n.floatValue())
-          .orElse((float) 0);
-        return new Sentiment(sentiment, score);
-    }
+      JsonNode node = OBJECT_MAPPER.readTree(connection.getInputStream());
+      String sentiment = Optional.ofNullable(node).map(n -> n.get("documents")).map(n -> n.get(0))
+            .map(n -> n.get("sentiment")).map(n -> n.asText()).orElse("unknown");
+      float score = Optional.ofNullable(node).map(n -> n.get("documents")).map(n -> n.get(0))
+            .map(n -> n.get("confidenceScores")).map(n -> n.get(sentiment)).map(n -> n.floatValue()).orElse((float) 0);
+      return new Sentiment(sentiment, score);
+   }
 
-    private static void writeRequest(Text text, OutputStream output) throws IOException {
-        try (OutputStream bos = new BufferedOutputStream(output)) {
-            try (JsonGenerator generator = JSON_FACTORY.createGenerator(bos)) {
-                generator.writeStartObject();
-                generator.writeArrayFieldStart("documents");
-                generator.writeStartObject();
-                generator.writeStringField("id", "1");
-                generator.writeStringField("language", text.getLanguage());
-                generator.writeStringField("text", text.getText());
-                generator.writeEndObject();
-                generator.writeEndArray();
-                generator.writeEndObject();
-                bos.flush();
-            }
-          }
-    }
+   private static void writeRequest(Text text, OutputStream output) throws IOException {
+      try (OutputStream bos = new BufferedOutputStream(output)) {
+         try (JsonGenerator generator = JSON_FACTORY.createGenerator(bos)) {
+            generator.writeStartObject();
+            generator.writeArrayFieldStart("documents");
+            generator.writeStartObject();
+            generator.writeStringField("id", "1");
+            generator.writeStringField("language", text.getLanguage());
+            generator.writeStringField("text", text.getText());
+            generator.writeEndObject();
+            generator.writeEndArray();
+            generator.writeEndObject();
+            bos.flush();
+         }
+      }
+   }
 
-    @GetMapping(path = "/health")
-    public Mono<Void> health() {
-        return Mono.empty();
-    }
+   @GetMapping(path = "/health")
+   public Mono<Void> health() {
+      return Mono.empty();
+   }
 }

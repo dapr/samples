@@ -49,7 +49,7 @@ public class DaprConfig {
          builder.withMetadata(Map.of("namespace", SECRET_STORE_NAMESPACE));
       }
 
-      return buildDaprClient().getSecret(builder.build()).block().get(secret);
+      return buildDaprClient().getSecret(builder.build()).block().values().iterator().next();
    }
 
    private static DaprClient buildDaprClient() {

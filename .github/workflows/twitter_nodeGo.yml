@@ -1,6 +1,6 @@
 name: Twitter Demo Node and Go
 
-on: workflow_dispatch
+on: [push, workflow_dispatch]
 
 env:
   # The name of the resource group to be created. All resources will be place

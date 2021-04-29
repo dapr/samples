@@ -31,4 +31,4 @@ COPY --from=build /build/target/app.jar /opt/app.jar
 WORKDIR /opt/
 
 EXPOSE 3000
-CMD [ "/javaruntime/java", "-jar", "app.jar", "--server.port=3000" ]
+CMD [ "/javaruntime/bin/java", "-jar", "app.jar", "--server.port=3000" ]

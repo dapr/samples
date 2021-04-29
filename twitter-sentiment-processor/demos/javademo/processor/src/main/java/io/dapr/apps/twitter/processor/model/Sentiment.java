@@ -38,4 +38,9 @@ public class Sentiment {
         this.confidence = confidence;
     }
 
+    @Override
+    public String toString() {
+        return "Sentiment [confidence=" + confidence + ", sentiment=" + sentiment + "]";
+    }
+
 }

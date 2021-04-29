@@ -30,5 +30,10 @@ public class Text {
         this.language = language;
     }
 
+    @Override
+    public String toString() {
+        return "Text [language=" + language + ", text=" + text + "]";
+    }
+
 
 }

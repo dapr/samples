@@ -18,7 +18,7 @@ RUN apt-get update && \
 
 # Create a smaller Java runtime, and delete the JDK
 RUN /jdk-11.0.11+9/bin/jlink \
-    --add-modules java.base,java.logging,java.desktop,java.naming,java.xml,jdk.unsupported,java.instrument,java.management,java.security.jgss,java.sql \
+        --add-modules java.se,jdk.httpserver,jdk.unsupported,jdk.jfr \
         --strip-debug \
         --no-man-pages \
         --no-header-files \

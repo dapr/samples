@@ -32,6 +32,8 @@ spec:
           value: {{ .Values.processor.port | quote }}
         - name: DAPR_HTTP_PORT
           value: {{ .Values.dapr.port | quote}}
+        - name: DAPR_SECRET_STORE
+          value: kubernetes
         - name: CS_ENDPOINT
           value: {{ .Values.cognitiveService.endpoint | quote }}
         - name: CS_TOKEN

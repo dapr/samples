@@ -28,21 +28,15 @@ import io.dapr.apps.twitter.provider.twitterprovider.model.AnalyzedTweet;
 @SpringBootApplication
 public class TwitterProviderApplication {
 
-   private static final String PUBSUB = "messagebus";
+   private static final String PUBSUB = "tweet-pubsub";
    private static final String PUBSUB_TOPIC = "tweets";
-   private static final String DAPR_PORT = getDaprPort();
-   private static final String STATE_STORE = "statestore";
+   private static final String STATE_STORE = "tweet-store";
    private static final String SENTIMENT_PROCESSOR_APP = "processor";
-
    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+   private static final String DAPR_PORT = System.getenv().getOrDefault("DAPR_HTTP_PORT", "35000");
 
    public static void main(String[] args) {
       SpringApplication.run(TwitterProviderApplication.class, args);
-   }
-
-   public static String getDaprPort() {
-      var port = System.getenv("DAPR_HTTP_PORT");
-      return (port == null || port.isEmpty()) ? "35000" : port;
    }
 
    @ResponseBody
@@ -65,19 +59,23 @@ public class TwitterProviderApplication {
       // Build the analyzed tweet
       HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
       var sentiment = OBJECT_MAPPER.readValue(response.body(), Sentiment.class);
-      var analyzedTweet = AnalyzedTweet.builder().id(tweet.getId()).tweet(tweet).sentiment(sentiment).build();
+      var analyzedTweet = new AnalyzedTweet(tweet.getId(), tweet, sentiment);
 
       System.out.printf("Tweet scored %s: %f %n", sentiment.getSentiment(), sentiment.getConfidence());
 
       // Save the analyzed tweet to the state store
       // The payload for saving state is an array
       State[] states = new State[1];
-      states[0] = State.builder().key(analyzedTweet.getId()).value(analyzedTweet).build();
+      states[0] = new State(analyzedTweet.getId(), analyzedTweet);
       json = OBJECT_MAPPER.writeValueAsString(states);
       body = HttpRequest.BodyPublishers.ofString(json);
       request = HttpRequest.newBuilder().POST(body).header("Content-Type", "application/json")
             .uri(URI.create(baseUrl + "state/" + STATE_STORE)).build();
       var stateResponse = client.send(request, BodyHandlers.discarding());
+
+      if(stateResponse.statusCode() > 299) {
+         System.out.printf("Error storing state, status code %n", stateResponse.statusCode());
+      }
 
       System.out.printf("Tweet stored %s %n", analyzedTweet.getId());
 
@@ -87,6 +85,10 @@ public class TwitterProviderApplication {
       request = HttpRequest.newBuilder().POST(body).header("Content-Type", "application/json")
             .uri(URI.create(baseUrl + "publish/" + PUBSUB + "/" + PUBSUB_TOPIC)).build();
       var pubsubResponse = client.send(request, BodyHandlers.discarding());
+
+      if(pubsubResponse.statusCode() > 299) {
+         System.out.printf("Error publishing event, status code %n", pubsubResponse.statusCode());
+      }
 
       System.out.printf("Tweet published %s %n", analyzedTweet.getId());
    }

@@ -24,17 +24,16 @@ import io.dapr.apps.twitter.processor.twittersentimentprocessor.model.Sentiment;
 @RestController
 @SpringBootApplication
 public class TwitterSentimentProcessorApplication {
-   private static final String DAPR_PORT = getDaprPort();
+
    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
    private static final String PATH = "text/analytics/v3.0/sentiment?showStats";
+   private static final String DAPR_PORT = System.getenv().getOrDefault("DAPR_HTTP_PORT", "35000");
+   // Defaults to local development. When in K8s set the environment variable
+   // DAPR_SECRET_STORE to `kubernetes`.
+   private static final String SECRET_STORE = System.getenv().getOrDefault("DAPR_SECRET_STORE", "secretstore");
 
    public static void main(String[] args) {
       SpringApplication.run(TwitterSentimentProcessorApplication.class, args);
-   }
-
-   public static String getDaprPort() {
-      var port = System.getenv("DAPR_HTTP_PORT");
-      return (port == null || port.isEmpty()) ? "35000" : port;
    }
 
    @PostMapping("/sentiment")
@@ -79,7 +78,7 @@ public class TwitterSentimentProcessorApplication {
 
       var client = HttpClient.newHttpClient();
       var request = HttpRequest.newBuilder().GET().header("accept", "application/json")
-            .uri(URI.create("http://localhost:" + DAPR_PORT + "/v1.0/secrets/secretstore/" + secret)).build();
+            .uri(URI.create("http://localhost:" + DAPR_PORT + "/v1.0/secrets/" + SECRET_STORE + "/" + secret)).build();
 
       HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
 

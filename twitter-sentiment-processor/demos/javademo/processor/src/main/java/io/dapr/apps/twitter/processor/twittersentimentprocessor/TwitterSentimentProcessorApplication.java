@@ -25,66 +25,78 @@ import io.dapr.apps.twitter.processor.twittersentimentprocessor.model.Sentiment;
 @SpringBootApplication
 public class TwitterSentimentProcessorApplication {
 
-   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-   private static final String PATH = "text/analytics/v3.0/sentiment?showStats";
-   private static final String DAPR_PORT = System.getenv().getOrDefault("DAPR_HTTP_PORT", "35000");
-   // Defaults to local development. When in K8s set the environment variable
-   // DAPR_SECRET_STORE to `kubernetes`.
-   private static final String SECRET_STORE = System.getenv().getOrDefault("DAPR_SECRET_STORE", "secretstore");
+      private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+      private static final String PATH = "text/analytics/v3.0/sentiment?showStats";
+      private static final String DAPR_PORT = System.getenv().getOrDefault("DAPR_HTTP_PORT", "35000");
+      // Defaults to local development. When in K8s set the environment variable
+      // DAPR_SECRET_STORE to `kubernetes`.
+      private static final String SECRET_STORE = System.getenv().getOrDefault("DAPR_SECRET_STORE", "secretstore");
 
-   public static void main(String[] args) {
-      SpringApplication.run(TwitterSentimentProcessorApplication.class, args);
-   }
+      public static void main(String[] args) {
+            SpringApplication.run(TwitterSentimentProcessorApplication.class, args);
+      }
 
-   @PostMapping("/sentiment")
-   public Sentiment tweet(@RequestBody Text text) throws IOException, InterruptedException {
-      // The URL endpoint and subscription key are stored as secrets in a Dapr
-      // secret store.
-      var endpoint = getSecretString("Azure:CognitiveServices:Endpoint");
-      var key = getSecretString("Azure:CognitiveServices:SubscriptionKey");
+      @PostMapping("/sentiment")
+      public Sentiment tweet(@RequestBody Text text) throws IOException, InterruptedException {
+            // The URL endpoint and subscription key are stored as secrets in a Dapr
+            // secret store.
+            var endpoint = getSecretString("Azure:CognitiveServices:Endpoint");
+            var key = getSecretString("Azure:CognitiveServices:SubscriptionKey");
 
-      // Build body for message
-      var payload = new Payload();
-      payload.documents[0] = text;
+            if (endpoint == "" || key == "") {
+                  System.out.println("key or endpoint = null");
+                  return null;
+            }
 
-      // Because we only send one message per request the id can always be 1
-      payload.documents[0].setId("1");
+            // Build body for message
+            var payload = new Payload();
+            payload.documents[0] = text;
 
-      // Convert our object into JSON to send in request
-      var json = OBJECT_MAPPER.writeValueAsString(payload);
+            // Because we only send one message per request the id can always be 1
+            payload.documents[0].setId("1");
 
-      // Call cognitive services
-      var client = HttpClient.newHttpClient();
-      var body = HttpRequest.BodyPublishers.ofString(json);
-      var request = HttpRequest.newBuilder().POST(body).header("Content-Type", "application/json")
-            .header("Ocp-Apim-Subscription-Key", key).uri(URI.create(endpoint + PATH)).build();
+            // Convert our object into JSON to send in request
+            var json = OBJECT_MAPPER.writeValueAsString(payload);
 
-      HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-      var node = OBJECT_MAPPER.readValue(response.body(), JsonNode.class);
+            // Call cognitive services
+            var client = HttpClient.newHttpClient();
+            var body = HttpRequest.BodyPublishers.ofString(json);
+            var request = HttpRequest.newBuilder().POST(body).header("Content-Type", "application/json")
+                        .header("Ocp-Apim-Subscription-Key", key).uri(URI.create(endpoint + PATH)).build();
 
-      // Traverse the JSON to pull out the sentiment and the score
-      String sentiment = Optional.ofNullable(node).map(n -> n.get("documents")).map(n -> n.get(0))
-            .map(n -> n.get("sentiment")).map(n -> n.asText()).orElse("unknown");
+            HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+            var node = OBJECT_MAPPER.readValue(response.body(), JsonNode.class);
 
-      float score = Optional.ofNullable(node).map(n -> n.get("documents")).map(n -> n.get(0))
-            .map(n -> n.get("confidenceScores")).map(n -> n.get(sentiment)).map(n -> n.floatValue()).orElse((float) 0);
+            // Traverse the JSON to pull out the sentiment and the score
+            String sentiment = Optional.ofNullable(node).map(n -> n.get("documents")).map(n -> n.get(0))
+                        .map(n -> n.get("sentiment")).map(n -> n.asText()).orElse("unknown");
 
-      return new Sentiment(sentiment, score);
-   }
+            float score = Optional.ofNullable(node).map(n -> n.get("documents")).map(n -> n.get(0))
+                        .map(n -> n.get("confidenceScores")).map(n -> n.get(sentiment)).map(n -> n.floatValue())
+                        .orElse((float) 0);
 
-   // This code uses Dapr to get the secrets from any configured secret store
-   private String getSecretString(String secret) throws IOException, InterruptedException {
-      var jsonResponse = "";
+            return new Sentiment(sentiment, score);
+      }
 
-      var client = HttpClient.newHttpClient();
-      var request = HttpRequest.newBuilder().GET().header("accept", "application/json")
-            .uri(URI.create("http://localhost:" + DAPR_PORT + "/v1.0/secrets/" + SECRET_STORE + "/" + secret)).build();
+      // This code uses Dapr to get the secrets from any configured secret store
+      private String getSecretString(String secret) throws IOException, InterruptedException {
+            var jsonResponse = "";
 
-      HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+            var url = String.format("http://localhost:%s/v1.0/secrets/%s/%s", DAPR_PORT, SECRET_STORE, secret);
 
-      var node = OBJECT_MAPPER.readValue(response.body(), JsonNode.class);
-      jsonResponse = Optional.ofNullable(node).map(n -> n.get(secret)).map(n -> n.asText()).orElse("unknown");
+            var client = HttpClient.newHttpClient();
+            var request = HttpRequest.newBuilder().GET().header("accept", "application/json").uri(URI.create(url))
+                        .build();
 
-      return jsonResponse;
-   }
+            try {
+                  HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+                  var node = OBJECT_MAPPER.readValue(response.body(), JsonNode.class);
+                  jsonResponse = Optional.ofNullable(node).map(n -> n.get(secret)).map(n -> n.asText()).orElse("unknown");
+            } catch (Exception e) {
+                  System.out.println("could not load secret from Dapr");
+                  System.out.println(e);
+            }
+
+            return jsonResponse;
+      }
 }

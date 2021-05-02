@@ -4,9 +4,5 @@ package io.dapr.apps.twitter.processor.twitterprocessor.model;
 // easier. The JSON is an array of documents. In our case we only ever have one
 // document in each call
 public class Payload {
-   public Text[] documents;
-
-   public Payload() {
-      this.documents = new Text[1];
-   }
+   public Text[] documents = new Text[1];
 }

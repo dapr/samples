@@ -28,6 +28,7 @@ public class TwitterProcessorApplication {
    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
    private static final String PATH = "text/analytics/v3.0/sentiment?showStats";
    private static final String DAPR_PORT = getEnv("DAPR_HTTP_PORT", "35000");
+   private static final String DAPR_ADDRESS = getEnv("DAPR_ADDRESS", "localhost");
    // Defaults to local development. When in K8s set the environment variable
    // DAPR_SECRET_STORE to `kubernetes`.
    private static final String SECRET_STORE = getEnv("SECRET_STORE", "secretstore");
@@ -45,15 +46,18 @@ public class TwitterProcessorApplication {
 
    @PostMapping("/sentiment")
    public Sentiment tweet(@RequestBody Text text) throws IOException, InterruptedException {
-      // The URL endpoint and subscription key are stored as secrets in a Dapr
+
+      // The url endpoint and subscription key are stored as secrets in a Dapr
       // secret store.
       var key = getSecretString(SECRET_KEY);
-      var endpoint = getSecretString(ENDPOINT_KEY);
+      var url = getSecretString(ENDPOINT_KEY);
 
-      if (endpoint == "" || key == "") {
+      if (key == "" || url == "") {
          System.out.println("key or endpoint = null");
          return null;
       }
+
+      System.out.printf("%s%s%n", url, PATH);
 
       // Build body for message
       var payload = new Payload();
@@ -65,11 +69,13 @@ public class TwitterProcessorApplication {
       // Convert our object into JSON to send in request
       var json = OBJECT_MAPPER.writeValueAsString(payload);
 
+      System.out.println(json);
+
       // Call cognitive services
       var client = HttpClient.newHttpClient();
       var body = HttpRequest.BodyPublishers.ofString(json);
       var request = HttpRequest.newBuilder().POST(body).header("Content-Type", "application/json")
-            .header("Ocp-Apim-Subscription-Key", key).uri(URI.create(endpoint + PATH)).build();
+            .header("Ocp-Apim-Subscription-Key", key).uri(URI.create(url + PATH)).build();
 
       HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
       var node = OBJECT_MAPPER.readValue(response.body(), JsonNode.class);
@@ -81,6 +87,8 @@ public class TwitterProcessorApplication {
       float score = Optional.ofNullable(node).map(n -> n.get("documents")).map(n -> n.get(0))
             .map(n -> n.get("confidenceScores")).map(n -> n.get(sentiment)).map(n -> n.floatValue()).orElse((float) 0);
 
+      System.out.printf("%s:%f%n", sentiment, score);
+
       return new Sentiment(sentiment, score);
    }
 
@@ -88,7 +96,7 @@ public class TwitterProcessorApplication {
    private String getSecretString(String secret) throws IOException, InterruptedException {
       var jsonResponse = "";
 
-      var url = String.format("http://localhost:%s/v1.0/secrets/%s/%s", DAPR_PORT, SECRET_STORE, secret);
+      var url = String.format("http://%s:%s/v1.0/secrets/%s/%s", DAPR_ADDRESS, DAPR_PORT, SECRET_STORE, secret);
 
       System.out.println(url);
 

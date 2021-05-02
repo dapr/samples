@@ -27,15 +27,22 @@ import io.dapr.apps.twitter.provider.twitterprovider.model.AnalyzedTweet;
 @SpringBootApplication
 public class TwitterProviderApplication {
 
-   private static final String PUBSUB = "tweet-pubsub";
-   private static final String PUBSUB_TOPIC = "tweets";
-   private static final String STATE_STORE = "tweet-store";
-   private static final String SENTIMENT_PROCESSOR_APP = "processor";
    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-   private static final String DAPR_PORT = System.getenv().getOrDefault("DAPR_HTTP_PORT", "35000");
+   private static final String DAPR_PORT = getEnv("DAPR_HTTP_PORT", "35000");
+   private static final String DAPR_ADDRESS = getEnv("DAPR_ADDRESS", "localhost");
+   private static final String STATE_URL = String.format("http://%s:%s/v1.0/state/tweet-store", DAPR_ADDRESS,
+         DAPR_PORT);
+   private static final String PUBLISH_URL = String.format("http://%s:%s/v1.0/publish/tweet-pubsub/tweets",
+         DAPR_ADDRESS, DAPR_PORT);
+   private static final String SENTIMENT_URL = String.format("http://%s:%s/v1.0/invoke/processor/method/sentiment",
+         DAPR_ADDRESS, DAPR_PORT);
 
    public static void main(String[] args) {
       SpringApplication.run(TwitterProviderApplication.class, args);
+   }
+
+   public static String getEnv(String key, String defaultValue) {
+      return System.getenv().getOrDefault(key, defaultValue);
    }
 
    @ResponseBody
@@ -44,8 +51,6 @@ public class TwitterProviderApplication {
    public void tweet(@RequestBody Tweet tweet) throws IOException, InterruptedException {
       System.out.printf("Tweet received %s in %s: %s %n", tweet.getId(), tweet.getLanguage(), tweet.getText());
 
-      var baseUrl = "http://localhost:" + DAPR_PORT + "/v1.0/";
-
       // Build body for message
       var json = OBJECT_MAPPER.writeValueAsString(tweet);
 
@@ -53,7 +58,7 @@ public class TwitterProviderApplication {
       var client = HttpClient.newHttpClient();
       var body = HttpRequest.BodyPublishers.ofString(json);
       var request = HttpRequest.newBuilder().POST(body).header("Content-Type", "application/json")
-            .uri(URI.create(baseUrl + "invoke/" + SENTIMENT_PROCESSOR_APP + "/method/sentiment")).build();
+            .uri(URI.create(SENTIMENT_URL)).build();
 
       // Build the analyzed tweet
       HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
@@ -69,10 +74,10 @@ public class TwitterProviderApplication {
       json = OBJECT_MAPPER.writeValueAsString(states);
       body = HttpRequest.BodyPublishers.ofString(json);
       request = HttpRequest.newBuilder().POST(body).header("Content-Type", "application/json")
-            .uri(URI.create(baseUrl + "state/" + STATE_STORE)).build();
+            .uri(URI.create(STATE_URL)).build();
       var stateResponse = client.send(request, BodyHandlers.discarding());
 
-      if(stateResponse.statusCode() > 299) {
+      if (stateResponse.statusCode() > 299) {
          System.out.printf("Error storing state, status code %n", stateResponse.statusCode());
       }
 
@@ -82,10 +87,10 @@ public class TwitterProviderApplication {
       json = OBJECT_MAPPER.writeValueAsString(analyzedTweet);
       body = HttpRequest.BodyPublishers.ofString(json);
       request = HttpRequest.newBuilder().POST(body).header("Content-Type", "application/json")
-            .uri(URI.create(baseUrl + "publish/" + PUBSUB + "/" + PUBSUB_TOPIC)).build();
+            .uri(URI.create(PUBLISH_URL)).build();
       var pubsubResponse = client.send(request, BodyHandlers.discarding());
 
-      if(pubsubResponse.statusCode() > 299) {
+      if (pubsubResponse.statusCode() > 299) {
          System.out.printf("Error publishing event, status code %n", pubsubResponse.statusCode());
       }
 

@@ -50,6 +50,11 @@ public class TwitterProcessorApplication {
       var key = getSecretString(SECRET_KEY);
       var endpoint = getSecretString(ENDPOINT_KEY);
 
+      if (endpoint == "" || key == "") {
+         System.out.println("key or endpoint = null");
+         return null;
+      }
+
       // Build body for message
       var payload = new Payload();
       payload.documents[0] = text;
@@ -88,13 +93,16 @@ public class TwitterProcessorApplication {
       System.out.println(url);
 
       var client = HttpClient.newHttpClient();
-      var request = HttpRequest.newBuilder().GET().header("accept", "application/json")
-            .uri(URI.create(url)).build();
+      var request = HttpRequest.newBuilder().GET().header("accept", "application/json").uri(URI.create(url)).build();
 
-      HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-
-      var node = OBJECT_MAPPER.readValue(response.body(), JsonNode.class);
-      jsonResponse = Optional.ofNullable(node).map(n -> n.get(secret)).map(n -> n.asText()).orElse("unknown");
+      try {
+         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+         var node = OBJECT_MAPPER.readValue(response.body(), JsonNode.class);
+         jsonResponse = Optional.ofNullable(node).map(n -> n.get(secret)).map(n -> n.asText()).orElse("unknown");
+      } catch (Exception e) {
+         System.out.println("could not load secret from Dapr");
+         System.out.println(e);
+      }
 
       return jsonResponse;
    }

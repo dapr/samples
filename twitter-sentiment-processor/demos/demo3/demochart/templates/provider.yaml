@@ -16,10 +16,11 @@ spec:
         demo: {{ .Values.demoName }}
       annotations:
         dapr.io/enabled: "true"
-        dapr.io/app-id: "provider"
-        dapr.io/app-port: {{ .Values.provider.port | quote }}
-        dapr.io/log-as-json: "true"
         dapr.io/config: "tracing"
+        dapr.io/app-id: "provider"
+        dapr.io/log-as-json: "true"
+        dapr.io/app-port: {{ .Values.provider.port | quote }}
+        dapr.io/log-level: {{ .Values.dapr.loglevel | quote }}
     spec:
       containers:
       - name: provider

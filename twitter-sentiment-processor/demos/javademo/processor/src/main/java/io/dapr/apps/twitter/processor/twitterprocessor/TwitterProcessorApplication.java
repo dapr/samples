@@ -1,4 +1,4 @@
-package io.dapr.apps.twitter.processor.twittersentimentprocessor;
+package io.dapr.apps.twitter.processor.twitterprocessor;
 
 import java.net.URI;
 import java.util.Optional;
@@ -17,31 +17,38 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import io.dapr.apps.twitter.processor.twittersentimentprocessor.model.Text;
-import io.dapr.apps.twitter.processor.twittersentimentprocessor.model.Payload;
-import io.dapr.apps.twitter.processor.twittersentimentprocessor.model.Sentiment;
+import io.dapr.apps.twitter.processor.twitterprocessor.model.Text;
+import io.dapr.apps.twitter.processor.twitterprocessor.model.Payload;
+import io.dapr.apps.twitter.processor.twitterprocessor.model.Sentiment;
 
 @RestController
 @SpringBootApplication
-public class TwitterSentimentProcessorApplication {
+public class TwitterProcessorApplication {
 
    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
    private static final String PATH = "text/analytics/v3.0/sentiment?showStats";
-   private static final String DAPR_PORT = System.getenv().getOrDefault("DAPR_HTTP_PORT", "35000");
+   private static final String DAPR_PORT = getEnv("DAPR_HTTP_PORT", "35000");
    // Defaults to local development. When in K8s set the environment variable
    // DAPR_SECRET_STORE to `kubernetes`.
-   private static final String SECRET_STORE = System.getenv().getOrDefault("DAPR_SECRET_STORE", "secretstore");
+   private static final String SECRET_STORE = getEnv("SECRET_STORE", "secretstore");
+   private static final String SECRET_STORE_NAMESPACE = getEnv("SECRET_STORE_NAMESPACE", "");
+   private static final String ENDPOINT_KEY = getEnv("ENDPOINT_KEY", "Azure:CognitiveServices:Endpoint");
+   private static final String SECRET_KEY = getEnv("SECRET_KEY", "Azure:CognitiveServices:SubscriptionKey");
 
    public static void main(String[] args) {
-      SpringApplication.run(TwitterSentimentProcessorApplication.class, args);
+      SpringApplication.run(TwitterProcessorApplication.class, args);
+   }
+
+   public static String getEnv(String key, String defaultValue) {
+      return System.getenv().getOrDefault(key, defaultValue);
    }
 
    @PostMapping("/sentiment")
    public Sentiment tweet(@RequestBody Text text) throws IOException, InterruptedException {
       // The URL endpoint and subscription key are stored as secrets in a Dapr
       // secret store.
-      var endpoint = getSecretString("Azure:CognitiveServices:Endpoint");
-      var key = getSecretString("Azure:CognitiveServices:SubscriptionKey");
+      var key = getSecretString(SECRET_KEY);
+      var endpoint = getSecretString(ENDPOINT_KEY);
 
       // Build body for message
       var payload = new Payload();
@@ -76,9 +83,13 @@ public class TwitterSentimentProcessorApplication {
    private String getSecretString(String secret) throws IOException, InterruptedException {
       var jsonResponse = "";
 
+      var url = String.format("http://localhost:%s/v1.0/secrets/%s/%s", DAPR_PORT, SECRET_STORE, secret);
+
+      System.out.println(url);
+
       var client = HttpClient.newHttpClient();
       var request = HttpRequest.newBuilder().GET().header("accept", "application/json")
-            .uri(URI.create("http://localhost:" + DAPR_PORT + "/v1.0/secrets/" + SECRET_STORE + "/" + secret)).build();
+            .uri(URI.create(url)).build();
 
       HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
 

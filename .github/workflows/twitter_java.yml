@@ -151,19 +151,19 @@ jobs:
             --name "${{ needs.deployInfrastructure.outputs.aksName }}"
 
           # Install the demo into the cluster
-          helm upgrade --install demo3 ./chart `
+          helm upgrade --install javademo ./chart `
             --set usingPowerShell=True `
             --set viewer.port='3000' `
             --set provider.port='3000' `
             --set processor.port='3000' `
             --set image.tag='${{ github.run_number }}' `
-            --set viewer.image='${{ secrets.DOCKERHUB_USERNAME }}/javaviewer' `
-            --set provider.image='${{ secrets.DOCKERHUB_USERNAME }}/javaprovider' `
-            --set processor.image='${{ secrets.DOCKERHUB_USERNAME }}/javaprocessor' `
             --set twitter.consumerKey='${{ secrets.TWITTER_CONSUMERKEY }}' `
             --set twitter.accessToken='${{ secrets.TWITTER_ACCESSTOKEN }}' `
             --set twitter.accessSecret='${{ secrets.TWITTER_ACCESSSECRET }}' `
             --set twitter.consumerSecret='${{ secrets.TWITTER_CONSUMERSECRET }}' `
+            --set viewer.image='${{ secrets.DOCKERHUB_USERNAME }}/javaviewer' `
+            --set provider.image='${{ secrets.DOCKERHUB_USERNAME }}/javaprovider' `
+            --set processor.image='${{ secrets.DOCKERHUB_USERNAME }}/javaprocessor' `
             --set tableStorage.key='${{ needs.deployInfrastructure.outputs.storageAccountKey }}' `
             --set tableStorage.name='${{ needs.deployInfrastructure.outputs.storageAccountName }}' `
             --set cognitiveService.token='${{ needs.deployInfrastructure.outputs.cognitiveServiceKey }}' `

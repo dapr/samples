@@ -1,4 +1,4 @@
-package io.dapr.apps.twitter.processor.twittersentimentprocessor.model;
+package io.dapr.apps.twitter.processor.twitterprocessor.model;
 
 // This class makes building the JSON payload for sending to cognitive services
 // easier. The JSON is an array of documents. In our case we only ever have one

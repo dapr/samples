@@ -16,10 +16,11 @@ spec:
         demo: {{ .Values.demoName }}
       annotations:
         dapr.io/enabled: "true"
-        dapr.io/app-id: "processor"
-        dapr.io/app-port: {{ .Values.processor.port | quote }}
-        dapr.io/log-as-json: "true"
         dapr.io/config: "tracing"
+        dapr.io/app-id: "processor"
+        dapr.io/log-as-json: "true"
+        dapr.io/app-port: {{ .Values.processor.port | quote }}
+        dapr.io/log-level: {{ .Values.dapr.loglevel | quote }}
     spec:
       containers:
       - name: processor
@@ -32,8 +33,14 @@ spec:
           value: {{ .Values.processor.port | quote }}
         - name: DAPR_HTTP_PORT
           value: {{ .Values.dapr.port | quote}}
-        - name: DAPR_SECRET_STORE
+        - name: SECRET_STORE
           value: kubernetes
+        - name: ENDPOINT_KEY
+          value: "azure-cognitiveservices-endpoint"
+        - name: SECRET_KEY
+          value: "azure-cognitiveservices-subscriptionkey"
+        - name: SECRET_STORE_NAMESPACE
+          value: "default"
         - name: CS_ENDPOINT
           value: {{ .Values.cognitiveService.endpoint | quote }}
         - name: CS_TOKEN

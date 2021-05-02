@@ -1,4 +1,4 @@
-package io.dapr.apps.twitter.processor.twittersentimentprocessor.model;
+package io.dapr.apps.twitter.processor.twitterprocessor.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

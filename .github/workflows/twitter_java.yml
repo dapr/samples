@@ -55,8 +55,6 @@ jobs:
         run: |
           # Get all the outputs
           Write-Output "::set-output name=image::${{ secrets.DOCKERHUB_USERNAME }}/java${{ matrix.app }}"
-    outputs:
-      image: ${{ steps.values.outputs.image }}
 
   deployInfrastructure:
     name: deploy infrastructure

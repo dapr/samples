@@ -10,6 +10,7 @@ dapr:
 
 image:
    tag: "latest"
+   imagePullPolicy: "Always"
 
 processor:
    port: 3002

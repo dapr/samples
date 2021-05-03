@@ -1,7 +1,7 @@
 apiVersion: dapr.io/v1alpha1
 kind: Component
 metadata:
-  name: tweet
+  name: tweets
 auth:
     secretStore: secretstore
 spec:
@@ -22,4 +22,3 @@ spec:
       name: Twitter:AccessSecret # twitter api access secret, required
   - name: query
     value: "cat" # your search query, required
-

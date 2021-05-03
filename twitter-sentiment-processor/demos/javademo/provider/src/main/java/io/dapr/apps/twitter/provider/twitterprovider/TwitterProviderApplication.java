@@ -46,7 +46,7 @@ public class TwitterProviderApplication {
    }
 
    @ResponseBody
-   @PostMapping(value = "/tweet")
+   @PostMapping(value = "/tweets")
    @ResponseStatus(HttpStatus.OK)
    public void tweet(@RequestBody Tweet tweet) throws IOException, InterruptedException {
       System.out.printf("Tweet received %s in %s: %s %n", tweet.getId(), tweet.getLanguage(), tweet.getText());
@@ -60,9 +60,17 @@ public class TwitterProviderApplication {
       var request = HttpRequest.newBuilder().POST(body).header("Content-Type", "application/json")
             .uri(URI.create(SENTIMENT_URL)).build();
 
-      // Build the analyzed tweet
+      System.out.println("Send tweet to be scored");
       HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+
+      if (response.statusCode() > 299) {
+         System.out.printf("Error call sentiment service: %n", response.statusCode());
+         return;
+      }
+
       var sentiment = OBJECT_MAPPER.readValue(response.body(), Sentiment.class);
+
+      // Build the analyzed tweet
       var analyzedTweet = new AnalyzedTweet(tweet.getId(), tweet, sentiment);
 
       System.out.printf("Tweet scored %s: %f %n", sentiment.getSentiment(), sentiment.getConfidence());

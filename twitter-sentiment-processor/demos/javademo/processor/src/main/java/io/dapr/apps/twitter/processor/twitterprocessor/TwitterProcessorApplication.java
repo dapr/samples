@@ -19,6 +19,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import io.dapr.apps.twitter.processor.twitterprocessor.model.Text;
 import io.dapr.apps.twitter.processor.twitterprocessor.model.Payload;
+import io.dapr.apps.twitter.processor.twitterprocessor.model.Secrets;
 import io.dapr.apps.twitter.processor.twitterprocessor.model.Sentiment;
 
 @RestController
@@ -32,9 +33,7 @@ public class TwitterProcessorApplication {
    // Defaults to local development. When in K8s set the environment variable
    // DAPR_SECRET_STORE to `kubernetes`.
    private static final String SECRET_STORE = getEnv("SECRET_STORE", "secretstore");
-   private static final String SECRET_STORE_NAMESPACE = getEnv("SECRET_STORE_NAMESPACE", "");
-   private static final String ENDPOINT_KEY = getEnv("ENDPOINT_KEY", "Azure:CognitiveServices:Endpoint");
-   private static final String SECRET_KEY = getEnv("SECRET_KEY", "Azure:CognitiveServices:SubscriptionKey");
+   private static final String SECRET_KEY = getEnv("SECRET_KEY", "demo-processor-secret");
 
    public static void main(String[] args) {
       SpringApplication.run(TwitterProcessorApplication.class, args);
@@ -49,15 +48,16 @@ public class TwitterProcessorApplication {
 
       // The url endpoint and subscription key are stored as secrets in a Dapr
       // secret store.
-      var key = getSecretString(SECRET_KEY);
-      var url = getSecretString(ENDPOINT_KEY);
+      var secrets = getSecretString(SECRET_KEY);
 
-      if (key == "" || url == "") {
-         System.out.println("key or endpoint = null");
+      if (secrets == "" || secrets == "unknown") {
+         System.out.println("secrets = null");
          return null;
       }
 
-      System.out.printf("%s%s%n", url, PATH);
+      var url = OBJECT_MAPPER.readValue(secrets, Secrets.class);
+
+      System.out.printf("%s%s%n", url.getEndpoint(), PATH);
 
       // Build body for message
       var payload = new Payload();
@@ -75,7 +75,7 @@ public class TwitterProcessorApplication {
       var client = HttpClient.newHttpClient();
       var body = HttpRequest.BodyPublishers.ofString(json);
       var request = HttpRequest.newBuilder().POST(body).header("Content-Type", "application/json")
-            .header("Ocp-Apim-Subscription-Key", key).uri(URI.create(url + PATH)).build();
+            .header("Ocp-Apim-Subscription-Key", url.getToken()).uri(URI.create(url.getEndpoint() + PATH)).build();
 
       HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
       var node = OBJECT_MAPPER.readValue(response.body(), JsonNode.class);
@@ -105,8 +105,23 @@ public class TwitterProcessorApplication {
 
       try {
          HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+
+         if (response.statusCode() > 299) {
+            System.out.printf("error reading secret from Dapr: %n", response.statusCode());
+         }
+
          var node = OBJECT_MAPPER.readValue(response.body(), JsonNode.class);
-         jsonResponse = Optional.ofNullable(node).map(n -> n.get(secret)).map(n -> n.asText()).orElse("unknown");
+
+         // Some secret stores return just the contents of the secret like kubernetes.
+         // Others return the secret name as well like the development file based store.
+         // Test to see if the secret is in the name or not
+         if (node.has(secret)) {
+            System.out.println("Key and data was returned");
+            jsonResponse = Optional.ofNullable(node).map(n -> n.get(secret)).map(n -> n.asText()).orElse("unknown");
+         } else {
+            System.out.println("Only data was returned");
+            jsonResponse = response.body();
+         }
       } catch (Exception e) {
          System.out.println("could not load secret from Dapr");
          System.out.println(e);

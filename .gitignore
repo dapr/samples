@@ -2,4 +2,3 @@
 node_modules/
 package-lock.json
 vendor/**
-twitter-sentiment-processor/demos/demo2/viewer/handler

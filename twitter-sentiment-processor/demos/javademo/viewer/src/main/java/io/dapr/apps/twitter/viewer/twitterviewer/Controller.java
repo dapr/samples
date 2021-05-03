@@ -21,7 +21,7 @@ public class Controller {
    @PostMapping(value = "/tweets")
    public void tweet(@RequestBody byte[] payload) throws IOException {
       var node = OBJECT_MAPPER.readValue(payload, JsonNode.class);
-      var data = node.get("data").asText("unknown");
+      var data = node.get("data").toString();
       System.out.println("Received cloud event: " + data);
       WebSocketPubSub.INSTANCE.send(data);
    }

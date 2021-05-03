@@ -5,12 +5,14 @@ import java.io.IOException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
+
 import static java.lang.System.out;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -40,10 +42,13 @@ public class Controller {
    // "tweets"
    // route that accepts a POST request.
    // The Tweet class is used to make the JSON a POJO.
+   // The traceparent header is needed to tie all the request from the provider
+   // together for tracing.
    @ResponseBody
    @PostMapping(value = "/tweets")
    @ResponseStatus(HttpStatus.OK)
-   public void tweet(@RequestBody Tweet tweet) throws IOException, InterruptedException {
+   public void tweet(@RequestBody Tweet tweet, @RequestHeader(value = "traceparent") String traceparent)
+         throws IOException, InterruptedException {
       out.printf("Tweet received %s in %s: %s %n", tweet.getId(), tweet.getLanguage(), tweet.getText());
 
       // Build body for message
@@ -52,7 +57,7 @@ public class Controller {
       // Call Sentiment service
       var body = HttpRequest.BodyPublishers.ofString(json);
       var request = HttpRequest.newBuilder().POST(body).header("Content-Type", "application/json")
-            .uri(URI.create(SENTIMENT_URL)).build();
+            .header("traceparent", traceparent).uri(URI.create(SENTIMENT_URL)).build();
 
       out.println("Send tweet to be scored");
       var response = CLIENT.send(request, BodyHandlers.ofString());
@@ -76,7 +81,7 @@ public class Controller {
       json = OBJECT_MAPPER.writeValueAsString(states);
       body = HttpRequest.BodyPublishers.ofString(json);
       request = HttpRequest.newBuilder().POST(body).header("Content-Type", "application/json")
-            .uri(URI.create(STATE_URL)).build();
+            .header("traceparent", traceparent).uri(URI.create(STATE_URL)).build();
       var stateResponse = CLIENT.send(request, BodyHandlers.discarding());
 
       if (stateResponse.statusCode() > 299) {
@@ -89,7 +94,7 @@ public class Controller {
       json = OBJECT_MAPPER.writeValueAsString(analyzedTweet);
       body = HttpRequest.BodyPublishers.ofString(json);
       request = HttpRequest.newBuilder().POST(body).header("Content-Type", "application/json")
-            .uri(URI.create(PUBLISH_URL)).build();
+            .header("traceparent", traceparent).uri(URI.create(PUBLISH_URL)).build();
       var pubsubResponse = CLIENT.send(request, BodyHandlers.discarding());
 
       if (pubsubResponse.statusCode() > 299) {

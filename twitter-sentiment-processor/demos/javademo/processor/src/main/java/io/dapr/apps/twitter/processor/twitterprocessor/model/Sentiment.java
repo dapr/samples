@@ -6,7 +6,7 @@ public class Sentiment {
    public Sentiment() {
    }
 
-   public Sentiment(String sentiment, float confidence) {
+   public Sentiment(String sentiment, double confidence) {
       this.sentiment = sentiment;
       this.confidence = confidence;
    }
@@ -15,5 +15,5 @@ public class Sentiment {
    String sentiment;
 
    @JsonProperty("confidence")
-   float confidence;
+   double confidence;
 }

@@ -18,7 +18,7 @@ RUN apt-get update && \
 
 # Create a smaller Java runtime, and delete the JDK
 RUN /jdk-11.0.11+9/bin/jlink \
-   --add-modules java.se \
+   --add-modules java.se,jdk.httpserver,jdk.unsupported,jdk.jfr \
    --strip-debug \
    --no-man-pages \
    --no-header-files \
@@ -31,4 +31,4 @@ COPY --from=build /build/target/app.jar /opt/app.jar
 WORKDIR /opt/
 
 EXPOSE 3000
-CMD [ "/javaruntime/java", "-jar", "app.jar", "--server.port=3000" ]
+CMD [ "/javaruntime/bin/java", "-jar", "app.jar", "--server.port=3000" ]

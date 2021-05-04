@@ -2,5 +2,5 @@
 node_modules/
 package-lock.json
 vendor/**
-twitter-sentiment-processor/demos/demo2/viewer/handler
-twitter-sentiment-processor/demos/demo3/demochart/templates/twitter.yaml
+twitter-sentiment-processor/demos/demo3/demochart/java.yaml
+twitter-sentiment-processor/demos/demo3/demochart/mixed.yaml

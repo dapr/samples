@@ -1,0 +1,27 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: tweets
+spec:
+  type: bindings.twitter
+  version: v1
+  metadata:
+    # PLACE TWITTER CREDENTIALS HERE
+  - name: consumerKey
+    secretKeyRef:
+      name: demo-twitter-secret
+      key:  consumerKey
+  - name: consumerSecret
+    secretKeyRef:
+      name: demo-twitter-secret
+      key:  consumerSecret
+  - name: accessToken
+    secretKeyRef:
+      name: demo-twitter-secret
+      key:  accessToken
+  - name: accessSecret
+    secretKeyRef:
+      name: demo-twitter-secret
+      key:  accessSecret
+  - name: query
+    value: "microsoft"

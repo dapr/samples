@@ -17,14 +17,15 @@ spec:
       annotations:
         dapr.io/enabled: "true"
         dapr.io/app-id: "viewer"
-        dapr.io/app-port: {{ .Values.viewer.port | quote }}
-        dapr.io/log-as-json: "true"
         dapr.io/config: "tracing"
+        dapr.io/log-as-json: "true"
+        dapr.io/app-port: {{ .Values.viewer.port | quote }}
+        dapr.io/log-level: {{ .Values.dapr.loglevel | quote }}
     spec:
       containers:
       - name: viewer
-        image: {{ .Values.viewer.image }}
-        imagePullPolicy: Always
+        image: "{{ .Values.viewer.image }}:{{.Values.image.tag}}"
+        imagePullPolicy: {{ .Values.image.imagePullPolicy }}
         ports:
         - containerPort: {{ .Values.viewer.port }}
         env:

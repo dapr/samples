@@ -16,15 +16,16 @@ spec:
         demo: {{ .Values.demoName }}
       annotations:
         dapr.io/enabled: "true"
-        dapr.io/app-id: "processor"
-        dapr.io/app-port: {{ .Values.processor.port | quote }}
-        dapr.io/log-as-json: "true"
         dapr.io/config: "tracing"
+        dapr.io/app-id: "processor"
+        dapr.io/log-as-json: "true"
+        dapr.io/app-port: {{ .Values.processor.port | quote }}
+        dapr.io/log-level: {{ .Values.dapr.loglevel | quote }}
     spec:
       containers:
       - name: processor
-        image: {{ .Values.processor.image }}
-        imagePullPolicy: Always
+        image: "{{ .Values.processor.image }}:{{.Values.image.tag}}"
+        imagePullPolicy: {{ .Values.image.imagePullPolicy }}
         ports:
         - containerPort: {{ .Values.processor.port }}
         env:
@@ -32,6 +33,12 @@ spec:
           value: {{ .Values.processor.port | quote }}
         - name: DAPR_HTTP_PORT
           value: {{ .Values.dapr.port | quote}}
+        - name: SECRET_STORE
+          value: "kubernetes"
+        - name: SECRET_KEY
+          value: "demo-processor-secret"
+        - name: SECRET_STORE_NAMESPACE
+          value: "default"
         - name: CS_ENDPOINT
           value: {{ .Values.cognitiveService.endpoint | quote }}
         - name: CS_TOKEN

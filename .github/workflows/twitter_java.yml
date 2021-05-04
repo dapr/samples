@@ -1,0 +1,198 @@
+name: Twitter Demo Java
+
+on:
+  # Triggers the workflow on push
+  push:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  # The name of the resource group to be created. All resources will be place
+  # in the resource group and start with name.
+  RG_NAME: "twitterDemo"
+
+  # The location to store the meta data for the deployment.
+  LOCATION: "eastus"
+
+  #The version of the dapr runtime version to deploy.
+  DAPR_VERSION: "1.0.0"
+
+  # The version of k8s control plane.
+  K8S_VERSION: "1.19.9"
+
+jobs:
+  buildImages:
+    name: build ${{ matrix.app }} image
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [provider, processor, viewer]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/java${{ matrix.app }}:${{ github.run_number }}
+          context: ./twitter-sentiment-processor/demos/javademo/${{ matrix.app }}/
+
+      - name: Output matrix values
+        shell: pwsh
+        id: values
+        run: |
+          # Get all the outputs
+          Write-Output "::set-output name=image::${{ secrets.DOCKERHUB_USERNAME }}/java${{ matrix.app }}"
+
+  deployInfrastructure:
+    name: deploy infrastructure
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v2
+
+      - name: Login to Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy infrastructure
+        id: azure-deployment
+        shell: pwsh
+        run: |
+          $deployment = $(az deployment sub create --name ${{ env.RG_NAME }} `
+            --location ${{ env.LOCATION }} `
+            --template-file ./iac/main.json `
+            --parameters location=${{ env.LOCATION }} `
+            --parameters rgName=${{ env.RG_NAME }} `
+            --parameters k8sversion=${{ env.K8S_VERSION }} `
+            --output json) | ConvertFrom-Json
+          # Get all the outputs
+          Write-Output "::set-output name=aksName::$($deployment.properties.outputs.aksName.value)"
+          Write-Output "::set-output name=storageAccountKey::$($deployment.properties.outputs.storageAccountKey.value)"
+          Write-Output "::set-output name=serviceBusEndpoint::$($deployment.properties.outputs.serviceBusEndpoint.value)"
+          Write-Output "::set-output name=storageAccountName::$($deployment.properties.outputs.storageAccountName.value)"
+          Write-Output "::set-output name=cognitiveServiceKey::$($deployment.properties.outputs.cognitiveServiceKey.value)"
+          Write-Output "::set-output name=cognitiveServiceEndpoint::$($deployment.properties.outputs.cognitiveServiceEndpoint.value)"
+        working-directory: ./twitter-sentiment-processor/demos/demo3
+
+      - name: Install Dapr
+        uses: darquewarrior/setup-dapr@v1
+
+      - name: Initialize Dapr
+        shell: pwsh
+        run: |
+          Write-Host "${{ steps.azure-deployment.outputs.aksName }}"
+          # Get the credentials to use with dapr init and helm install
+          az aks get-credentials --resource-group ${{ env.RG_NAME }} --name "${{ steps.azure-deployment.outputs.aksName }}"
+
+          # Initialize Dapr
+          # Dapr init is very noisy in the logs so group these lines so
+          # it can be collapsed.
+          Write-Output "::group::Initialize Dapr"
+          dapr init --kubernetes --wait --runtime-version ${{ env.DAPR_VERSION }}
+          Write-Output "::endgroup::"
+
+          dapr status --kubernetes
+        working-directory: ./twitter-sentiment-processor/demos/demo3
+
+      - name: Publish Chart
+        uses: actions/upload-artifact@v2
+        with:
+          name: chart
+          path: "./twitter-sentiment-processor/demos/demo3/demochart"
+    outputs:
+      aksName: ${{ steps.azure-deployment.outputs.aksName }}
+      storageAccountKey: ${{ steps.azure-deployment.outputs.storageAccountKey }}
+      storageAccountName: ${{ steps.azure-deployment.outputs.storageAccountName }}
+      serviceBusEndpoint: ${{ steps.azure-deployment.outputs.serviceBusEndpoint }}
+      cognitiveServiceKey: ${{ steps.azure-deployment.outputs.cognitiveServiceKey }}
+      cognitiveServiceEndpoint: ${{ steps.azure-deployment.outputs.cognitiveServiceEndpoint }}
+
+  deployApp:
+    name: deploy application
+    needs: [buildImages, deployInfrastructure]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download module
+        uses: actions/download-artifact@v2
+        with:
+          name: chart
+          path: chart
+
+      - name: Login to Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Install helm
+        uses: azure/setup-helm@v1
+
+      - name: Helm upgrade
+        shell: pwsh
+        run: |
+          # Get the credentials to use with dapr init and helm install
+          az aks get-credentials `
+            --resource-group ${{ env.RG_NAME }} `
+            --name "${{ needs.deployInfrastructure.outputs.aksName }}"
+
+          # Install the demo into the cluster
+          helm upgrade --install javademo ./chart `
+            --set usingPowerShell=True `
+            --set viewer.port='3000' `
+            --set provider.port='3000' `
+            --set processor.port='3000' `
+            --set image.tag='${{ github.run_number }}' `
+            --set twitter.consumerKey='${{ secrets.TWITTER_CONSUMERKEY }}' `
+            --set twitter.accessToken='${{ secrets.TWITTER_ACCESSTOKEN }}' `
+            --set twitter.accessSecret='${{ secrets.TWITTER_ACCESSSECRET }}' `
+            --set twitter.consumerSecret='${{ secrets.TWITTER_CONSUMERSECRET }}' `
+            --set viewer.image='${{ secrets.DOCKERHUB_USERNAME }}/javaviewer' `
+            --set provider.image='${{ secrets.DOCKERHUB_USERNAME }}/javaprovider' `
+            --set processor.image='${{ secrets.DOCKERHUB_USERNAME }}/javaprocessor' `
+            --set tableStorage.key='${{ needs.deployInfrastructure.outputs.storageAccountKey }}' `
+            --set tableStorage.name='${{ needs.deployInfrastructure.outputs.storageAccountName }}' `
+            --set cognitiveService.token='${{ needs.deployInfrastructure.outputs.cognitiveServiceKey }}' `
+            --set serviceBus.connectionString='${{ needs.deployInfrastructure.outputs.serviceBusEndpoint }}' `
+            --set cognitiveService.endpoint='${{ needs.deployInfrastructure.outputs.cognitiveServiceEndpoint }}'
+
+      - name: Get IPs
+        shell: pwsh
+        run: |
+          function Get-IP {
+            [CmdletBinding()]
+            param (
+                [string]
+                $serviceName
+            )
+
+            # Make sure service is ready
+            $ip = $(kubectl get services $serviceName --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
+
+            while ($null -eq $ip) {
+                Start-Sleep -Seconds 30
+                $ip = $(kubectl get services $serviceName --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
+            }
+
+            Write-Output $ip
+          }
+
+          # Make sure services are ready
+          Write-Output "`nGetting IP addresses. Please wait..."
+          $viewerIp = Get-IP -serviceName viewer
+          $zipkinIp = Get-IP -serviceName publiczipkin
+
+          Write-Output "`nYour app is accessible from http://$viewerIp"
+          Write-Output "Zipkin is accessible from http://$zipkinIp`n"

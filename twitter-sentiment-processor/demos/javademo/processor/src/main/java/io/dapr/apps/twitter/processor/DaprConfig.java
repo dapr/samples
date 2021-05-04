@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
 
 import io.dapr.client.DaprClient;
 import io.dapr.client.DaprClientBuilder;
-import io.dapr.client.domain.GetSecretRequest;
 import io.dapr.client.domain.GetSecretRequestBuilder;
 import lombok.extern.slf4j.Slf4j;
 

@@ -2,7 +2,6 @@
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
  */
-
 package io.dapr.apps.twitter.processor;
 
 import java.io.BufferedOutputStream;
@@ -14,8 +13,6 @@ import java.util.Optional;
 import javax.net.ssl.HttpsURLConnection;
 
 import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,8 +58,8 @@ public class ApplicationController {
         assert(endpoint != null);
         assert(subscriptionKey != null);
 
-        URL url = new URL(endpoint+PATH);
-        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+        var url = new URL(endpoint+PATH);
+        var connection = (HttpsURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "text/json");
         connection.setRequestProperty("Ocp-Apim-Subscription-Key", subscriptionKey);
@@ -70,8 +67,8 @@ public class ApplicationController {
 
         writeRequest(text, connection.getOutputStream());
 
-        JsonNode node = OBJECT_MAPPER.readTree(connection.getInputStream());
-        String sentiment = Optional.ofNullable(node)
+        var node = OBJECT_MAPPER.readTree(connection.getInputStream());
+        var sentiment = Optional.ofNullable(node)
           .map(n -> n.get("documents"))
           .map(n -> n.get(0))
           .map(n -> n.get("sentiment"))
@@ -84,12 +81,13 @@ public class ApplicationController {
           .map(n -> n.get(sentiment))
           .map(n -> n.floatValue())
           .orElse((float) 0);
+          
         return new Sentiment(sentiment, score);
     }
 
     private static void writeRequest(Text text, OutputStream output) throws IOException {
-        try (OutputStream bos = new BufferedOutputStream(output)) {
-            try (JsonGenerator generator = JSON_FACTORY.createGenerator(bos)) {
+        try (var bos = new BufferedOutputStream(output)) {
+            try (var generator = JSON_FACTORY.createGenerator(bos)) {
                 generator.writeStartObject();
                 generator.writeArrayFieldStart("documents");
                 generator.writeStartObject();

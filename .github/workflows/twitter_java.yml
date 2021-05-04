@@ -74,7 +74,7 @@ jobs:
         run: |
           $deployment = $(az deployment sub create --name ${{ env.RG_NAME }} `
             --location ${{ env.LOCATION }} `
-            --template-file ./iac/main.json `
+            --template-file ./iac/main.bicep `
             --parameters location=${{ env.LOCATION }} `
             --parameters rgName=${{ env.RG_NAME }} `
             --parameters k8sversion=${{ env.K8S_VERSION }} `

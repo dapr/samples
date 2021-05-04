@@ -21,4 +21,4 @@ spec:
     secretKeyRef:
       name: Twitter:AccessSecret # twitter api access secret, required
   - name: query
-    value: "cat" # your search query, required
+    value: "MSBuild" # your search query, required

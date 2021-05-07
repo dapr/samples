@@ -14,11 +14,11 @@ import org.springframework.context.annotation.Configuration;
 import io.dapr.client.DaprClient;
 import io.dapr.client.DaprClientBuilder;
 import io.dapr.client.domain.GetSecretRequestBuilder;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Configuration
 public class DaprConfig {
+
+  private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DaprConfig.class);
 
   private static final String SECRET_STORE =
     Optional.ofNullable(System.getenv("SECRET_STORE")).orElse("secretstore");

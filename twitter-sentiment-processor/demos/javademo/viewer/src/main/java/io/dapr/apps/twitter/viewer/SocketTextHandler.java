@@ -12,10 +12,9 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class SocketTextHandler extends TextWebSocketHandler {
+
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SocketTextHandler.class);
 
     @Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {

@@ -13,10 +13,9 @@ import java.util.Map;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class WebSocketPubSub {
+
+	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WebSocketPubSub.class);
 
 	private final Map<String, WebSocketSession> sessions = Collections.synchronizedMap(new HashMap<>());
 

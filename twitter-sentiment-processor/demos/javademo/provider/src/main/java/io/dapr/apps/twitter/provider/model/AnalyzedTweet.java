@@ -4,30 +4,55 @@
  */
 package io.dapr.apps.twitter.provider.model;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.FieldDefaults;
-
-@Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class AnalyzedTweet {
 
+    public AnalyzedTweet() {
+    }
+
+    public AnalyzedTweet(Tweet tweet, Sentiment sentiment) {
+        setId(tweet.getId());
+        setSentiment(sentiment);
+        setTweet(tweet);
+    }
+
     @JsonProperty("id")
-    String id;
+    private String id;
 
     @JsonProperty("tweet")
-    Tweet tweet;
+    private Tweet tweet;
 
     @JsonProperty("sentiment")
-    Sentiment sentiment;
+    private Sentiment sentiment;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Tweet getTweet() {
+        return tweet;
+    }
+
+    public void setTweet(Tweet tweet) {
+        this.tweet = tweet;
+    }
+
+    public Sentiment getSentiment() {
+        return sentiment;
+    }
+
+    public void setSentiment(Sentiment sentiment) {
+        this.sentiment = sentiment;
+    }
+
+    @Override
+    public String toString() {
+        return "AnalyzedTweet [id=" + id + ", sentiment=" + sentiment + ", tweet=" + tweet + "]";
+    }
+
 }

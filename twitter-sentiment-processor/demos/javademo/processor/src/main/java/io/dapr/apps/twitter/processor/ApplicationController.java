@@ -27,20 +27,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.dapr.apps.twitter.processor.model.Sentiment;
 import io.dapr.apps.twitter.processor.model.Text;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
 @RestController
-@Slf4j
-@RequiredArgsConstructor
 public class ApplicationController {
+
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ApplicationController.class);
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     private static final JsonFactory JSON_FACTORY = new JsonFactory();
 
     private static final String PATH = "/text/analytics/v3.0/sentiment";
+
+    public ApplicationController(String endpoint, String subscriptionKey) {
+      this.endpoint = endpoint;
+      this.subscriptionKey = subscriptionKey;
+    }
 
     @Autowired
     @Qualifier("endpoint")

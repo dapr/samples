@@ -17,14 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.dapr.Topic;
 import io.dapr.client.domain.CloudEvent;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
-@Slf4j
-@RequiredArgsConstructor
 @RestController
 public class ApplicationController {
+
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ApplicationController.class);
 
     private static final String PUBSUB = "messagebus";
   

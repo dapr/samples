@@ -19,14 +19,12 @@ import io.dapr.apps.twitter.provider.model.Sentiment;
 import io.dapr.apps.twitter.provider.model.Tweet;
 import io.dapr.client.DaprClient;
 import io.dapr.client.domain.HttpExtension;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
 @RestController
-@Slf4j
-@RequiredArgsConstructor
 public class ApplicationController {
+
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ApplicationController.class);
 
     private static final String SENTIMENT_PROCESSOR_APP = "sentiment-processor";
 
@@ -35,6 +33,10 @@ public class ApplicationController {
     private static final String PUBSUB = "messagebus";
 
     private static final String PUBSUB_TOPIC = "tweets";
+
+    public ApplicationController(DaprClient daprClient) {
+        this.daprClient = daprClient;
+    }
 
     @Autowired
     private final DaprClient daprClient;
@@ -46,11 +48,7 @@ public class ApplicationController {
         log.info(String.format("Tweet received %s in %s: %s", tweet.getId(), tweet.getLanguage(), tweet.getText()));
         return daprClient
                 .invokeService(SENTIMENT_PROCESSOR_APP, "sentiment", tweet, HttpExtension.POST, Sentiment.class)
-                .map(sentiment -> AnalyzedTweet.builder()
-                  .id(tweet.getId())
-                  .tweet(tweet)
-                  .sentiment(sentiment)
-                  .build())
+                .map(sentiment -> new AnalyzedTweet(tweet, sentiment))
                 .flatMap(analizedTweet -> daprClient.saveState(STATE_STORE, analizedTweet.getId(), analizedTweet)
                         .then(daprClient.publishEvent(PUBSUB, PUBSUB_TOPIC, analizedTweet)
                         .thenReturn(analizedTweet)))

@@ -4,12 +4,11 @@
 require("isomorphic-fetch");
 const express = require("express");
 const logger = require("./logger");
-const bodyParser = require("body-parser");
 
 // express
 const port = 3002;
 const app = express();
-app.use(bodyParser.json());
+app.use(express.json());
 
 // Cognitive Services API
 // The KEY 1 value from Azure Portal, Keys and Endpoint section

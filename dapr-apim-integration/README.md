@@ -339,7 +339,7 @@ And install Redis and wait for the deployment to complete:
 ```shell
 helm install redis bitnami/redis  
 kubectl rollout status statefulset.apps/redis-master
-kubectl rollout status statefulset.apps/redis-slave
+kubectl rollout status statefulset.apps/redis-replicas
 ```
 
 ### Dapr Components 

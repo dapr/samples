@@ -89,7 +89,7 @@ jobs:
         working-directory: ./twitter-sentiment-processor/demos/demo3
 
       - name: Install Dapr
-        uses: darquewarrior/setup-dapr@v1
+        uses: dapr/setup-dapr@v1
 
       - name: Initialize Dapr
         shell: pwsh

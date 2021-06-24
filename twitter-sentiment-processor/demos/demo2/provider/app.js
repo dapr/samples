@@ -7,12 +7,11 @@ require("isomorphic-fetch");
 require("es6-promise").polyfill();
 const logger = require("./logger");
 const express = require("express");
-const bodyParser = require("body-parser");
 
 // express
 const port = 3001;
 const app = express();
-app.use(bodyParser.json());
+app.use(express.json());
 
 // Dapr
 const daprPort = process.env.DAPR_HTTP_PORT || "3500";

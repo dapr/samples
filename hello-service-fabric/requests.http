@@ -5,4 +5,4 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3500/v1.0/invoke/nodeapp/method/order
+GET http://localhost:3500/v1.0/invoke/mynode/method/order

@@ -60,7 +60,9 @@ This section will create an application package where daprd.exe and the user nod
 1. From `\daprsfpkg\MyService\CodeUserApp\`, run `npm install` to install the node.js app's dependencies.
 
    ```PowerShell
+   cd .\daprsfpkg\MyService\CodeUserApp\
    npm install
+   cd ..\..\..
    ```
 
 1. Confirm the application package is well-formed:
@@ -78,6 +80,12 @@ Notes:
 ## Step 4 - Create the Service Fabric Application
 
 Copy the application package to the cluster, register it, then create the application.
+
+Connect to the cluster:
+
+```PowerShell
+Connect-ServiceFabricCluster
+```
 
 Copy the application package to the cluster:
 
@@ -113,7 +121,7 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3500/v1.0/invoke/nodeapp/method/order
+GET http://localhost:3500/v1.0/invoke/mynode/method/order
 ```
 
 ## Part 6 - Cleanup
@@ -121,11 +129,11 @@ GET http://localhost:3500/v1.0/invoke/nodeapp/method/order
 1. Delete the Service Fabric application instance:
 
    ```PowerShell
-   Remove-ServiceFabricApplication -ApplicationName fabric:/dapr1
+   Remove-ServiceFabricApplication -ApplicationName fabric:/dapr1 -Force
    ```
 
 1. Unregister the Service Fabric application type
 
    ```PowerShell
-   Unregister-ServiceFabricApplicationType daprsf 1.0
+   Unregister-ServiceFabricApplicationType -ApplicationTypeName daprsf -ApplicationTypeVersion 1.0 -Force
    ```

@@ -10,7 +10,7 @@
 
 ## Overview
 
-The following is a sample of how to host a Hello World Dapr app on local Windows box Service Fabric cluster. We'll be deploying a Node.js app that subscribes to order messages and persists them. The following architecture diagram illustrates the components that make up this sample:
+The following is a sample of how to host a Dapr app on a Service Fabric cluster. We'll be deploying a Node.js app that subscribes to order messages and persists them. The following architecture diagram illustrates the components that make up this sample:
 
 ![Architecture Diagram](./img/Architecture_Diagram.png)
 
@@ -18,18 +18,17 @@ Some Dapr functionality, such as message invocation, will not work without addit
 
 ## Prerequisites
 
-Clone this repo using `git clone https://github.com/dapr/samples.git` and go to the directory named */hello-service-fabric*. All commands should be executed from a PowerShell terminal.
+Clone this repo using `git clone https://github.com/dapr/samples.git` and go to the directory named *\hello-service-fabric*. All commands should be executed from a PowerShell terminal.
 
 - [Docker](https://docs.docker.com/)
-- [Node.js version 8 or greater](https://nodejs.org/en/)
 - [PowerShell](https://github.com/powershell/powershell)
-- [Microsoft Azure Service Fabric SDK](https://www.microsoft.com/web/handlers/webpi.ashx?command=getinstallerredirect&appid=MicrosoftAzure-ServiceFabric-CoreSDK)
 - [REST Client extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
-- [Postman](https://www.getpostman.com/) [Optional]
+- [Node.js version 8 or greater](https://nodejs.org/en/)
+- [Microsoft Azure Service Fabric SDK](https://www.microsoft.com/web/handlers/webpi.ashx?command=getinstallerredirect&appid=MicrosoftAzure-ServiceFabric-CoreSDK)
 
 ## Step 1 - Setup Dapr
 
-Follow [instructions](https://docs.dapr.io/getting-started/install-dapr/#install-dapr-in-self-hosted-mode) to download and install the Dapr CLI and initialize Dapr with `dapr init`.
+Follow these [instructions](https://docs.dapr.io/getting-started/install-dapr/#install-dapr-in-self-hosted-mode) to download and install the Dapr CLI and initialize Dapr with `dapr init`.
 
 ```PowerShell
 dapr init
@@ -43,9 +42,9 @@ dapr init
 
 ## Step 3 - Create the Service Fabric Application Package
 
-This section will create an application package where daprd.exe and the user node.js app will be run as guest executables in two separate code packages under the same Service Fabric service.  They'll always be co-located.
+This section will create an application package where daprd.exe and the user node.js app will be run as guest executables in two separate code packages under the same Service Fabric service. They'll always be co-located.
 
-1. Copy daprd.exe from your local Dapr installation, `c:\Users\[user]\.dapr\bin`, into `\daprsfpkg\MyService\CodeDapr\`.  Make sure you copy _daprd.exe_, not dapr.exe.
+1. Copy daprd.exe from your local Dapr installation, `c:\Users\[user]\.dapr\bin`, into `\daprsfpkg\MyService\CodeDapr\`.
 
    ```PowerShell
    copy c:\Users\$env:username\.dapr\bin\daprd.exe .\daprsfpkg\MyService\CodeDapr\
@@ -57,7 +56,7 @@ This section will create an application package where daprd.exe and the user nod
    copy c:\Users\$env:username\.dapr\components\*.* .\daprsfpkg\MyService\CodeDapr\components\
    ```
 
-1. From `\daprsfpkg\MyService\CodeUserApp\`, run `npm install` to install the node.js app's dependencies.
+1. From `\daprsfpkg\MyService\CodeUserApp\`, run `npm install` to install the node.js app's dependencies and return to `\hello-service-fabric`.
 
    ```PowerShell
    cd .\daprsfpkg\MyService\CodeUserApp\
@@ -65,7 +64,7 @@ This section will create an application package where daprd.exe and the user nod
    cd ..\..\..
    ```
 
-1. Confirm the application package is well-formed:
+1. From `\hello-service-fabric`, confirm the application package is well-formed:
 
    ```PowerShell
    Test-ServiceFabricApplicationPackage .\daprsfpkg\
@@ -105,7 +104,7 @@ Create the application instance:
 New-ServiceFabricApplication -ApplicationName fabric:/dapr1 -ApplicationTypeName daprsf -ApplicationTypeVersion 1.0
 ```
 
-You'll see daprd.exe and the node.js app come up on the same node.
+daprd.exe and the node.js app will run on the same node.
 
 ## Part 5 - Post Messages to the Service
 

@@ -9,7 +9,7 @@ on:
 env:
   # The name of the resource group to be created. All resources will be place
   # in the resource group and start with name.
-  RG_NAME: "twitterDemo"
+  RG_NAME: "java_twitterDemo"
 
   # The location to store the meta data for the deployment.
   LOCATION: "eastus"

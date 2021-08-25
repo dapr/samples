@@ -32,41 +32,40 @@ param (
       HelpMessage = "The version of the dapr runtime version to deploy."
    )]
    [string]
-   $daprVersion = "1.0.0",
+   $daprVersion = "1.3.0",
 
    [Parameter(
       Position = 3,
       HelpMessage = "The version of k8s control plane."
    )]
    [string]
-   $k8sVersion = "1.19.6"
+   $k8sVersion
 )
+
+if (-not $PsBoundParameters.ContainsKey('k8sVersion')) {
+   $k8sVersion = $((az aks get-versions --location $location -o json | convertfrom-json).orchestrators.orchestratorVersion | sort-object -Descending | select-object -First 1)
+}
+
 function Get-IP {
    [CmdletBinding()]
    param (
       [string]
       $serviceName
    )
-
    # Make sure service is ready
-   $ip = $(kubectl get services $serviceName --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
-
-   while ($null -eq $ip) {
-      Start-Sleep -Seconds 30
-      $ip = $(kubectl get services $serviceName --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
-   }
-
-   Write-Output $ip
+   kubectl get services $serviceName --output jsonpath='{.status.loadBalancer.ingress[0].ip}'
 }
 
 # Deploy the infrastructure
-$deployment = $(az deployment sub create --name $rgName `
+az deployment sub create --name $rgName `
    --location $location `
    --template-file ./iac/main.json `
    --parameters location=$location `
    --parameters rgName=$rgName `
    --parameters k8sversion=$k8sVersion `
-   --output json) | ConvertFrom-Json
+   --output none
+
+$deployment = az deployment sub show --name $rgName --output json | ConvertFrom-Json
 
 # Get all the outputs
 $aksName = $deployment.properties.outputs.aksName.value
@@ -95,13 +94,14 @@ $status = dapr status --kubernetes
 
 # Once all the services are running they will all report True instead of False.
 # Keep checking the status until you don't find False
-$attempts = 1
+$x = 0
 while ($($status | Select-String 'dapr-system  False').Matches.Length -ne 0) {
-   Write-Output "Dapr not ready retry in 30 seconds. Attempts: $attempts"
-   Start-Sleep -Seconds 30
-   $attempts++
+   $x++
+   Write-Progress -Activity "Dapr starting. Please wait... " -PercentComplete $x
+   Start-Sleep -Seconds 1
    $status = dapr status --kubernetes
 }
+Write-Output "Dapr ready!"
 
 # Copy the twitter component file from the demos/components folder to the
 # templates folder. Copy this file removes the need for the user to set
@@ -118,9 +118,14 @@ helm upgrade --install demo3 ./demochart `
    --set usingPowerShell=True
 
 # Make sure services are ready
-Write-Output "`nGetting IP addresses. Please wait..."
-$viewerIp = Get-IP -serviceName viewer
-$zipkinIp = Get-IP -serviceName publiczipkin
+$x = 0
+do {
+   $x++
+   Write-Progress -Activity "Getting IP addresses. Please wait..." -PercentComplete $x
+   Start-Sleep -Seconds 1
+   $viewerIp = Get-IP -serviceName viewer
+   $zipkinIp = Get-IP -serviceName publiczipkin
+} until ($viewerIp -and $zipkinIp)
 
 Write-Output "`nYour app is accessible from http://$viewerIp"
 Write-Output "Zipkin is accessible from http://$zipkinIp`n"

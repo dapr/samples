@@ -4,3 +4,4 @@ package-lock.json
 vendor/**
 twitter-sentiment-processor/demos/demo3/demochart/java.yaml
 twitter-sentiment-processor/demos/demo3/demochart/mixed.yaml
+.venv/

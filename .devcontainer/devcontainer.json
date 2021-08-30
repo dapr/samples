@@ -1,0 +1,7 @@
+{
+    "extensions": [
+        "humao.rest-client"
+    ],
+    // Use 'onCreateCommand' to run commands as part of container creation. 
+    "onCreateCommand": "/bin/bash -c .devcontainer/on-create.sh",
+}

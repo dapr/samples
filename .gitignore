@@ -7,3 +7,4 @@ twitter-sentiment-processor/demos/demo3/demochart/templates/twitter.yaml
 hello-service-fabric/daprsfpkg/MyService/CodeDapr/daprd.exe
 hello-service-fabric/daprsfpkg/MyService/CodeDapr/components/pubsub.yaml
 hello-service-fabric/daprsfpkg/MyService/CodeDapr/components/statestore.yaml
+.venv/

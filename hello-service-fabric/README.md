@@ -108,15 +108,15 @@ daprd.exe and the node.js app will run on the same node.
 
 ## Part 5 - Post Messages to the Service
 
-Now that Dapr and the Node.js app are running, you can POST messages against it, using the Visual Studio Code [REST Client extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client).
+Now that Dapr and the Node.js app are running, you can publish events to the pubsub component, using the Visual Studio Code [REST Client extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client).
 
 Open the `requests.http` file in the root folder to execute the following requests.
 
 ```text
-POST http://localhost:3500/v1.0/invoke/mynode/method/neworder
+POST http://localhost:3500/v1.0/publish/pubsub/neworder
 Content-Type: application/json
 
-{"data":{"orderId":"42"}}
+{"order":{"orderId":"44"}}
 
 ###
 

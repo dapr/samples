@@ -1,7 +1,7 @@
-POST http://localhost:3500/v1.0/invoke/mynode/method/neworder
+POST http://localhost:3500/v1.0/publish/pubsub/neworder
 Content-Type: application/json
 
-{"data":{"orderId":"42"}}
+{"order":{"orderId":"44"}}
 
 ###
 

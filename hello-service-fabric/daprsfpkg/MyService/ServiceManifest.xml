@@ -9,6 +9,7 @@
             <Program>node.exe</Program>
             <Arguments>app.js</Arguments>
             <WorkingFolder>CodePackage</WorkingFolder>
+            <ConsoleRedirection FileRetentionCount="5" FileMaxSizeInKb="2048"/>
          </ExeHost>
       </EntryPoint>
       <EnvironmentVariables>
@@ -26,6 +27,7 @@
             <Program>daprd.exe</Program>
             <Arguments> --app-id mynode --components-path ./components --app-protocol http --app-port 3000 --dapr-http-port 3500 --dapr-grpc-port 43693 --log-level debug --app-max-concurrency -1</Arguments>
             <WorkingFolder>CodeBase</WorkingFolder>
+            <ConsoleRedirection FileRetentionCount="5" FileMaxSizeInKb="2048"/>
          </ExeHost>
       </EntryPoint>
    </CodePackage>

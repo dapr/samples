@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceManifest xmlns:xsd="https://www.w3.org/2001/XMLSchema" xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance" Name="MyService" Version="1.0.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+   <ServiceTypes>
+      <StatelessServiceType ServiceTypeName="MyServiceType" UseImplicitHost="true"/>
+   </ServiceTypes>
+   <CodePackage Name="CodeUserApp" Version="1.0.0.0">
+      <EntryPoint>
+         <ExeHost IsExternalExecutable="true">
+            <Program>node.exe</Program>
+            <Arguments>app.js</Arguments>
+            <WorkingFolder>CodePackage</WorkingFolder>
+         </ExeHost>
+      </EntryPoint>
+      <EnvironmentVariables>
+         <!-- Make sure these matche the Arguments element below -->
+         <EnvironmentVariable Name="APP_HTTP_PORT" Value="3000"/>
+         <EnvironmentVariable Name="DAPR_HTTP_PORT" Value="3500"/>
+         <EnvironmentVariable Name="DAPR_GRPC_PORT" Value="43693"/>
+      </EnvironmentVariables>
+   </CodePackage>
+
+   <!-- note the /components folder has been copied into this code package -->
+   <CodePackage Name="CodeDapr" Version="1.0.0.0">
+      <EntryPoint>
+         <ExeHost>
+            <Program>daprd.exe</Program>
+            <Arguments> --app-id mynode --components-path ./components --app-protocol http --app-port 3000 --dapr-http-port 3500 --dapr-grpc-port 43693 --log-level debug --app-max-concurrency -1</Arguments>
+            <WorkingFolder>CodeBase</WorkingFolder>
+         </ExeHost>
+      </EntryPoint>
+   </CodePackage>
+</ServiceManifest>

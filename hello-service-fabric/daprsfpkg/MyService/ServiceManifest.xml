@@ -12,6 +12,8 @@
          </ExeHost>
       </EntryPoint>
       <EnvironmentVariables>
+         <!-- Make sure these matche the Arguments element below -->
+         <EnvironmentVariable Name="APP_HTTP_PORT" Value="3000"/>
          <EnvironmentVariable Name="DAPR_HTTP_PORT" Value="3500"/>
          <EnvironmentVariable Name="DAPR_GRPC_PORT" Value="43693"/>
       </EnvironmentVariables>
@@ -22,7 +24,7 @@
       <EntryPoint>
          <ExeHost>
             <Program>daprd.exe</Program>
-            <Arguments> --app-id mynode --components-path ./components --dapr-http-port 3500 --dapr-grpc-port 43693 --log-level info --app-max-concurrency -1 --app-protocol http --app-port 3000 --placement-host-address localhost:50005</Arguments>
+            <Arguments> --app-id mynode --components-path ./components --app-protocol http --app-port 3000 --dapr-http-port 3500 --dapr-grpc-port 43693 --log-level debug --app-max-concurrency -1</Arguments>
             <WorkingFolder>CodeBase</WorkingFolder>
          </ExeHost>
       </EntryPoint>

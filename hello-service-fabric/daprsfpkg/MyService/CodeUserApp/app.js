@@ -9,9 +9,9 @@ require('isomorphic-fetch');
 const app = express();
 app.use(express.json());
 
+const port = process.env.APP_HTTP_PORT || 3000;
 const daprPort = process.env.DAPR_HTTP_PORT || 3500;
 const stateUrl = `http://localhost:${daprPort}/v1.0/state/statestore/`;
-const port = 3000;
 
 app.get('/order', (_req, res) => {
     fetch(`${stateUrl}/order`)

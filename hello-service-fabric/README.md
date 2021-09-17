@@ -4,7 +4,7 @@
 
 | Attribute | Details |
 |--------|--------|
-| Dapr runtime version | v1.1.0 |
+| Dapr runtime version | v1.4.0 |
 | Language | Javascript |
 | Environment | Service Fabric |
 
@@ -14,7 +14,7 @@ The following is a sample of how to host a Dapr app on a Service Fabric cluster.
 
 ![Architecture Diagram](./img/Architecture_Diagram.png)
 
-Some Dapr functionality, such as message invocation, will not work without additional changes and is out of scope for this post.
+Some Dapr functionality, including Pub/Sub, Secrets and Bindings work without any integration with SF. However, service invocation, will not work without additional changes and is out of scope for this post.
 
 ## Prerequisites
 

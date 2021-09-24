@@ -27,6 +27,7 @@ If you are new to Dapr, you may want to review following resources first:
 | [Dapr integration in Azure APIM](./dapr-apim-integration) | Dapr configuration in Azure API Management service using self-hosted gateway on Kubernetes. Illustrates exposing Dapr API for service method invocation, publishing content to a Pub/Sub topic, and binding invocation with request content transformation. |
 | [Distributed Calendar](./dapr-distributed-calendar) | Shows use of statestore, pubsub and output binding features of Dapr to roughly create a distributed version of a MVCS architecture application. |
 | [Hello Service Fabric](./hello-service-fabric) | Shows use of statestore, pubsub and service invocation in a Service Fabric environment running the Dapr sidecar as a guest executable. |
+| [Pub-sub routing](./pub-sub-routing) | Demonstrates how to use Dapr to enable pub-sub applications with message routing.  |
 
 ## External samples
 

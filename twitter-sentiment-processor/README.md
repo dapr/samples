@@ -6,21 +6,21 @@ To simulate the transition from local development to the cloud this demo has thr
 
 * **Demo 1** - local development showing the speed with which developers can start and use the Dapr components (Twitter and state)
 * **Demo 2** - expands on Demo 1 adding monitoring and service invocation using both, direct invocation and consumption of events across applications using PubSub
-* **Demo 3** - deploys the application into Kubernetes and showcases the pluggability of components by switching the state to Azure Table Storage and PubSub to Azure Service Bus without making any code changes
+* **Demo 3** - deploys the application into Kubernetes on Azure and showcases the pluggability of components by switching the state to Azure Table Storage and PubSub to Azure Service Bus without making any code changes
 
 ## Sample info
 
 | Attribute | Details |
 |--------|--------|
-| Dapr runtime version | v1.0.0 |
+| Dapr runtime version | v1.3.0 |
 | Language | Go, C# (.NET Core 3.1), Node.js |
 | Environment | Local or Kubernetes |
 
->Note: this demo uses Dapr v1.0.0 and may break if different Dapr versions are used
+>Note: this demo uses Dapr v1.3.0 and may break if different Dapr versions are used
 
 ![Architecture Overview](images/overview.png)
 
-> All the demos rely on the Dapr Twitter input binding. For that binding to work you must add your [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started) to `components/twitter.yaml`:
+> All the demos rely on the Dapr Twitter input binding. For that binding to work you must have a [Twitter Developer Account](https://developer.twitter.com/en/apply-for-access) and you must add your [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started) to `components/twitter.yaml`:
 
   ```yaml
     apiVersion: dapr.io/v1alpha1
@@ -44,6 +44,11 @@ To simulate the transition from local development to the cloud this demo has thr
         - name: query
           value: "microsoft" # your search query, required
   ```
+> Note: You must generate your consumer keys and your access token / secret separately from each other. You can find this information in the `Keys and Token` section of your project app. The easiest way to get there is from your [Twitter Developer Dashboard](https://developer.twitter.com/en/portal/dashboard) and click on the `key` icon under the project app. 
+
+> If you do not have a project app, you will need to create one before you can generate keys.
+
+![Twitter Keys Example](images/twitter_keys.png)
 
 ## Demo 1
 
@@ -60,7 +65,7 @@ The goal of this demo is to show how quickly you can get an application running 
 
 * Docker
 * Node.js
-* Dapr CLI v1.0.0
+* Dapr CLI v1.3.0
 * [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
 
 ### Run Demo 1 (Node.js)
@@ -72,7 +77,7 @@ Starting from the provider folder of demo 1 (`demos/demo1/provider`)
 * Initialize Dapr
 
   ```bash
-  dapr init --runtime-version '1.0.0'
+  dapr init --runtime-version '1.3.0'
   ```
 
 * Launch app locally using Dapr by running `run.sh` for Bash or `run.ps1` for PowerShell
@@ -98,7 +103,7 @@ This is the same application written in C# and leveraging the Dapr SDK. This hig
 
 * Docker
 * [.NET Core 3.1](http://bit.ly/DownloadDotNetCore)
-* Dapr CLI v1.0.0
+* Dapr CLI v1.3.0
 * [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
 
 > Note .NET Core 3.1 is required. You can install along side .NET 5.0
@@ -111,7 +116,7 @@ Starting from the provider-net folder of demo 1 (`demos/demo1/provider-net`)
 * Run
 
   ```powershell
-  dapr init --runtime-version '1.0.0'
+  dapr init --runtime-version '1.3.0'
   ```
 
 * Launch app locally using Dapr by running `run.sh` for Bash or `run.ps1` for PowerShell
@@ -144,7 +149,7 @@ All the applications at this stage run locally.
 * Go v1.4
 * Node.js
 * [Azure CLI v2.18.0](https://docs.microsoft.com/cli/azure/install-azure-cli)
-* Dapr CLI v1.0.0
+* Dapr CLI v1.3.0
 * [Azure Account](https://azure.microsoft.com/free/)
 * [Cognitive Services account](https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account)
 * [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
@@ -240,7 +245,7 @@ Demo 3 takes the local development work and moves it to Kubernetes in Azure and 
 * Node.js
 * [Helm v3](https://helm.sh/)
 * [Azure CLI v2.18.0](https://docs.microsoft.com/cli/azure/install-azure-cli)
-* Dapr CLI v1.0.0
+* Dapr CLI v1.3.0
 * [Azure Account](https://azure.microsoft.com/free/)
 * [Cognitive Services account](https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account)
 * [Twitter API credentials](https://developer.twitter.com/en/docs/basics/getting-started)
@@ -248,6 +253,8 @@ Demo 3 takes the local development work and moves it to Kubernetes in Azure and 
 ### Run demo 3
 
 > Assumes the use of pre-built images for [provider](https://hub.docker.com/repository/docker/darquewarrior/provider), [processor](https://hub.docker.com/repository/docker/darquewarrior/processor), and [viewer](https://hub.docker.com/repository/docker/darquewarrior/viewer)
+
+> Assumes Dapr Twitter input binding has been configured. For that binding to work you must add your Twitter API credentials to components/twitter.yaml. For more information, checkout [the sample-info](#sample-info) section.
 
 Starting from the root of demo 3 (`demos/demo3`) make sure you are logged into Azure.
 
@@ -264,20 +271,20 @@ Set the desired subscription.
  Now we can deploy the required infrastructure by running `setup.sh` for Bash or `setup.ps1` for PowerShell. Unlike with demo 2 you **do not** have to use the `source` command to run the Bash script as no environment variables are set. These scripts will run an Azure Resource Manager template deployment and a Helm install to deploy the entire demo. The scripts take three arguments.
 
 1. resource group name: This will be the resource group created in Azure. If you do not provide a value `twitterDemo` will be used.
-1. location: This is the location to deploy all your resources. If you do not provide a value `eastus` will be used.
-1. runtime version: This is the runtime version of Dapr to deploy to the cluster. If you do not provide a value `1.0.0` will be used.
-1. kubernetes version: This is the version of Kubernetes control plane. If you do not provide a value `1.19.6` will be used.
+2. location: This is the location to deploy all your resources. If you do not provide a value `eastus` will be used.
+3. runtime version: This is the runtime version of Dapr to deploy to the cluster. If you do not provide a value `1.3.0` will be used.
+4. kubernetes version: This is the version of Kubernetes control plane. If you do not provide a value, the latest Kubernetes version available for the provided location will be used.
 
 Bash
 
   ```bash
-  ./setup.sh myDemo westus2 '1.0.0' '1.19.6'
+  ./setup.sh myDemo westus2 '1.3.0' '1.21.2'
   ```
 
 PowerShell
 
 ```powershell
-./setup.ps1 myDemo westus2 '1.0.0' '1.19.6'
+./setup.ps1 myDemo westus2 '1.3.0' '1.21.2'
 ```
 
 The results should look similar to this:

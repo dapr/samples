@@ -34,7 +34,7 @@ If you are new to Dapr, you may want to review following resources first:
 | Sample | Details |
 |------|-------|
 | [Dapr RetroPOS](https://github.com/robece/dapr-retropos) | Dapr Retro Point of Sales is a sample of backend workflow based on microservices. |
-| [Dapr Traffic Control](https://github.com/edwinvw/dapr-traffic-control) | Simulated traffic-control system with speeding cameras using Dapr pub/sub and service-to-service invocation. |
+| [Dapr Traffic Control](https://github.com/edwinvw/dapr-traffic-control) | Simulated traffic-control system with speeding cameras. This sample features all the Dapr building-blocks. This is also the sample application used in the book [Dapr for .NET Developers](https://docs.microsoft.com/en-us/dotnet/architecture/dapr-for-net-developers/). |
 
 ## Sample maintenance
 

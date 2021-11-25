@@ -1,0 +1,23 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: calculator-front-end
+spec:
+  template:
+    metadata:
+      # This is the name of our new "Revision," it must follow the convention {service-name}-{revision-name}
+      name: calculator-front-end-rev1
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: calculator-front-end
+        dapr.io/app-port: "8080"
+        dapr.io/metrics-port: "19090"
+        dapr.io/config: "appconfig"
+        dapr.io/log-level: debug
+    spec:
+      containers:
+        - image: dapriosamples/distributed-calculator-react-calculator:latest
+          name: calculator-front-end
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080

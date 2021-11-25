@@ -28,6 +28,7 @@ If you are new to Dapr, you may want to review following resources first:
 | [Distributed Calendar](./dapr-distributed-calendar) | Shows use of statestore, pubsub and output binding features of Dapr to roughly create a distributed version of a MVCS architecture application. |
 | [Hello Service Fabric](./hello-service-fabric) | Shows use of statestore, pubsub and service invocation in a Service Fabric environment running the Dapr sidecar as a guest executable. |
 | [Pub-sub routing](./pub-sub-routing) | Demonstrates how to use Dapr to enable pub-sub applications with message routing.  |
+| [Distributed Calculator with Knative Serving](./knative-distributed-calculator) | Demonstrates how to use Dapr and Knative Serving using distributed calculator from quickstarts.  |
 
 ## External samples
 

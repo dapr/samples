@@ -1,0 +1,22 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: react-form
+spec:
+  template:
+    metadata:
+      # This is the name of our new "Revision," it must follow the convention {service-name}-{revision-name}
+      name: react-form-rev1
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: react-form
+        dapr.io/app-port: "8080"
+        dapr.io/metrics-port: "19090"
+        dapr.io/log-level: debug
+    spec:
+      containers:
+        - image: tens/binding-react-form
+          name: react-form
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080

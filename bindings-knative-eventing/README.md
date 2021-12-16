@@ -15,7 +15,7 @@ This is a sample application based on Dapr bindings quickstart using:
 
 This is built as a proof-of-concept to show how to use Knative and Dapr.
 
-## Contents
+![Diagram](img/diagram.png)
 
 ## Prerequisites
 

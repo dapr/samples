@@ -9,8 +9,6 @@
 
 This is a distributed calculator application from [Dapr quickstart](https://github.com/dapr/quickstarts/tree/master/distributed-calculator) using Knative Serving (with Kourier) to host React Calculator. This is built as a proof-of-concept to show how to use Knative Serving with Dapr.
 
-## Contents
-
 ## Prerequisites
 
 This sample requires you to have the following installed on your machine:

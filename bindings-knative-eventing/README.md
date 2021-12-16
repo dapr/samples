@@ -23,7 +23,7 @@ Also, unless you have already done so, clone the repository with the samples and
 
 ```bash
 git clone https://github.com/dapr/samples.git
-cd samples/knative-distributed-calculator
+cd samples/bindings-knative-eventing
 ```
 
 ## Step 1 - Make sure that your kubectl client is working
@@ -42,7 +42,7 @@ This should either have output as `No resources found in default namespace.` or 
 
 Follow [instructions](https://docs.dapr.io/getting-started/install-dapr/) to download and install the Dapr CLI and initialize Dapr.
 
-## Step 3 - Setup Knative Serving
+## Step 3 - Setup Knative Serving and Eventing
 
 > **Note**: Here you can find full [instruction](https://knative.dev/docs/install/serving/install-serving-with-yaml/) of how to install and configure Knative Serving. All the information below in steps 3 and 4 is an excerpt from it which was used and tested.
 
@@ -104,94 +104,72 @@ kubectl patch configmap/config-domain \
   --patch '{"data":{"knative.example.com":""}}'
 ```
 
+### Install Knative Eventing CRDs
+
+```bash
+kubectl apply -f kubectl apply -f https://github.com/knative/eventing/releases/download/knative-v1.0.0/eventing-crds.yaml
+```
+
+### Install Knative Eventing Core
+
+```bash
+kubectl apply -f https://github.com/knative/eventing/releases/download/knative-v1.0.0/eventing-core.yaml
+```
+
+### Install Knative Extention - Kafka Source
+
+```bash
+kubectl apply -f https://github.com/knative-sandbox/eventing-kafka/releases/download/knative-v1.0.0/source.yaml
+```
+
 ## Step 4 - Setup Distributed Calculator
 
-### Install Redis store
+### Install Kafka cluster
 
-Follow [these instructions](https://docs.dapr.io/getting-started/configure-state-pubsub/) to create and configure a Redis store.
+As a part of this sample I'm using Strimzi to create and install Kafka cluster. Here is the [instruction](https://strimzi.io/quickstarts/) of how to do that.
 
-Here is a quick excerpt from it using Helm:
+Here is a quick excerpt from it:
 
-```bash
-helm repo add bitnami https://charts.bitnami.com/bitnami
-helm repo update
-helm install redis bitnami/redis
-```
-
-### Install Distributed Calculator
-
-Navigate to the deploy directory in this quickstart directory:
+### Create namespace for Kafka
 
 ```bash
-cd deploy
+kubectl create namespace kafka
 ```
 
-Deploy all of your resources:
+### Apply all installation files (this will also create Strimzi operator)
 
 ```bash
-kubectl apply -f .
+kubectl create -f 'https://strimzi.io/install/latest?namespace=kafka' -n kafka
 ```
 
-> **Note**: This is the same Distributed Calculator from [quickstart](https://github.com/dapr/quickstarts/tree/release-1.5/distributed-calculator) except for the React deployment.
-
-### Verification
-
-Get URL for your React application:
+### Wait until Strimzi operator is up and running
 
 ```bash
-kubectl get service.serving
+kubectl get pod -n kafka
 ```
 
-Example output:
+### Create new Kafka cluster
 
 ```bash
-NAME                   URL                                                        LATESTCREATED               LATESTREADY                 READY   REASON
-calculator-front-end   http://calculator-front-end.default.knative.example.com    calculator-front-end-rev1   calculator-front-end-rev1   True
+kubectl apply -f https://strimzi.io/examples/latest/kafka/kafka-persistent-single.yaml -n kafka
 ```
 
-Make sure that `READY` is set to `True`. Otherwise, please wait until all the necessary components are configured by Knative. The address in this case is `http://calculator-front-end.default.knative.example.com`.
-
-Navigate to this address with your browser and you should see the distributed calculator. Do some calculations to make sure that all works as expected.
-
-### Behind the scene
-
-By default, Knative will scale to zero its workloads if there is no traffic to them. Wait for a couple minutes and run next command to list all pods in `default` namespace:
+### Wait until Kafka cluster is up and running
 
 ```bash
-kubectl get pods
+kubectl wait kafka/my-cluster --for=condition=Ready --timeout=300s -n kafka
 ```
 
-Example output:
+## Step 5 - Setup Sample
+
+### Apply Knative part
 
 ```bash
-NAME                           READY   STATUS    RESTARTS   AGE
-addapp-86cfcb8969-mvzs8        2/2     Running   0          2d23h
-divideapp-6b94b477f5-58n92     2/2     Running   0          2d23h
-multiplyapp-545c4bc54d-n6vrd   2/2     Running   0          2d23h
-redis-master-0                 1/1     Running   0          2d23h
-redis-replicas-0               1/1     Running   0          2d23h
-redis-replicas-1               1/1     Running   0          2d23h
-redis-replicas-2               1/1     Running   0          2d23h
-subtractapp-5c6c6bc4fc-wlbqv   2/2     Running   0          2d23h
+kubectl apply -f knative/.
 ```
 
-As you can see there are no `calculator-front-end` pods.
-
-Navigate back to the address with your browser to generate some traffic.
-
-Return back to and list all pods once again:
+### Apply Dapr part
 
 ```bash
-NAME                                                    READY   STATUS    RESTARTS   AGE
-addapp-86cfcb8969-mvzs8                                 2/2     Running   0          2d23h
-calculator-front-end-rev1-deployment-6fd89f78df-6ttr2   3/3     Running   0          6s
-divideapp-6b94b477f5-58n92                              2/2     Running   0          2d23h
-multiplyapp-545c4bc54d-n6vrd                            2/2     Running   0          2d23h
-redis-master-0                                          1/1     Running   0          2d23h
-redis-replicas-0                                        1/1     Running   0          2d23h
-redis-replicas-1                                        1/1     Running   0          2d23h
-redis-replicas-2                                        1/1     Running   0          2d23h
-subtractapp-5c6c6bc4fc-wlbqv                            2/2     Running   0          2d23h
+kubectl apply -f dapr/.
 ```
-
-As you can see there is `calculator-front-end-rev1-deployment-6fd89f78df-6ttr2` pod with 3 containers running inside: `calculator-front-end`, `queue-proxy` and `daprd`.

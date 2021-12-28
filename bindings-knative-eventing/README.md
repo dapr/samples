@@ -24,6 +24,7 @@ This sample requires you to have the following installed on your machine:
 - [Dapr CLI](https://github.com/dapr/cli/tree/release-1.5) v1.5.0
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - An online hoster Kubernetes cluster, such as [AKS](https://docs.dapr.io/operations/hosting/kubernetes/cluster/setup-aks/) or [GKE](https://cloud.google.com/kubernetes-engine/)
+- React Form that will be used to send events to Dapr. The image is hosted under my Docker Hub account, but you can change it to your own. Source files can be found [here](https://github.com/dapr/samples/tree/bindings-knative-eventing/bindings-knative-eventing/react-form) and [here](https://github.com/TenSt/dapr-sample-react-form).
 
 Also, unless you have already done so, clone the repository with the samples and `cd` into the right directory:
 
@@ -328,7 +329,7 @@ We use a separate component for each external topic to which we will send events
 
 ### Sample in action
 
-Navigate to the address of your React Form Knative service (http://react-form.default.knative.example.com) with your browser and you should see the React Form.
+Navigate to the address of your React Form Knative service (<http://react-form.default.knative.example.com>) with your browser and you should see the React Form.
 
 ![React Form](img/react-form.png)
 

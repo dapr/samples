@@ -38,7 +38,7 @@ public class ApplicationController {
 
     private static final JsonFactory JSON_FACTORY = new JsonFactory();
 
-    private static final String PATH = "/text/analytics/v3.0/sentiment";
+    private static final String PATH = "/text/analytics/v3.1/sentiment";
 
     public ApplicationController(String endpoint, String subscriptionKey) {
       this.endpoint = endpoint;
@@ -64,7 +64,7 @@ public class ApplicationController {
         var url = new URL(endpoint+PATH);
         var connection = (HttpsURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
-        connection.setRequestProperty("Content-Type", "text/json");
+        connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestProperty("Ocp-Apim-Subscription-Key", subscriptionKey);
         connection.setDoOutput(true);
 

@@ -1,4 +1,4 @@
-# Dapr Middleware (OAuth Authorization)
+# Dapr Middleware (Interactive OAuth Authorization)
 
 This tutorial shows a real use case of the Dapr [middleware](https://docs.dapr.io/concepts/middleware-concept/) building block. It walks you through the steps of setting up the OAuth middleware to enable OAuth authorization on a Web API without modifying the application. This design separates authentication/authorization concerns from the application, so that application operators can adopt and configure authentication/authorization providers without impacting the application code.
 
@@ -28,7 +28,7 @@ helm install my-release ingress-nginx/ingress-nginx
 
 ```bash
 git clone [-b <dapr_version_tag>] https://github.com/dapr/samples.git
-cd samples/middleware
+cd samples/middleware-oauth-google
 ```
 
 1. Examine the ```echoapp/app.js``` file. You'll see this is a simple Node.js Express web server with a single ```/echo``` route that returns the ```authorization``` header and the ```text``` parameter client passes in:

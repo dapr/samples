@@ -1,4 +1,4 @@
-# OAuth Authorization to external service (non interactive)
+# OAuth Authorization to External Service (Non Interactive)
 
 ## Sample info
 | Attribute | Details |
@@ -9,7 +9,7 @@
 
 ## Overview
 
-This tutorial walks you through the steps of setting up the OAuth middleware to enable a service to interact with external services requiring authentication. This design seperates the concerns authentication/authorization concerns from the application.
+This tutorial walks you through the steps of setting up the OAuth middleware to enable a service to interact with external services requiring authentication. This design seperates the authentication/authorization concerns from the application.
 
 ![Architecture Diagram](img/architecture_diagram.png)
 
@@ -32,7 +32,7 @@ This tutorial walks you through the steps of setting up the OAuth middleware to 
 1. Clone the sample repo, then navigate to the middleware sample:
 ```bash
 git clone https://github.com/dapr/samples.git
-cd samples/middleware-clientcredentials/msgraphapp
+cd samples/middleware-oauth-microsoftazure/msgraphapp
 ```
 
 2. Examine the ```app.js``` file. You'll see this is a simple Node.js Express web server with a single ```/users``` route that returns the Microsoft Graph API result based on the input query parameter ```displayName```. Also you can see that the token saved in the request header called `msgraph-token` will be forwarded as the `Authorization` header in the request towards the MS Graph API.
@@ -118,7 +118,7 @@ kubectl apply -f deploy/msgraphpipeline.yaml
 ### Step 4 - Deploy the application
 Next, you'll deploy the application. This example has no public ingress endpoint due to the confidentiallity of the returned data by the service. 
 
-> **NOTE:** In general this middleware component should be used to inject external service authentication tokens to your services, in order to use/pass them to the called external services. It is not meant for public endpoint authentication. Please see [middleware sample](https://github.com/dapr/quickstarts/tree/master/middleware) for intractive public endpoint authentication flow. 
+> **NOTE:** In general this middleware component should be used to inject external service authentication tokens to your services, in order to use/pass them to the called external services. It is not meant for public endpoint authentication. Please see [middleware sample](https://github.com/dapr/samples/tree/master/middleware-oauth-google) for intractive public endpoint authentication flow. 
 
 1. Deploy the application:
 ```bash

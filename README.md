@@ -21,7 +21,8 @@ If you are new to Dapr, you may want to review following resources first:
 | [Hello TypeScript](./hello-typescript) | This sample is a version of the [hello-world](https://github.com/dapr/quickstarts/tree/master/hello-world) quickstart sample showing how to use Dapr in a TypeScript project. |
 | [Docker compose sample](./hello-docker-compose) | Demonstrates how to get Dapr running locally with Docker Compose |
 | [Dapr, Azure Functions, and KEDA](./functions-and-keda) | Shows Dapr being used with Azure Functions and KEDA to create a polygot Functions-as-a-Service application which leverages Dapr pub/sub |
-| [OAuth Authorization to external service](./middleware-clientcredentials) | Demonstrates how to inject a service principal OAuth Bearer Token within a Dapr service-to-service invocation to call secured APIs |
+| [Middleware OAuth to Google APIs - Interactive](./middleware-oauth-google) | Demonstrates use of Dapr middleware to enable OAuth 2.0 authorization and inject client secrets for Google APIs. |
+| [Middleware OAuth to Microsoft and AAD APIs - Non Interactive](./middleware-oauth-microsoftazure) | Demonstrates use of Dapr middleware to enable OAuth 2.0 authorization and inject client secrets for Microsoft and Azure Active Directory apps.  |
 | [Read Kubernetes Events](./read-kubernetes-events) | Shows Dapr being used with the Kubernetes Input binding to watch for events in Kubernetes cluster |
 | [Batch File Processing](./batch-file-processing) | This sample demonstrates an end-to-end sample for processing a batch of related text files using microservices and Dapr. Through this sample you will learn about Dapr's state management, bindings, Pub/Sub, and end-to-end tracing. |
 | [Dapr integration in Azure APIM](./dapr-apim-integration) | Dapr configuration in Azure API Management service using self-hosted gateway on Kubernetes. Illustrates exposing Dapr API for service method invocation, publishing content to a Pub/Sub topic, and binding invocation with request content transformation. |
@@ -29,6 +30,7 @@ If you are new to Dapr, you may want to review following resources first:
 | [Hello Service Fabric](./hello-service-fabric) | Shows use of statestore, pubsub and service invocation in a Service Fabric environment running the Dapr sidecar as a guest executable. |
 | [Pub-sub routing](./pub-sub-routing) | Demonstrates how to use Dapr to enable pub-sub applications with message routing.  |
 | [Distributed Calculator with Knative Serving](./knative-distributed-calculator) | Demonstrates how to use Dapr and Knative Serving using distributed calculator from quickstarts.  |
+
 
 ## External samples
 

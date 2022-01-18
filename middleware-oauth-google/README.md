@@ -1,5 +1,13 @@
 # Dapr Middleware (Interactive OAuth Authorization)
 
+## Sample info
+| Attribute | Details |
+|--------|--------|
+| Dapr runtime version | 1.5.0 |
+| Language | Javascript | 
+| Environment | Kubernetes |
+
+## Overview
 This tutorial shows a real use case of the Dapr [middleware](https://docs.dapr.io/concepts/middleware-concept/) building block. It walks you through the steps of setting up the OAuth middleware to enable OAuth authorization on a Web API without modifying the application. This design separates authentication/authorization concerns from the application, so that application operators can adopt and configure authentication/authorization providers without impacting the application code.
 
 ![Architecture Diagram](./img/Architecture_Diagram.png)

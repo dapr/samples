@@ -1,0 +1,23 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: event-display-a
+  namespace: default
+  labels:
+    networking.knative.dev/visibility: cluster-local
+spec:
+  template:
+    metadata:
+      # This is the name of our new "Revision," it must follow the convention {service-name}-{revision-name}
+      name: event-display-a-rev1
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: event-display-a
+        dapr.io/app-port: "8080"
+        dapr.io/metrics-port: "19090"
+        dapr.io/log-level: debug
+    spec:
+      containers:
+        - # This corresponds to
+          # https://github.com/knative/eventing/tree/main/cmd/event_display/main.go
+          image: gcr.io/knative-releases/knative.dev/eventing/cmd/event_display

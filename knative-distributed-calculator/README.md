@@ -5,11 +5,9 @@
 | Dapr runtime version    | v1.5.0                     |
 | Knative Serving version | v1.0                       |
 | Language                | Javascript, Python, Go, C# |
-| Environment             | Kubernetes                 |
+| Environment             | Kubernetes > v1.20         |
 
-This is a distrubuted calculator application from [Dapr quickstart](https://github.com/dapr/quickstarts/tree/master/distributed-calculator) using Knative Serving (with Kourier) to host React Calculator. This is build as proof-of-concept to show how to use Knative Serving with Dapr.
-
-## Contents
+This is a distributed calculator application from [Dapr quickstart](https://github.com/dapr/quickstarts/tree/master/distributed-calculator) using Knative Serving (with Kourier) to host React Calculator. This is built as a proof-of-concept to show how to use Knative Serving with Dapr.
 
 ## Prerequisites
 
@@ -23,12 +21,12 @@ Also, unless you have already done so, clone the repository with the samples and
 
 ```bash
 git clone https://github.com/dapr/samples.git
-cd samples/read-kubernetes-events
+cd samples/knative-distributed-calculator
 ```
 
 ## Step 1 - Make sure that your kubectl client is working
 
-The first thing you need is an enabled Kubernetes cluster. This sample was tested on fully-fledged cluster.
+The first thing you need is an enabled Kubernetes cluster. This sample was tested on a fully-fledged cluster.
 
 Once you have that make sure you get a positive response from the following kubectl command
 
@@ -36,7 +34,7 @@ Once you have that make sure you get a positive response from the following kube
 kubectl get pods
 ```
 
-This should either have output as `No resources found in default namespace.` or should list the pods running the `default` namesapce.
+This should either have output as `No resources found in default namespace.` or should list the pods running the `default` namespace.
 
 ## Step 2 - Setup Dapr
 
@@ -91,7 +89,7 @@ kubectl --namespace kourier-system get service kourier
 
 ### Configure DNS
 
-This sample was tested with real DNS. In this case, you need to take External IP address from previous step and add to your DNS wildcard `A` record (e.g. `*.knative.example.com`).
+This sample was tested with real DNS. In this case, you need to take the External IP address from the previous step and add it to your DNS wildcard `A` record (e.g. `*.knative.example.com`).
 
 ### Direct Knative to use that domain
 
@@ -149,13 +147,13 @@ NAME                   URL                                                      
 calculator-front-end   http://calculator-front-end.default.knative.example.com    calculator-front-end-rev1   calculator-front-end-rev1   True
 ```
 
-Make sure that `READY` is set to `True`. Otherwise, please wait until all the necessary components are configured by Knative. The address in this case is `http://calculator-front-end.default.knative.example.com`.
+Make sure that `READY` is set to `True`. Otherwise, please wait until all the necessary components are configured by Knative. The address, in this case, is `http://calculator-front-end.default.knative.example.com`.
 
 Navigate to this address with your browser and you should see the distributed calculator. Do some calculations to make sure that all works as expected.
 
 ### Behind the scene
 
-By default, Knative will scale to zero its workloads if there is no traffic to them. Wait for a couple minutes and run next command to list all pods in `default` namespace:
+By default, Knative will scale to zero its workloads if there is no traffic to them. Wait for a couple of minutes and run the next command to list all pods in `default` namespace:
 
 ```bash
 kubectl get pods
@@ -175,7 +173,7 @@ redis-replicas-2               1/1     Running   0          2d23h
 subtractapp-5c6c6bc4fc-wlbqv   2/2     Running   0          2d23h
 ```
 
-As you can see there are no `calculator-front-end` pods.
+As you can see, there are no `calculator-front-end` pods.
 
 Navigate back to the address with your browser to generate some traffic.
 

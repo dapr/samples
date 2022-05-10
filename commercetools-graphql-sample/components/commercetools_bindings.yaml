@@ -1,0 +1,21 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: sample-project
+  namespace: commerce
+spec:
+  type: bindings.commercetools
+  version: v1
+  metadata:
+    - name: region
+      value: europe-west1
+    - name: provider
+      value: gcp
+    - name: projectKey
+      value: harry-kimpel-project
+    - name: clientID
+      value: f6xrXYShyWCYfe5ewfiAP8ug
+    - name: clientSecret
+      value: JHUnmUSvF-xa0wRHMAw1EHtmMuF7leE0
+    - name: scopes
+      value: manage_project:harry-kimpel-project

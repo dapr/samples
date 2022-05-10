@@ -8,3 +8,4 @@ hello-service-fabric/daprsfpkg/MyService/CodeDapr/daprd.exe
 hello-service-fabric/daprsfpkg/MyService/CodeDapr/components/pubsub.yaml
 hello-service-fabric/daprsfpkg/MyService/CodeDapr/components/statestore.yaml
 .venv/
+.dccache

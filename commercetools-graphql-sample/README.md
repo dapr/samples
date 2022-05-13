@@ -82,7 +82,7 @@ dapr run --app-id bindings-pythonapp python3 app.py --components-path ../compone
 
 ### Observe Logs
 
-1. Observe the Python logs, which show a successful output binding with Kafka:
+1. Observe the Python logs, which show a successful output binding with commercetools:
 
 ```bash
 [0m?[94;1m== APP == products found: 25
@@ -102,7 +102,7 @@ expected_stdout_lines:
   - 'app stopped successfully: bindings-nodeapp'
   - 'app stopped successfully: bindings-pythonapp'
 expected_stderr_lines:
-name: Shutdown Dapr and Kafka
+name: Shutdown Dapr
 -->
 
 ```bash

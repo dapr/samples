@@ -107,7 +107,7 @@ POST http://localhost:3500/v1.0/invoke/nodeapp/method/neworder
 
 {
   "data": {
-    "orderId": "42"
+    "orderId": "41"
   } 
 }
 ```
@@ -115,10 +115,10 @@ POST http://localhost:3500/v1.0/invoke/nodeapp/method/neworder
 You can also use the Postman GUI.
 
 Open Postman and create a POST request against `http://localhost:3500/v1.0/invoke/nodeapp/method/neworder`
-![Postman Screenshot](./img/postman1.jpg)
+![Postman Screenshot](./img/postman1.png)
 In your terminal window, you should see logs indicating that the message was received and state was updated:
 ```
-== APP == Got a new order! Order ID: 42
+== APP == Got a new order! Order ID: 41
 == APP == Successfully persisted state.
 ```
 

@@ -148,7 +148,7 @@ To see that services have stopped running, run `dapr list`, noting that your ser
 
 ## Slim Init vs Default Init
 
-With the run of `dapr init --slim`, only the binaries `daprd` and `placement` are installed in the system. In the normal default init, `dapr init` placement service is installed as a container and additionally redis and zipkin containers are run for enabling state store and tracing, which requires Docker to be installed as a prerequisite. See [environment setup](https://docs.dapr.io/getting-started/install-dapr/e) for more information. The slim init provides only limited functionaity unless you [configure](https://docs.dapr.io/getting-started/configure-redis/) a state store yourself.
+With the run of `dapr init --slim`, only the binaries `daprd` and `placement` are installed in the system. In the normal default init, `dapr init` placement service is installed as a container and additionally redis and zipkin containers are run for enabling state store and tracing, which requires Docker to be installed as a prerequisite. See [environment setup](https://docs.dapr.io/operations/hosting/) for more information. The slim init provides only limited functionaity unless you [configure](https://docs.dapr.io/reference/components-reference/supported-state-stores/setup-redis/) a state store yourself.
 
 
 ## Next Steps

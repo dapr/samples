@@ -19,14 +19,14 @@ namespace DaprComponents.Services;
 
 // Uncomment the lines below to implement the StateStore methods defined in the following protofiles
 // ./Protos/dapr/proto/components/v1/state.proto#L123
-public class StateStoreService : StateStore.StateStoreBase
-{
-    private readonly ILogger<StateStoreService> _logger;
-    public StateStoreService(ILogger<StateStoreService> logger)
-    {
-        _logger = logger;
-    }
-}
+// public class StateStoreService : StateStore.StateStoreBase
+// {
+//     private readonly ILogger<StateStoreService> _logger;
+//     public StateStoreService(ILogger<StateStoreService> logger)
+//     {
+//         _logger = logger;
+//     }
+// }
 
 // Uncomment the lines below to implement the PubSub methods defined in the following protofiles
 // ./Protos/dapr/proto/components/v1/pubsub.proto#L23

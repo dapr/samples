@@ -18,6 +18,7 @@ This is a template project and that contains the barebones to start work with Pl
 
 - [.NET Core 6+](https://dotnet.microsoft.com/download)
 - [grpc_cli tool](https://github.com/grpc/grpc/blob/master/doc/command_line_tool.md) for making gRPC calls. There are [npm installer](https://www.npmjs.com/package/grpc-cli) and [brew formulae](https://formulae.brew.sh/formula/grpc) available to install.
+- Operating system that supports Unix Domain Sockets. UNIX or UNIX-like system (Mac, Linux, or [WSL](https://learn.microsoft.com/windows/wsl/install) for Windows users)
 
 ### Step 1 - Clone the sample repository
 

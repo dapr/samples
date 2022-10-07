@@ -10,7 +10,7 @@
 
 ## Overview
 
-This is a template project and that contains the barebones to start work with Pluggable Components in .NET.
+This is a template project in which contains the barebones to start work with Pluggable Components in .NET.
 
 ## Run the sample
 

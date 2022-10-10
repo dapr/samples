@@ -29,7 +29,7 @@ git clone https://github.com/dapr/samples.git
 cd samples/pluggable-components-dotnet-sample
 ```
 
-2. Examine the `./Services/Services.cs` file. You'll see four commented classes. They are `StateStoreService`, `PubSubService`, `InputBindingService` and `OutputBindingService`, their protos are defined inside `./Protos` folder. Uncomment any of them (more than one is alolwed) will allow you to serve as a Unimplemented Proto Service.
+2. Examine the `./Services/Services.cs` file. You'll see four commented classes. They are `StateStoreService`, `PubSubService`, `InputBindingService` and `OutputBindingService`, their protos are defined inside `./Protos` folder. Uncomment any number of them as these serve as a unimplemented proto service that you start from.
 
 Uncommenting StateStoreService as an example:
 
@@ -46,9 +46,9 @@ public class StateStoreService : StateStore.StateStoreBase
 }
 ```
 
-### Step 2 - Register your Unimplemented Service
+### Step 2 - Register your unimplemented service
 
-Once you decide which of proto services you are going to implement, go to the `./Program.cs` file and exame the lines between 46-50 you'll see commented lines, uncomment based on the services that you chose to implement.
+Once you decide which of proto services you are going to implement, go to the `./Program.cs` file and examine the lines 46-50.  You'll see commented lines, uncomment based on the services that you chose to implement.
 
 For registering StateStoreService:
 

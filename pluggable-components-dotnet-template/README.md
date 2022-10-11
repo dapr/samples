@@ -10,7 +10,7 @@
 
 ## Overview
 
-This is a template project in which contains the barebones to start work with Pluggable Components in .NET.
+This is a template project that enables you to build a pluggable statestore component in .NET.
 
 ## Run the sample
 

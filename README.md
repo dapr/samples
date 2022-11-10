@@ -31,6 +31,7 @@ If you are new to Dapr, you may want to review following resources first:
 | [Pub-sub routing](./pub-sub-routing) | Demonstrates how to use Dapr to enable pub-sub applications with message routing.  |
 | [Distributed Calculator with Knative Serving](./knative-distributed-calculator) | Demonstrates how to use Dapr and Knative Serving using distributed calculator from quickstarts.  |
 | [commercetools GraphQL sample output binding](./commercetools-graphql-sample/) | Connects to commercetools, allowing you to query or manipulate a commercetools projects using a provided GraphlQL query.  |
+| [WebAssembly Middleware](./hello-wasm) | Demonstrates how to serve HTTP responses directly from the dapr sidecar using WebAssembly.  |
 
 
 ## External samples

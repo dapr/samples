@@ -68,7 +68,7 @@ app.MapGrpcService<StateStoreService>(); // Uncomment to register the StateStore
 2. Based on the previous step you can make calls to any of those services using the `grpc_cli` tool. The example below show how to execute a `Set` on `StateStore` services, but you can apply the same for the others following their proto definitions.
 
 ```shell
-grpc_cli call unix:///tmp/dapr-components-sockets/memstore.sock dapr.proto.components.v1.StateStore/Set "key:'my_key', value:'my_value'"
+grpc_cli call unix:///tmp/dapr-components-sockets/my-component.sock dapr.proto.components.v1.StateStore/Set "key:'my_key', value:'my_value'"
 ```
 
 From now on, you should be able to implement the unimplemented methods from your desired service. Refer to the [official Microsoft documentation for development using Protocol Buffers](https://learn.microsoft.com/aspnet/core/grpc/basics?view=aspnetcore-6.0#c-tooling-support-for-proto-files) for further information.

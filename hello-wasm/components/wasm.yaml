@@ -1,0 +1,10 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: wasm
+spec:
+  type: middleware.http.wasm
+  version: v1
+  metadata:
+  - name: path
+    value: "./wasm/main.wasm"

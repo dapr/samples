@@ -6,5 +6,5 @@ spec:
   type: middleware.http.wasm
   version: v1
   metadata:
-  - name: path
-    value: "./wasm/main.wasm"
+  - name: url
+    value: "file://wasm/main.wasm"

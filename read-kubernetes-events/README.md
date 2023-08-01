@@ -135,7 +135,7 @@ kubectl create ns kube-events
 * Deploy a quick Kubernetes hello-world application in the created namespace:
 
 ```bash
-kubectl create deployment hello-node -n kube-events --image=k8s.gcr.io/echoserver:1.4
+kubectl create deployment hello-node -n kube-events --image=registry.k8s.io/echoserver:1.4
 ```
 
 Output logs from the node application should be of the form:

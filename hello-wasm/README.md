@@ -4,7 +4,7 @@
 
 | Attribute            | Details |
 |----------------------|---------|
-| Dapr runtime version | v0.10   |
+| Dapr runtime version | v1.10   |
 | Language             | TinyGo  | 
 | Environment          | Local   |
 

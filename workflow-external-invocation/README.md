@@ -1,8 +1,16 @@
 # Dapr Workflow with Service Invocation to Non-Dapr Endpoint
 
+## Sample info
+
+| Attribute | Details |
+|--------|--------|
+| Dapr runtime version | 1.11.0 |
+| Language | C# |
+| Environment | Local |
+
 An example of using Dapr Workflows with the new feature for invoking non-Dapr enabled endpoints
 
-![](DemoArch.svg)
+![Architecture](DemoArch.svg)
 
 ## Prerequisites
 

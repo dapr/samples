@@ -1,0 +1,14 @@
+apiVersion: dapr.io/v1alpha1
+kind: HTTPEndpoint
+metadata:
+  name: stripe-payment
+spec:
+  version: v1alpha1
+  baseUrl: "https://connect.squareupsandbox.com"
+  headers:
+    - name: "Square-Version"
+      value: "{SQUARE_API_VERSION}"
+    - name: "Authorization"
+      value: "Bearer {SQUARE_SANDBOX_TOKEN}"
+    - name: "Content-Type"
+      value: "application/json"

@@ -1,0 +1,68 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build checkout",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/CheckoutService/CheckoutServiceWorkflowSample.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile",
+      "dependsOn": "dapr checkout"
+    },
+    {
+      "label": "dapr checkout",
+      "command": "dapr",
+      "args": [
+        "run",
+        "--app-id",
+        "checkout",
+        "--resources-path",
+        "${workspaceFolder}/Resources",
+        "--app-port",
+        "5000",
+        "--dapr-grpc-port",
+        "5202",
+        "--dapr-http-port",
+        "3500"
+      ],
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": [
+          {
+            "regexp": ".",
+            "file": 1,
+            "location": 2,
+            "message": 3
+          }
+        ],
+        "background": {
+          "beginsPattern": "^.*Starting Dapr.*",
+          "endsPattern": "^.*You're up and running!.*"
+        }
+      }
+    },
+    {
+      "label": "dapr stop checkout",
+      "command": "dapr",
+      "args": ["stop", "checkout"],
+      "promptOnClose": false
+    },
+    {
+      "label": "publish checkout",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "publish",
+        "${workspaceFolder}/CheckoutService/CheckoutServiceWorkflowSample.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}

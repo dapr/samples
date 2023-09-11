@@ -1,0 +1,26 @@
+@app_url=http://localhost:5000
+
+### Get inventory
+GET {{app_url}}/inventory
+
+### Clear inventory
+DELETE {{app_url}}/inventory
+
+### Restock inventory
+POST {{app_url}}/inventory/restock
+
+### Run workflow
+@instance_id={{$guid}}
+
+// @name wfrequest
+@dapr_url=http://localhost:3500
+
+POST {{dapr_url}}/v1.0-alpha1/workflows/dapr/CheckoutWorkflow/start?instanceID={{instance_id}}
+Content-Type: application/json
+
+{ "Name": "TestUser", "OrderItem": { "Name": "item1", "Quantity": 4 } }
+
+### Get status
+@wfrequest_instanceID={{wfrequest.response.body.instanceID}}
+
+GET {{dapr_url}}/v1.0-alpha1/workflows/dapr/{{wfrequest_instanceID}}

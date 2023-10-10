@@ -4,7 +4,7 @@
 
 | Attribute            | Details |
 | -------------------- | ------- |
-| Dapr runtime version | 1.9.0   |
+| Dapr runtime version | 1.12.0  |
 | Language             | .NET    |
 | Environment          | Local   |
 

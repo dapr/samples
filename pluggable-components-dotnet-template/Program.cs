@@ -11,6 +11,9 @@
 // limitations under the License.
 // ------------------------------------------------------------------------
 
+//Uncomment it import Services.
+//using DaprComponents.Services;
+
 var componentName = "my-component"; // replace by your component name
 // default directory for components
 var socketDir = "/tmp/dapr-components-sockets";
@@ -48,6 +51,7 @@ var app = builder.Build();
 // app.MapGrpcService<PubSubService>(); // Uncomment to register the PubSubService
 // app.MapGrpcService<InputBindingService>(); // Uncomment to register the InputBindingService
 // app.MapGrpcService<OutputBindingService>(); // Uncomment to register the OutputBindingService
+// app.MapGrpcService<SecretStoreService>(); // Uncomment to register the SecretStoreService
 
 // gRPC refletion is required for service discovery, do not remove it.
 app.MapGrpcReflectionService();

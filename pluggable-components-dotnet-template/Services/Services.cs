@@ -12,7 +12,7 @@
 // ------------------------------------------------------------------------
 
 // Uncomment to import Dapr proto components namespace.
-// using Dapr.Proto.Components.V1;
+//using Dapr.Proto.Components.V1;
 
 namespace DaprComponents.Services;
 
@@ -52,10 +52,21 @@ namespace DaprComponents.Services;
 
 // Uncomment the lines below to implement the OutputBindings methods defined in the following protofiles
 // ./Protos/dapr/proto/components/v1/bindings.proto#L37
-// public class OutputBindingService : OutputBinding.OutputBindingBase
+//public class OutputBindingService : OutputBinding.OutputBindingBase
+//{
+//    private readonly ILogger<OutputBindingService> _logger;
+//    public OutputBindingService(ILogger<OutputBindingService> logger)
+//    {
+//        _logger = logger;
+//    }
+//}
+
+// Uncomment the lines below to implement the Secret Store methods defined in the following protofiles
+// ./Protos/dapr/proto/components/v1/secretstore.proto#23
+// public class SecretStoreService : SecretStore.SecretStoreBase
 // {
-//     private readonly ILogger<OutputBindingService> _logger;
-//     public OutputBindingService(ILogger<OutputBindingService> logger)
+//     private readonly ILogger<SecretStoreService> _logger;
+//     public SecretStoreService(ILogger<SecretStoreService> logger)
 //     {
 //         _logger = logger;
 //     }

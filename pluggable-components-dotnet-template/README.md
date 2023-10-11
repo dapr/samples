@@ -4,7 +4,7 @@
 
 | Attribute            | Details |
 | -------------------- | ------- |
-| Dapr runtime version | 1.9.0   |
+| Dapr runtime version | 1.12.0  |
 | Language             | .NET    |
 | Environment          | Local   |
 
@@ -29,7 +29,7 @@ git clone https://github.com/dapr/samples.git
 cd samples/pluggable-components-dotnet-sample
 ```
 
-2. Examine the `./Services/Services.cs` file. You'll see four commented classes. They are `StateStoreService`, `PubSubService`, `InputBindingService` and `OutputBindingService`, their protos are defined inside `./Protos` folder. Uncomment any number of them as these serve as a unimplemented proto service that you start from.
+2. Examine the `./Services/Services.cs` file. You'll see four commented classes. They are `StateStoreService`, `PubSubService`, `InputBindingService` and `OutputBindingService`, their protos are defined inside `./Protos` folder. Uncomment any number of them as these serve as an unimplemented proto service that you start from.
 
 Uncommenting StateStoreService as an example:
 

@@ -10,6 +10,7 @@
     <Protobuf Include="Protos\dapr\proto\components\v1\bindings.proto" ProtoRoot="Protos" GrpcServices="Client,Server" />
     <Protobuf Include="Protos\dapr\proto\components\v1\pubsub.proto" ProtoRoot="Protos" GrpcServices="Client,Server" />
     <Protobuf Include="Protos\dapr\proto\components\v1\state.proto" ProtoRoot="Protos" GrpcServices="Client,Server" />
+    <Protobuf Include="Protos\dapr\proto\components\v1\secretstore.proto" ProtoRoot="Protos" GrpcServices="Client,Server" />
     <Protobuf Include="Protos\dapr\proto\components\v1\common.proto" ProtoRoot="Protos" GrpcServices="Client" />
   </ItemGroup>
 

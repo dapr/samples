@@ -1,0 +1,30 @@
+
+### Get the current inventory
+GET http://localhost:3002/inventory
+
+
+### Submit a simple order
+POST http://localhost:3000/orders
+Content-Type: application/json
+
+{"customer": "Casey", "items": ["milk", "bread"], "total": 10.00}
+
+
+### Submit an expensive order
+POST http://localhost:3000/orders
+Content-Type: application/json
+
+{"customer": "Riley", "items": ["milk", "bread", "iPhone"], "total": 1299.00}
+
+
+### Get the status of an order
+GET http://localhost:3000/orders/order_casey_6glku
+
+
+### Approve an order
+POST http://localhost:3000/orders/order_riley_xcgyz/approve
+Content-Type: application/json
+
+{"approver": "Chris", "approved": true}
+
+

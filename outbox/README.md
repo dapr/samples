@@ -31,8 +31,26 @@ When orders are `deleted` you also see a corresponding notifications message.
 == APP - order-processor == Deleting Order: Order { orderId = 2 }
 == APP - order-notification == Order notification received : {"orderId":2}
 ```
+3. Switch from Redis to MySQL
 
-3. Stop and clean up the application processes either with CTRL+C command or running `dapr stop -f` . from another terminal window.
+Redis is not a true transactional store, however it is easy to switch the underlying state store from Redis to MySQL. You can read about how to use the Dapr MySQL component [here](https://docs.dapr.io/reference/components-reference/supported-state-stores/setup-mysql/)
+ - Install MySQL as a container image using the password `mysecret` for the root user.
+
+ ```bash
+ docker run --name mysql -d \
+    -p 3306:3306 \
+    -e MYSQL_ROOT_PASSWORD=mysecret \
+    --restart unless-stopped \
+    mysql:8
+```
+ - Change the `Program.cs` code in order-processor directory to use the `statestoresql` state store.
+ 
+  ```bash
+ string DAPR_STORE_NAME = "statestoresql";
+ ```
+ - Run the applications again with the `dapr run -f .` command
+
+4. Stop and clean up the application processes either with CTRL+C command or running `dapr stop -f` . from another terminal window.
 
 ```bash
     dapr stop -f .

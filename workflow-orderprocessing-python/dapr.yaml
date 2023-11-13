@@ -1,0 +1,38 @@
+version: 1
+common:
+  resourcesPath: ./components
+apps:
+  # The order processing service receives orders and executes workflows
+- appDirPath: ./services/orderprocessing/
+  appPort: 3000
+  command: ["python3", "app.py"]
+  appLogDestination: console
+  daprdLogDestination: console
+
+  # The notifications service receives pubsub notifications from workflow
+- appDirPath: ./services/notifications
+  appPort: 3001
+  command: ["python3", "app.py"]
+  appLogDestination: console
+  daprdLogDestination: console
+
+  # The inventory service is invoked directly by order processing workflows
+- appDirPath: ./services/inventory
+  appPort: 3002
+  command: ["python3", "app.py"]
+  appLogDestination: console
+  daprdLogDestination: console
+
+  # The payments service is invoked directly by order processing workflows
+- appDirPath: ./services/payments
+  appPort: 3003
+  command: ["python3", "app.py"]
+  appLogDestination: console
+  daprdLogDestination: console
+
+  # The shipping service is invoked directly by order processing workflows
+- appDirPath: ./services/shipping
+  appPort: 3004
+  command: ["python3", "app.py"]
+  appLogDestination: console
+  daprdLogDestination: console

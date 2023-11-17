@@ -18,11 +18,11 @@ Content-Type: application/json
 
 
 ### Get the status of an order
-GET http://localhost:3000/orders/order_casey_6glku
+GET http://localhost:3000/orders/xxx
 
 
 ### Approve an order
-POST http://localhost:3000/orders/order_riley_xcgyz/approve
+POST http://localhost:3000/orders/xxx/approve
 Content-Type: application/json
 
 {"approver": "Chris", "approved": true}

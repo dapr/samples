@@ -5,7 +5,7 @@
 | Attribute | Details |
 |--------|--------|
 | Dapr runtime version | 1.12.0 |
-| Dapr Workflow Python SDK | v0.2.0 |
+| Dapr Workflow Python SDK | v0.3.0 |
 | Language | Python |
 | Environment | Local |
 
@@ -251,4 +251,3 @@ If you want to exercise the error handling path of the workflow, you can put the
 1. You can also see the failed workflow in Zipkin, which should look something like this:
 
    ![Zipkin UI for failure](./zipkin-workflow-failure.png)
-    

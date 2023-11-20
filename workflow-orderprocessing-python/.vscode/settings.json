@@ -1,0 +1,15 @@
+{
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.autopep8",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true,
+        },
+        "editor.rulers": [
+            119
+        ],
+    },
+    "autopep8.args": [
+        "--max-line-length=119"
+    ]
+}

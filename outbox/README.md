@@ -1,5 +1,15 @@
 # State management with outbox
 
+## Sample info
+
+| Attribute | Details |
+|--------|--------|
+| Dapr runtime version | v1.12.0 |
+| Dapr .NET SDK | v1.12.0 |
+| Language | C# |
+| Environment | Local |
+
+## Overview
 In this sample, you'll run applications to demonstrate Dapr's state management outbox pattern. One application generates orders to save data in a state store which then *transactionally* sends pub/sub messages to a listening notification application. See [How-To: Enable the transactional outbox pattern](https://docs.dapr.io/developing-applications/building-blocks/state-management/howto-outbox/) to understand when this pattern is a good choice for your architecture.
 
 > **Note:** This example leverages the Dapr client SDK.

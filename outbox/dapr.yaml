@@ -1,0 +1,13 @@
+version: 1
+common:
+  resourcesPath: ./resources/
+apps:
+  - appID: order-processor
+    appDirPath: ./order-processor/
+    command: ["dotnet", "run"]
+    appLogDestination: console
+  - appID: order-notification
+    appDirPath: ./order-notification/
+    appPort: 7006
+    command: ["dotnet", "run"]
+    appLogDestination: console

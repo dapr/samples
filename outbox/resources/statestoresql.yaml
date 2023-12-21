@@ -1,0 +1,14 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: statestoresql
+spec:
+  type: state.mysql
+  version: v1
+  metadata:
+    - name: connectionString
+      value: "root:mysecret@tcp(localhost:3306)/?allowNativePasswords=true"
+    - name: outboxPublishPubsub
+      value: orderpubsub
+    - name: outboxPublishTopic
+      value: orders

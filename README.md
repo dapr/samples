@@ -34,6 +34,7 @@ If you are new to Dapr, you may want to review following resources first:
 | [WebAssembly Middleware](./hello-wasm) | Demonstrates how to serve HTTP responses directly from the dapr sidecar using WebAssembly.  |
 | [Workflow + external endpoint invocation](./workflow-external-invocation) | Demonstrates how to use the Dapr Workflow API to coordinate an order process that includes an activity which uses service invocation for non-Dapr endpoints. |
 | [Workflow + multi-app microservice in Python](./workflow-orderprocessing-python) | Demonstrates how to use the Dapr Workflow Python SDK to coordinate an order process across multiple dapr-enabled microservices. |
+| [Outbox in .NET](./outbox) | Demonstrates how to use the outbox transactions with Redis and MySql statestores and Redis as the message broker |
 
 ## External samples
 
@@ -81,7 +82,7 @@ Example:
 
 | Attribute | Details |
 |--------|--------|
-| Dapr runtime version | v0.7.1 |
+| Dapr runtime version | v1.12.0 |
 | Language | Go, C# (.NET Core), Node.js |
 | Environment | Local or Kubernetes |
 

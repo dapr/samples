@@ -2,3 +2,4 @@ dapr-ext-grpc >= 1.0.0
 dapr >= 1.0.0
 flask-socketio == 4.*
 flask >= 1.1.2
+werkzeug>=3.0.3 # not directly required, pinned by Snyk to avoid a vulnerability

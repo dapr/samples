@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-app
+  namespace: dapr-podidentity
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-app
+  template:
+    metadata:
+      labels:
+        app: test-app
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "test-app"
+    spec:
+      serviceAccountName: dapr-test-sa
+      containers:
+      - name: app
+        image: your-repository/dapr-secrets-test:latest  # Replace with your registry
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 8080

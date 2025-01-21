@@ -4,10 +4,10 @@ This guide walks through setting up Dapr with AWS EKS Pod Identity for accessing
 
 ## Prerequisites
 
-- AWS CLI configured with appropriate permissions
-- kubectl installed
-- eksctl installed
-- Docker installed and configured
+- [AWS CLI configured with appropriate permissions](https://docs.dapr.io/developing-applications/integrations/aws/authenticating-aws/)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
+- [eksctl](https://eksctl.io/installation/)
+- [Docker](https://docs.docker.com/engine/install/)
 - A Docker Hub account or another container registry
 
 ## Clone repository
@@ -129,6 +129,8 @@ docker push your-repository/dapr-secrets-test:latest
 ```bash
 kubectl apply -f deploy/app.yaml
 ```
+
+> Modify `your-repository` with your container registry repository name on the commands above and inside `/deploy/app.yaml`.
 
 ## Testing
 

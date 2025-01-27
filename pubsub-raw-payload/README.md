@@ -1,6 +1,17 @@
-# Kafka Producer with Dapr Consumer Sample
+# Consuming Kafka messages without CloudEvents
 
-This sample demonstrates how to integrate a Kafka producer using the Confluent Kafka SDK with a Dapr-powered consumer in .NET applications. The producer publishes messages directly to Kafka, while the consumer uses Dapr's pub/sub building block to receive them. These messages are not wrapped as CloudEvents, whioch is the default Dapr behaviour when publishing/subscribing to messages. 
+## Sample info
+
+| Attribute | Details |
+|--------|--------|
+| Dapr runtime version | v1.14.4 |
+| Dapr .NET SDK | v1.14.0 |
+| Language | C# |
+| Environment | Local |
+
+## Overview
+
+This sample demonstrates how to integrate a Kafka producer using the Confluent Kafka SDK with a Dapr-powered consumer in .NET applications. The producer publishes messages directly to Kafka, while the consumer uses Dapr's pub/sub building block to receive them. These messages are not wrapped as CloudEvents, which is the default Dapr behaviour when publishing/subscribing to messages.
 
 You can find more details about publishing & subscribing messages without CloudEvents [here](https://docs.dapr.io/developing-applications/building-blocks/pubsub/pubsub-raw).
 

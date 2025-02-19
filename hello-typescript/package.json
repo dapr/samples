@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "dapr-client": "^0.7.0-preview01",
-    "express": "^4.18.2"
+    "express": "^4.19.2"
   },
   "devDependencies": {
     "ts-node-dev": "^1.0.0-pre.63",

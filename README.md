@@ -37,6 +37,7 @@ If you are new to Dapr, you may want to review following resources first:
 | [Outbox in .NET](./outbox) | Demonstrates how to use the outbox transactions with Redis and MySql statestores and Redis as the message broker |
 | [Consuming Kafka messages without CloudEvents](./pubsub-raw-payload) | Demonstrates how to integrate a Kafka producer using the Confluent Kafka SDK with a Dapr-powered consumer in .NET applications |
 | [AWS EKS Pod Identity](./dapr-eks-podidentity) | Demonstrates how to set up Dapr with AWS EKS Pod Identity for accessing AWS Secrets Manager |
+| [GitOps with Argo CD and Dapr](./dapr-argocd) | Demonstrates how to install Dapr in a Kubenetes cluster using Argo CD |
 
 ## External samples
 

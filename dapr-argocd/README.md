@@ -63,7 +63,7 @@ An Argo CD application is a custom Kubernetes resource that defines how an appli
 
 When deployed, Argo CD continuously monitors both your Git repository and Kubernetes cluster to ensure they remain synchronized. Any deviation triggers either an alert or an automatic reconciliation based on your configuration. The application can be created and managed through Argo CD's web UI, CLI commands, YAML manifests, or API calls, making it a flexible foundation for implementing continuous delivery in Kubernetes environments.
 
-Here, the Argo CD cli is used to create the Application for our Dapr deployment:
+Here, the Argo CD CLI is used to create the application for our Dapr deployment:
 
 ```bash
 argocd app create dapr \

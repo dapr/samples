@@ -1,3 +1,3 @@
-module github.com/dapr/samples/dapr-eks-podidentity
+module github.com/dapr/samples/dapr-argocd
 
 go 1.22.5

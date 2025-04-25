@@ -57,13 +57,13 @@ You can also access the UI by navigating to `https://localhost:8080` in your bro
 
 For a detailed step-by-step process on how to install Argo CD, follow the [official documentation](https://argo-cd.readthedocs.io/en/stable/getting_started/).
 
-## 3: Install Dapr Using the Argo CD cli
+## 3: Install Dapr Using the Argo CD CLI
 
 An Argo CD application is a custom Kubernetes resource that defines how an application should be deployed and managed using the GitOps methodology. It specifies the source configuration (usually a Git repository, Helm chart, or directory path), the destination cluster and namespace, sync policies for automation, and special synchronization options. This resource acts as the bridge connecting your desired state (defined in Git) with the actual state in your Kubernetes cluster.
 
 When deployed, Argo CD continuously monitors both your Git repository and Kubernetes cluster to ensure they remain synchronized. Any deviation triggers either an alert or an automatic reconciliation based on your configuration. The application can be created and managed through Argo CD's web UI, CLI commands, YAML manifests, or API calls, making it a flexible foundation for implementing continuous delivery in Kubernetes environments.
 
-Here, the Argo CD cli is used to create the Application for our Dapr deployment:
+Here, the Argo CD CLI is used to create the application for our Dapr deployment:
 
 ```bash
 argocd app create dapr \

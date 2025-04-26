@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dapr
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: dapr
+    repoURL: https://dapr.github.io/helm-charts/
+    targetRevision: 1.15.3
+    helm:
+      releaseName: dapr
+      values: |
+        global:
+          ha:
+            enabled: true
+        dapr_dashboard:
+          enabled: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dapr-system
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  # This configuration tells Argo CD to ignore changes to specific paths in the subscriptions.dapr.io CRD. As a result, Argo CD won’t flag the app as out-of-sync    
+  ignoreDifferences:
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+      name: subscriptions.dapr.io
+      jsonPointers:
+        - /spec/conversion/webhook/clientConfig/service/namespace
+        - /spec/conversion/webhook/clientConfig/caBundle

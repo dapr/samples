@@ -9,3 +9,4 @@ hello-service-fabric/daprsfpkg/MyService/CodeDapr/components/pubsub.yaml
 hello-service-fabric/daprsfpkg/MyService/CodeDapr/components/statestore.yaml
 .venv/
 .dccache
+.DS_Store

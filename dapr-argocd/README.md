@@ -67,8 +67,8 @@ Here, the Argo CD CLI is used to create the application for our Dapr deployment:
 
 ```bash
 argocd app create dapr \
-  --repo https://github.com/<your-username>/dapr-argocd.git \
-  --path gitops/dapr \
+  --repo https://github.com/dapr/samples.git \
+  --path dapr-argocd/gitops/dapr \
   --dest-server https://kubernetes.default.svc \
   --dest-namespace dapr-system
 ```
@@ -87,8 +87,8 @@ Create an Argo CD application for Redis:
 
 ```bash
 argocd app create redis \
-  --repo https://github.com/<your-username>/dapr-argocd.git \
-  --path gitops/redis \
+  --repo https://github.com/dapr/samples.git \
+  --path dapr-argocd/gitops/redis \
   --dest-server https://kubernetes.default.svc \
   --dest-namespace redis
 ```
@@ -113,13 +113,13 @@ Create the Dapr state store component application:
 
 ```bash
 argocd app create dapr-components \
-  --repo https://github.com/<your-username>/dapr-argocd.git \
-  --path gitops/dapr-components \
+  --repo https://github.com/dapr/samples.git \
+  --path dapr-argocd/gitops/dapr-components \
   --dest-server https://kubernetes.default.svc \
   --dest-namespace argocd-demo
 ```
 
-Sync the application:
+Sync the components:
 
 ```bash
 argocd app sync dapr-components
@@ -133,17 +133,25 @@ Deploy the `node` and `python` applications:
 ```bash
 # Node app
 argocd app create node \
-  --repo https://github.com/<your-username>/dapr-argocd.git \
-  --path app/node \
+  --repo https://github.com/dapr/samples.git \
+  --path dapr-argocd/app/node \
   --dest-server https://kubernetes.default.svc \
   --dest-namespace argocd-demo
 
 # Python app
 argocd app create python \
-  --repo https://github.com/<your-username>/dapr-argocd.git \
-  --path app/python \
+  --repo https://github.com/dapr/samples.git \
+  --path dapr-argocd/app/python \
   --dest-server https://kubernetes.default.svc \
   --dest-namespace argocd-demo
+```
+Sync both applications:
+
+```bash
+argocd app sync node
+argocd app sync python
+argocd app get node
+argocd app get python
 ```
 
 This will deploy both the node and python services in the `argocd-demo` namespace.

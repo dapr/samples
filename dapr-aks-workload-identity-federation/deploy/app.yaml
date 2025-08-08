@@ -16,7 +16,7 @@ spec:
         app: aks-dapr-wif-secrets
         azure.workload.identity/use: "true" # Important
       annotations:
-        dapr.io/enabled: "true" # Don't forget to enable dapr! ♥️
+        dapr.io/enabled: "true" # Enable Dapr
         dapr.io/app-id: "aks-dapr-wif-secrets"
     spec:
       serviceAccountName: dapr-wif-k8s-service-account # Important, remember to replace

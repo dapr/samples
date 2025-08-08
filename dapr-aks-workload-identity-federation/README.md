@@ -8,7 +8,12 @@ to access a secret called `"dapr"` stored in the Azure Key Vault.
 
 ## Building the sample application
 
-The sample can be built as a container by running the following command in the `app` directory:
+### Prerequisites
+
+ - The dotnet SDK 
+ - A compatible container build tool like [Docker](https://www.docker.com/) or [Podman](https://podman.io/)
+
+The sample [can be built as a container](https://learn.microsoft.com/dotnet/core/containers/overview?tabs=linux) by running the following command in the `app` directory:
 
 ```bash
 dotnet publish /t:PublishContainer -c Release

@@ -7,7 +7,7 @@
 | Dapr runtime version | 1.15.0 |
 | Dapr Workflow dotnet SDK | 1.15.0 |
 | Language | csharp |
-| Environment | Local |
+| Environment | Azure |
 
 This directory contains a sample application which can be used in combination with the 
 official Dapr documentation for [workload identity federation on Azure](https://docs.dapr.io/developing-applications/integrations/azure/azure-authentication/howto-wif/).

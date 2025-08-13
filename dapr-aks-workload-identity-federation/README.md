@@ -1,5 +1,14 @@
 # Dapr with Azure Workload Identity and Azure Key Vault
 
+## Sample info
+
+| Attribute | Details |
+|--------|--------|
+| Dapr runtime version | 1.15.0 |
+| Dapr Workflow dotnet SDK | 1.15.0 |
+| Language | csharp |
+| Environment | Local |
+
 This directory contains a sample application which can be used in combination with the 
 official Dapr documentation for [workload identity federation on Azure](https://docs.dapr.io/developing-applications/integrations/azure/azure-authentication/howto-wif/).
 
@@ -10,7 +19,7 @@ to access a secret called `"dapr"` stored in the Azure Key Vault.
 
 ### Prerequisites
 
- - The dotnet SDK 
+ - The dotnet SDK
  - A compatible container build tool like [Docker](https://www.docker.com/) or [Podman](https://podman.io/)
 
 The sample [can be built as a container](https://learn.microsoft.com/dotnet/core/containers/overview?tabs=linux) by running the following command in the `app` directory:

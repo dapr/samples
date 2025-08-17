@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders
+  labels:
+    app: orders
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orders
+  template:
+    metadata:
+      labels:
+        app: orders
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "orders"
+        dapr.io/app-port: "8000"
+        dapr.io/enable-api-logging: "true"
+        dapr.io/log-level: "info"
+    spec:
+      containers:
+      - name: orders
+        image: orders:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8000
+          name: http
+        env:
+        - name: DAPR_STORE_NAME
+          value: "orders-store"
+        - name: LOG_LEVEL
+          value: "INFO"
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders
+  labels:
+    app: orders
+spec:
+  selector:
+    app: orders
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8000
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: orders-stripprefix
+spec:
+  stripPrefix:
+    prefixes:
+    - /orders-service
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: orders
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: default-orders-stripprefix@kubernetescrd
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /orders-service
+        pathType: Prefix
+        backend:
+          service:
+            name: orders
+            port:
+              number: 80

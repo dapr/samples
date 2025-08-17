@@ -1,0 +1,23 @@
+kind: Reaction
+apiVersion: v1
+name: stock-notifications-publisher
+spec:
+  kind: PostDaprPubSub
+  queries:
+    # Publish low stock events to the "low-stock-events" topic
+    low-stock-event-query: >
+      {
+        "pubsubName": "notifications-pubsub",
+        "topicName": "low-stock-events",
+        "format": "Unpacked",
+        "skipControlSignals": true
+      }
+    
+    # Publish critical stock events to the "critical-stock-events" topic
+    critical-stock-event-query: >
+      {
+        "pubsubName": "notifications-pubsub",
+        "topicName": "critical-stock-events",
+        "format": "Unpacked",
+        "skipControlSignals": true
+      }

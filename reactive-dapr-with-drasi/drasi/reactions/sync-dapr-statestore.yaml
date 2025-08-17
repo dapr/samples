@@ -1,0 +1,7 @@
+kind: Reaction
+apiVersion: v1
+name: maintain-product-catalogue
+spec:
+  kind: SyncDaprStateStore
+  queries:
+    product-catalogue-query: '{"keyField": "product_id", "stateStoreName": "catalogue-store"}'

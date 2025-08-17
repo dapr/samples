@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalogue-db
+  labels:
+    app: catalogue-db
+spec:
+  ports:
+  - port: 5432
+    name: postgres
+  selector:
+    app: catalogue-db
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: catalogue-db
+spec:
+  serviceName: catalogue-db
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalogue-db
+  template:
+    metadata:
+      labels:
+        app: catalogue-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:14-alpine
+        ports:
+        - containerPort: 5432
+          name: postgres
+        env:
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          value: postgres
+        - name: POSTGRES_DB
+          value: cataloguedb
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        volumeMounts:
+        - name: catalogue-db-data
+          mountPath: /var/lib/postgresql/data
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+  volumeClaimTemplates:
+  - metadata:
+      name: catalogue-db-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 1Gi

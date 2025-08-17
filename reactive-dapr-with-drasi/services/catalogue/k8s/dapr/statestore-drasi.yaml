@@ -1,0 +1,19 @@
+# This component is for Drasi to access the catalogue state store from drasi-system namespace
+# IMPORTANT: This must have the same configuration as statestore.yaml but with namespace: drasi-system
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: catalogue-store
+  namespace: drasi-system  # CRITICAL: Must be in drasi-system for Drasi reaction to access
+spec:
+  type: state.postgresql
+  version: v1
+  metadata:
+  - name: connectionString
+    value: "host=catalogue-db.default.svc.cluster.local port=5432 user=postgres password=postgres dbname=cataloguedb sslmode=disable"
+  - name: tableName
+    value: "catalogue"
+  - name: keyPrefix
+    value: "none"  # CRITICAL: Must be "none" to ensure keys match between Drasi and the service
+  - name: actorStateStore
+    value: "false"

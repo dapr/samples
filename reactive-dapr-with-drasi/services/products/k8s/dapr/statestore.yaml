@@ -1,0 +1,16 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: products-store
+spec:
+  type: state.postgresql
+  version: v1
+  metadata:
+  - name: connectionString
+    value: "host=products-db.default.svc.cluster.local port=5432 user=postgres password=postgres dbname=productsdb sslmode=disable"
+  - name: tableName
+    value: "products"
+  - name: keyPrefix
+    value: "none"
+  - name: actorStateStore
+    value: "false"

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Source
+name: products-source
+spec:
+  kind: PostgreSQL
+  properties:
+    host: products-db.default.svc.cluster.local
+    port: 5432
+    user: postgres
+    password: postgres
+    database: productsdb
+    ssl: false
+    tables:
+      - public.products

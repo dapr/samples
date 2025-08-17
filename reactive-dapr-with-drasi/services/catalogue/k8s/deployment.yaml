@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalogue
+  labels:
+    app: catalogue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalogue
+  template:
+    metadata:
+      labels:
+        app: catalogue
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "catalogue"
+        dapr.io/app-port: "80"
+        dapr.io/enable-api-logging: "true"
+        dapr.io/log-level: "info"
+    spec:
+      containers:
+      - name: catalogue
+        image: catalogue:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+          name: http
+        env:
+        - name: DAPR_STORE_NAME
+          value: "catalogue-store"
+        - name: LOG_LEVEL
+          value: "INFO"
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalogue
+  labels:
+    app: catalogue
+spec:
+  selector:
+    app: catalogue
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: catalogue-stripprefix
+spec:
+  stripPrefix:
+    prefixes:
+    - /catalogue-service
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: catalogue
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: default-catalogue-stripprefix@kubernetescrd
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /catalogue-service
+        pathType: Prefix
+        backend:
+          service:
+            name: catalogue
+            port:
+              number: 80

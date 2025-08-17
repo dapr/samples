@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: products
+  labels:
+    app: products
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: products
+  template:
+    metadata:
+      labels:
+        app: products
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "products"
+        dapr.io/app-port: "8000"
+        dapr.io/enable-api-logging: "true"
+        dapr.io/log-level: "info"
+    spec:
+      containers:
+      - name: products
+        image: products:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8000
+          name: http
+        env:
+        - name: DAPR_STORE_NAME
+          value: "products-store"
+        - name: LOG_LEVEL
+          value: "INFO"
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: products
+  labels:
+    app: products
+spec:
+  selector:
+    app: products
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8000
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: products-stripprefix
+spec:
+  stripPrefix:
+    prefixes:
+    - /products-service
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: products
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: default-products-stripprefix@kubernetescrd
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /products-service
+        pathType: Prefix
+        backend:
+          service:
+            name: products
+            port:
+              number: 80

@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ContinuousQuery
+name: critical-stock-event-query
+spec:
+  mode: query
+  sources:    
+    subscriptions:
+      - id: products-source
+        nodes:
+          - sourceLabel: products
+        pipeline:
+          - decode_value
+          - parse_value
+          - promote_product_details
+    middleware:
+      - name: decode_value
+        kind: decoder
+        encoding_type: base64
+        target_property: value
+        strip_quotes: true
+      - name: parse_value
+        kind: parse_json
+        target_property: value
+      - name: promote_product_details
+        kind: promote
+        mappings:
+          - path: "$.value.product_id"
+            target_name: "productId"
+          - path: "$.value.product_name"
+            target_name: "productName"
+          - path: "$.value.product_description"
+            target_name: "productDescription"
+          - path: "$.value.stock_on_hand"
+            target_name: "stockOnHand"
+          - path: "$.value.low_stock_threshold"
+            target_name: "lowStockThreshold"
+  query: >
+    MATCH
+        (p:products)
+    WHERE
+        p.stockOnHand = 0
+    RETURN
+        p.productId AS productId,
+        p.productName AS productName,
+        p.productDescription AS productDescription

@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reviews
+  labels:
+    app: reviews
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reviews
+  template:
+    metadata:
+      labels:
+        app: reviews
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "reviews"
+        dapr.io/app-port: "8000"
+        dapr.io/enable-api-logging: "true"
+        dapr.io/log-level: "info"
+    spec:
+      containers:
+      - name: reviews
+        image: reviews:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8000
+          name: http
+        env:
+        - name: DAPR_STORE_NAME
+          value: "reviews-store"
+        - name: LOG_LEVEL
+          value: "INFO"
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reviews
+  labels:
+    app: reviews
+spec:
+  selector:
+    app: reviews
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8000
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: reviews-stripprefix
+spec:
+  stripPrefix:
+    prefixes:
+    - /reviews-service
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: reviews
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: default-reviews-stripprefix@kubernetescrd
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /reviews-service
+        pathType: Prefix
+        backend:
+          service:
+            name: reviews
+            port:
+              number: 80

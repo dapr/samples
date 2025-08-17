@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Test UI for notifications service
+
+echo "=== Testing Notifications UI ==="
+echo ""
+echo "The UI is available at: http://localhost/notifications-service/ui/"
+echo ""
+echo "To trigger events, use the products service to create low/critical stock situations:"
+echo ""
+echo "1. Create a product with low stock:"
+echo "   curl -X POST http://localhost/products-service/products \\"
+echo "     -H \"Content-Type: application/json\" \\"
+echo "     -d '{\"productId\": 5001, \"productName\": \"Test Product\", \"productDescription\": \"For testing\", \"stockOnHand\": 25, \"lowStockThreshold\": 20}'"
+echo ""
+echo "2. Trigger low stock event:"
+echo "   curl -X PUT http://localhost/products-service/products/5001/decrement \\"
+echo "     -H \"Content-Type: application/json\" \\"
+echo "     -d '{\"quantity\": 10}'"
+echo ""
+echo "3. Trigger critical stock event:"
+echo "   curl -X PUT http://localhost/products-service/products/5001/decrement \\"
+echo "     -H \"Content-Type: application/json\" \\"
+echo "     -d '{\"quantity\": 15}'"
+echo ""
+echo "Watch the UI to see real-time notifications with email animations!"

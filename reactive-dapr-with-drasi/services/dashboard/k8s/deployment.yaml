@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dashboard
+  template:
+    metadata:
+      labels:
+        app: dashboard
+    spec:
+      containers:
+      - name: dashboard
+        image: dashboard:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        env:
+        - name: VITE_SIGNALR_URL
+          value: "http://localhost/signalr/hub"
+        - name: VITE_STOCK_QUERY_ID
+          value: "at-risk-orders-query"
+        - name: VITE_GOLD_QUERY_ID
+          value: "delayed-gold-orders-query"
+        - name: VITE_API_BASE_URL
+          value: "http://localhost"
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dashboard
+spec:
+  selector:
+    app: dashboard
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dashboard
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: PathPrefix(`/dashboard`)
+    kind: Rule
+    services:
+    - name: dashboard
+      port: 80
+    middlewares:
+    - name: dashboard-stripprefix
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: dashboard-stripprefix
+spec:
+  stripPrefix:
+    prefixes:
+      - /dashboard

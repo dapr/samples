@@ -39,6 +39,8 @@ If you are new to Dapr, you may want to review following resources first:
 | [AWS EKS Pod Identity](./dapr-eks-podidentity) | Demonstrates how to set up Dapr with AWS EKS Pod Identity for accessing AWS Secrets Manager |
 | [GitOps with Argo CD and Dapr](./dapr-argocd) | Demonstrates how to install Dapr in a Kubenetes cluster using Argo CD |
 | [AKS Workload Identity Federation](./dapr-aks-workload-identity-federation) | Demonstrates how to use Azure workload identity federation with dapr components |
+| [Reactive Dapr Apps with Drasi](./reactive-dapr-with-drasi) | Demonstrates how Drasi enhances Dapr applications with eventually consistent materialized views, real-time dashboards, and intelligent pub/sub - all with few declarative queries and YAML files and without changing your Dapr services. |
+
 
 ## External samples
 

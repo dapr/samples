@@ -1,0 +1,17 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: notifications-pubsub
+  namespace: drasi-system
+spec:
+  type: pubsub.redis
+  version: v1
+  metadata:
+  - name: redisHost
+    value: "notifications-redis.default.svc.cluster.local:6379"
+  - name: redisPassword
+    value: ""
+  - name: consumerID
+    value: "drasi-pubsub-reaction"
+  - name: enableTLS
+    value: "false"

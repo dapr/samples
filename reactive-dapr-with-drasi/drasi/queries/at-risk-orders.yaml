@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: ContinuousQuery
+name: at-risk-orders-query
+spec:
+  mode: query
+  sources:    
+    subscriptions:
+      - id: orders-source
+        nodes:
+          - sourceLabel: orders
+        pipeline:
+          - decode_value
+          - parse_value
+          - promote_order_details
+          - extract_order_items
+      - id: products-source
+        nodes:
+          - sourceLabel: products
+        pipeline:
+          - decode_value
+          - parse_value
+          - promote_product_details
+    joins:
+      - id: ORDER_ITEM_TO_PRODUCT
+        keys:
+          - label: orderItem
+            property: product_id
+          - label: products
+            property: productId
+    middleware:
+      - name: decode_value
+        kind: decoder
+        encoding_type: base64
+        target_property: value
+        strip_quotes: true
+      - name: parse_value
+        kind: parse_json
+        target_property: value
+        output_property: parsed_properties
+      - name: promote_order_details
+        kind: promote
+        mappings:
+          - path: "$.parsed_properties.order_id"
+            target_name: "orderId"
+          - path: "$.parsed_properties.customer_id"
+            target_name: "customerId"
+          - path: "$.parsed_properties.items"
+            target_name: "orderItems"
+          - path: "$.parsed_properties.status"
+            target_name: "orderStatus"
+      - name: promote_product_details
+        kind: promote
+        mappings:
+          - path: "$.parsed_properties.product_id"
+            target_name: "productId"
+          - path: "$.parsed_properties.product_name"
+            target_name: "productName"
+          - path: "$.parsed_properties.product_description"
+            target_name: "productDescription"
+          - path: "$.parsed_properties.stock_on_hand"
+            target_name: "stockOnHand"
+          - path: "$.parsed_properties.low_stock_threshold"
+            target_name: "lowStockThreshold"
+      - name: extract_order_items
+        kind: unwind
+        orders:
+          - selector: $.orderItems[*]
+            label: orderItem
+            key: $.product_id
+            relation: ITEM_OF_ORDER
+  query: >
+    MATCH
+        (o:orders)-[:ITEM_OF_ORDER]->(oi:orderItem),
+        (oi)-[:ORDER_ITEM_TO_PRODUCT]->(p:products)
+    WHERE
+        o.orderStatus IN ['PENDING', 'PAID'] AND
+        p.stockOnHand < oi.quantity
+    RETURN
+        o.orderId AS orderId,
+        o.customerId AS customerId,
+        o.orderStatus AS orderStatus,
+        oi.quantity AS quantity,
+        p.productId AS productId,
+        p.productName AS productName,
+        p.stockOnHand AS stockOnHand
+        

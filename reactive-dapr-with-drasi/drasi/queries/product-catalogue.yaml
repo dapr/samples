@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: ContinuousQuery
+name: product-catalogue-query
+spec:
+  mode: query
+  sources:    
+    subscriptions:
+      - id: products-source
+        nodes:
+          - sourceLabel: products
+        pipeline:
+          - decode_value
+          - parse_value
+          - promote_product_details
+      - id: reviews-source
+        nodes:
+          - sourceLabel: reviews
+        pipeline:
+          - decode_value
+          - parse_value
+          - promote_review_details
+    middleware:
+      - name: decode_value
+        kind: decoder
+        encoding_type: base64
+        target_property: value
+        strip_quotes: true
+      - name: parse_value
+        kind: parse_json
+        target_property: value
+        output_property: parsed_properties
+      - name: promote_review_details
+        kind: promote
+        mappings:
+          - path: "$.parsed_properties.review_id"
+            target_name: "reviewId"
+          - path: "$.parsed_properties.product_id"
+            target_name: "productId"
+          - path: "$.parsed_properties.rating"
+            target_name: "rating"
+      - name: promote_product_details
+        kind: promote
+        mappings:
+          - path: "$.parsed_properties.product_id"
+            target_name: "productId"
+          - path: "$.parsed_properties.product_name"
+            target_name: "productName"
+          - path: "$.parsed_properties.product_description"
+            target_name: "productDescription"
+    joins:
+      - id: REVIEW_TO_PRODUCT
+        keys:
+          - label: products
+            property: productId
+          - label: reviews
+            property: productId
+  query: >
+    MATCH
+        (r:reviews)-[:REVIEW_TO_PRODUCT]->(p:products)
+    WITH
+        p, avg(r.rating) as avgRating, count(r) as reviewCount
+    RETURN
+        p.productId AS product_id,
+        p.productName AS product_name,
+        p.productDescription AS product_description,
+        avgRating AS avg_rating,
+        reviewCount AS review_count

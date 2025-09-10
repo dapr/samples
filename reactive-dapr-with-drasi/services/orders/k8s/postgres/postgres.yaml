@@ -1,0 +1,107 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: orders-db-credentials
+  labels:
+    app: orders-db
+type: Opaque
+stringData:
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: orders-db
+  labels:
+    app: orders-db
+spec:
+  serviceName: orders-db
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orders-db
+  template:
+    metadata:
+      labels:
+        app: orders-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:14
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5432
+          name: postgres
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: orders-db-credentials
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: orders-db-credentials
+              key: POSTGRES_PASSWORD
+        - name: POSTGRES_DB
+          value: ordersdb
+        args:
+        - -c
+        - wal_level=logical
+        - -c
+        - max_replication_slots=5
+        - -c
+        - max_wal_senders=10
+        volumeMounts:
+        - name: orders-db-data
+          mountPath: /var/lib/postgresql/data
+        readinessProbe:
+          exec:
+            command:
+              - /bin/sh
+              - -c
+              - pg_isready -U postgres -h localhost
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          timeoutSeconds: 5
+        livenessProbe:
+          exec:
+            command:
+              - /bin/sh
+              - -c
+              - pg_isready -U postgres -h localhost
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+        resources:
+          limits:
+            cpu: "1"
+            memory: "1Gi"
+          requests:
+            cpu: "0.5"
+            memory: "512Mi"
+  volumeClaimTemplates:
+  - metadata:
+      name: orders-db-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders-db
+  labels:
+    app: orders-db
+spec:
+  ports:
+  - port: 5432
+    targetPort: 5432
+    protocol: TCP
+    name: postgres
+  selector:
+    app: orders-db
+  type: ClusterIP

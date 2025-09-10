@@ -1,0 +1,110 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notifications-redis-config
+data:
+  redis.conf: |
+    # Redis configuration for notifications service
+    bind 0.0.0.0
+    protected-mode no
+    port 6379
+    tcp-backlog 511
+    timeout 0
+    tcp-keepalive 300
+    
+    # Persistence
+    save 900 1
+    save 300 10
+    save 60 10000
+    stop-writes-on-bgsave-error yes
+    rdbcompression yes
+    rdbchecksum yes
+    dbfilename dump.rdb
+    dir /data
+    
+    # Logging
+    loglevel notice
+    logfile ""
+    
+    # Memory management
+    maxmemory 256mb
+    maxmemory-policy allkeys-lru
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: notifications-redis
+  labels:
+    app: notifications-redis
+spec:
+  serviceName: notifications-redis
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notifications-redis
+  template:
+    metadata:
+      labels:
+        app: notifications-redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:7-alpine
+        command:
+        - redis-server
+        - /usr/local/etc/redis/redis.conf
+        ports:
+        - containerPort: 6379
+          name: redis
+        volumeMounts:
+        - name: redis-data
+          mountPath: /data
+        - name: redis-config
+          mountPath: /usr/local/etc/redis
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+        livenessProbe:
+          tcpSocket:
+            port: redis
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - redis-cli
+            - ping
+          initialDelaySeconds: 5
+          periodSeconds: 10
+      volumes:
+      - name: redis-config
+        configMap:
+          name: notifications-redis-config
+  volumeClaimTemplates:
+  - metadata:
+      name: redis-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notifications-redis
+  labels:
+    app: notifications-redis
+spec:
+  type: ClusterIP
+  ports:
+  - port: 6379
+    targetPort: 6379
+    protocol: TCP
+    name: redis
+  selector:
+    app: notifications-redis

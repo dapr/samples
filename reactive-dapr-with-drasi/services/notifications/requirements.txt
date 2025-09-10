@@ -1,0 +1,7 @@
+fastapi==0.115.5
+uvicorn[standard]==0.24.0
+pydantic==2.10.5
+dapr==1.15.0
+dapr-ext-fastapi==1.15.0
+python-json-logger==2.0.7
+websockets==13.1

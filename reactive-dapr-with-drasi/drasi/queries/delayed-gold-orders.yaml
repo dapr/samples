@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: ContinuousQuery
+name: delayed-gold-orders-query
+spec:
+  mode: query
+  sources:    
+    subscriptions:
+      - id: orders-source
+        nodes:
+          - sourceLabel: orders
+        pipeline:
+          - decode_value
+          - parse_value
+          - promote_order_details
+      - id: customers-source
+        nodes:
+          - sourceLabel: customers
+        pipeline:
+          - decode_value
+          - parse_value
+          - promote_customer_details
+    joins:
+      - id: ORDER_TO_CUSTOMER
+        keys:
+          - label: orders
+            property: customerId
+          - label: customers
+            property: customerId
+    middleware:
+      - name: decode_value
+        kind: decoder
+        encoding_type: base64
+        target_property: value
+        strip_quotes: true
+      - name: parse_value
+        kind: parse_json
+        target_property: value
+        output_property: parsed_properties
+      - name: promote_order_details
+        kind: promote
+        mappings:
+          - path: "$.parsed_properties.order_id"
+            target_name: "orderId"
+          - path: "$.parsed_properties.customer_id"
+            target_name: "customerId"
+          - path: "$.parsed_properties.items"
+            target_name: "orderItems"
+          - path: "$.parsed_properties.status"
+            target_name: "orderStatus"
+      - name: promote_customer_details
+        kind: promote
+        mappings:
+          - path: "$.parsed_properties.customer_id"
+            target_name: "customerId"
+          - path: "$.parsed_properties.customer_name"
+            target_name: "customerName"
+          - path: "$.parsed_properties.loyalty_tier"
+            target_name: "loyaltyTier"
+          - path: "$.parsed_properties.email"
+            target_name: "customerEmail"
+  query: >
+    MATCH
+        (o:orders)-[:ORDER_TO_CUSTOMER]->(c:customers)
+    WHERE
+        c.loyaltyTier = 'GOLD'
+    WITH
+        o, c, drasi.changeDateTime(o) as waitingSince
+    WHERE
+        waitingSince != datetime({epochMillis: 0}) AND
+        drasi.trueFor(o.orderStatus = 'PROCESSING', duration ({ seconds: 10 }))
+    RETURN
+        o.orderId AS orderId,
+        c.customerId AS customerId,
+        c.customerName AS customerName,
+        c.customerEmail AS customerEmail,
+        o.orderStatus AS orderStatus,
+        waitingSince

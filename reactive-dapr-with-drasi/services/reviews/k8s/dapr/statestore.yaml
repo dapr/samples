@@ -1,0 +1,16 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: reviews-store
+spec:
+  type: state.postgresql
+  version: v1
+  metadata:
+  - name: connectionString
+    value: "host=reviews-db.default.svc.cluster.local port=5432 user=postgres password=postgres dbname=reviewsdb sslmode=disable"
+  - name: tableName
+    value: "reviews"
+  - name: keyPrefix
+    value: "none"
+  - name: actorStateStore
+    value: "false"

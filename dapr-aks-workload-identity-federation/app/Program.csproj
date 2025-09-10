@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <OutputType>exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <PublishContainer>true</PublishContainer>
+    <AssemblyName>DaprAksWorkloadIdentityFederation</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapr.AspNetCore" Version="1.15.0" />
+  </ItemGroup>
+
+</Project>
